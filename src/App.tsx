@@ -4,6 +4,8 @@ import Home from "./routes/home";
 import Profile from "./routes/profile";
 import Login from "./routes/login";
 import CreateAccount from "./routes/create-account";
+import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
 const router = createBrowserRouter([
   {
     path:"/",
@@ -27,13 +29,24 @@ const router = createBrowserRouter([
     element: <CreateAccount />
   }
 ])
-
+const GlobalStyles = createGlobalStyle`
+  ${reset};
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    background-color: #F0F4F8;
+    color:#384048;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+`;
 
 function App() {
 
 
   return (
     <>
+        <GlobalStyles />
         <RouterProvider router={router} />
     </>
   )
