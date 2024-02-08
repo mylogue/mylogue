@@ -1,15 +1,14 @@
+import { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-  /* 기존 전역 스타일 내용 */
-
-  /* page1에서 body의 배경색을 변경하는 스타일 */
   html,body{height:100%;}
   body {
     opacity: 0.94;
     background: linear-gradient(297deg, #000 50.51%, #606E7B 102.15%);
   }
+  
 `;
 const Wrapper = styled.div`
   height: 100vh;
@@ -21,50 +20,70 @@ const CircleWrapper = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%,-50%);
+  width: 100vw;
+  height: 100vh;
 
 `;
 const Circle = styled.span`
-    position: absolute;
-      &:first-child {
+  position: absolute;
+  &:nth-child(1){
     width: 377px;
     height: 377px;
     flex-shrink: 0;
+    top: 11vh;
+    left: 8vw;
   }
   &:nth-child(2) {
-    top: 50%;
     width: 385px;
     height: 385px;
     flex-shrink: 0;
+    top: 57vh;
+    left: 57vw;
+
   }
   &:nth-child(3) {
     width: 191px;
     height: 191px;
     flex-shrink: 0;
+    top: 34vh;
+    left: 67vw;
+
   }
   &:nth-child(4) {
     width: 92px;
     height: 92px;
     flex-shrink: 0;
+    top: 71vh;
+    left: 21vw;
   }
   &:nth-child(5) {
     width: 55px;
     height: 55px;
     flex-shrink: 0;
+    top: 23vh;
+    left: 72vw;
   }
 `
 
 const Title = styled.h2`
+  width: 100%;
   color: white;
   text-align: center;
+  color: var(--gray100, #F9F9FA);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 `;
 
 const Form = styled.div`
     background: white;
-    display: inline-flex;
+    display: flex;
     padding: 81px 99px;
+    flex-flow: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 16px;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -74,10 +93,98 @@ const Form = styled.div`
     background: linear-gradient(118deg, rgba(255, 255, 255, 0.50) -19.85%, rgba(235, 235, 235, 0.37) 4.2%, rgba(224, 224, 224, 0.29) 13.88%, rgba(212, 212, 212, 0.21) 27.98%, rgba(207, 207, 207, 0.18) 37.8%, rgba(202, 202, 202, 0.14) 44.38%, rgba(200, 200, 200, 0.13) 50.54%, rgba(196, 196, 196, 0.10) 60.21%);
     box-shadow: 0px 1px 24px -1px rgba(0, 0, 0, 0.18);
     backdrop-filter: blur(12px);
+    
 `;
-const Input = styled.div``;
+const InputWrapper = styled.div`
+  width: 320px;
+  height: 50px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 8px;
+  padding-left: 16px;
+  background: var(--gay200, #ECEEF0);
+`;
+const Label = styled.label`
+  width: 76px;
+  color: var(--gray400, #BDC5CC);
+
+  /* txt-xs */
+  font-family: "Noto Sans KR";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
+const Submit = styled.input`
+    all:unset;
+    display: inline-flex;
+    width: 100%;
+    padding: 18px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background: var(--blue500-primary, #0085FF);
+    color: var(--white, #FFF);
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    box-sizing: border-box;
+    cursor: pointer;
+    
+    &:hover{
+      opacity: 0.8;
+    }
+`;
+const Error = styled.span``;
+const Input = styled.input`
+  all:unset;
+  /* txt-xs */
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+  
+  &::placeholder{
+    color: var(--gray400, #BDC5CC);
+  }
+  &:focus{
+    color: var(--gray600); 
+  }
+`;
 
 export default function CreateAccount() {
+  const [isLoading, setLoading] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target:{name, value},
+    } = e;
+    if(name === "name") {
+      setName(value);
+    }else if(name === "email"){
+      setEmail(value);
+    }else if(name === "password"){
+      setPassword(value)
+    }
+  }
+  
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try{
+      
+    }catch(e){
+      
+    }finally{
+      setLoading(false);
+    }
+  };
   return (
     <>
       <GlobalStyles />
@@ -411,13 +518,47 @@ export default function CreateAccount() {
             </svg>
             </Circle>
         </CircleWrapper>
-        <Form>
-          <Title>dsflkjdfsdfsdlk</Title>
-          <Input />
-          <Input />
-          <Input />
-          <Input />
-          <Input />
+        <Form onSubmit={onSubmit}>
+          <Title>회원가입</Title>
+          <InputWrapper>
+            <Label>이름</Label>
+            <Input 
+              placeholder="홍길동"
+              onChange={onChange}
+              name="name"
+              value={name}
+              type="text"
+              required
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <Label>이메일</Label>
+            <Input 
+              placeholder="hong@mylogue.com"
+              onChange={onChange}
+              name="email"
+              value={email}
+              type="email"
+              required
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <Label>패스워드</Label>
+            <Input 
+              placeholder="********"
+              value={password}
+              name="password"
+              onChange={onChange}
+              type="password"
+              required
+              />
+          </InputWrapper>
+          <Submit 
+            type="submit"
+            value={isLoading ? "Loading..." : "Create Acccout"}
+          />
+          {error !== "" ? <Error>{error}</Error> : null}
+          <p>이미 계정이 있으신가요? <a href="#">로그인 하기</a></p>
         </Form>
       </Wrapper>
     </>
