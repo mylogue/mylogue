@@ -7,9 +7,21 @@ import { auth } from "../firebase";
 import { FirebaseError } from "firebase/app";
 
 const GlobalStyles = createGlobalStyle`
+  html{overflow: scroll;}
+  html,body{height:100%;}
   body {
     opacity: 0.94;
     background: linear-gradient(297deg, #000 50.51%, #606E7B 102.15%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #root{
+    height: 100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    
   }
   
 `;
@@ -20,54 +32,55 @@ const Wrapper = styled.div`
 
 const CircleWrapper = styled.div`
 
-  width: 320px;
-  height: 1024px;
+  width: 520px;
+  height: 500px;
   margin: 0 auto;
   position: relative;
 `;
 const Circle = styled.span`
   position: absolute;
-  backdrop-filter: blur(97.25px);
-
 
   &:nth-child(1){
     width: 377px;
     height: 377px;
     flex-shrink: 0;
-    top: 11vh;
-    left: -100%;
-
+    top: -30%;
+    left: -188px;
   }
   &:nth-child(2) {
     width: 385px;
     height: 385px;
     flex-shrink: 0;
-    left: 110%;
-    bottom: 0;
-
+    left: 60%;
+    bottom: -192px;
   }
   &:nth-child(3) {
     width: 191px;
     height: 191px;
     flex-shrink: 0;
-    bottom: 20%;
-    right: 100%;
+    /* bottom: 50%;
+    transform: translateY(50%);
+    right: -100px; */
+    bottom: -95px;
+    left: -95px;
 
   }
   &:nth-child(4) {
     width: 92px;
     height: 92px;
     flex-shrink: 0;
-    top: 50%;
-    left: 120%;
+
+        bottom: 70%;
+    transform: translateY(50%);
+    right: -46px;
 
   }
   &:nth-child(5) {
     width: 55px;
     height: 55px;
     flex-shrink: 0;
-    top: 24%;
-    left: 120%;
+    top: -27px;
+    right: -27px;
   }
 `
 
@@ -115,9 +128,8 @@ const Label = styled.label`
   width: 76px;
   color: var(--gray400, #BDC5CC);
 
-  /* txt-xs */
   font-family: "Noto Sans KR";
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -147,8 +159,7 @@ const Submit = styled.input`
 const Error = styled.span``;
 const Input = styled.input`
   all:unset;
-  /* txt-xs */
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -192,7 +203,7 @@ export default function CreateAccount() {
         email,
         password
       );
-      console.log(credentials.user);
+
       await updateProfile(credentials.user, {
         displayName:name,
       });
