@@ -121,6 +121,7 @@ export default function Layout() {
             <Sidebar>
             <h2>(사이드바)</h2>
             </Sidebar>
+            <Outlet />
         </Wrapper>
     )
 }
