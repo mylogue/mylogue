@@ -1,6 +1,7 @@
 @font-face {
-    font-family: 'pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
+    font-family: 'Noto Sans KR';
     font-style: normal;
-}
+    font-weight: 600;
+    src: url(./font/NotoSansKR-Regular.woff) format('woff'),
+         url(./font/NotoSansKR-Regular.otf) format('opentype');
+  }
