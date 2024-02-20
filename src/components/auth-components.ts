@@ -146,7 +146,7 @@ export const Submit = styled.input`
     cursor: pointer;
     
     &:hover{
-      opacity: 0.8;
+      color: #fff;
     }
 `;
 
@@ -161,9 +161,6 @@ export const Input = styled.input`
   &::placeholder{
     color: var(--gray400, #BDC5CC);
   }
-  &:focus{
-    color: var(--gray600); 
-  }
 `;
 
 
@@ -174,7 +171,16 @@ export const Error = styled.span`
 
 export const Switcher = styled.span`
   margin-top: 20px;
+  color: #95A1AC;
+  font-size: 14px;
+  
+  &:hover a{
+    text-decoration:underline;
+      color: var(--blue400, #69B9FF);
+  }
   a {
-    color: #1d9bf0;
+    color: #0085FF;
+    text-decoration: none;
+    margin-left: 4px;
   }
 `;
