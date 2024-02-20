@@ -27,6 +27,7 @@ export default function CreateAccount() {
   
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("")
     if(isLoading || name === "" || email === "" || password === "") return;
     try {
       setLoading(true);
@@ -420,7 +421,7 @@ export default function CreateAccount() {
           
           <Submit
             type="submit"
-            value={isLoading ? "Loading..." : "Create Account"}
+            value={isLoading ? "Loading..." : "회원가입"}
           />
           {error !== "" ? <Error>{error}</Error> : null}
           <Switcher>
