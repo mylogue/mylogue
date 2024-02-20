@@ -1,4 +1,4 @@
-import {Link, Outlet} from "react-router-dom";
+import {Link, Outlet, useNavigate} from "react-router-dom";
 import { styled } from "styled-components";
 
 const Wrapper = styled.div`
@@ -14,6 +14,7 @@ const Menu = styled.div`
     height: 100%;
     width: 100%;
     padding: 60px 30px 0 30px; 
+    background: white;
     `;
 
 const MenuItem = styled.div`
@@ -23,10 +24,19 @@ const MenuItem = styled.div`
     justify-content: flex-start;
     height: 74px;
     width: 100%;
+    max-width: 330px;
     padding: 20px;
     color: black;
     svg {
       width: 30px;
+    }
+    &.log-out {
+        color: tomato;
+      }
+    &.writeBtn {
+        color: white;
+        background: #0085FF;
+        border-radius: 40px;
     }
   `;
 
@@ -47,6 +57,14 @@ const Sidebar = styled.div`
     `;
 
 export default function Layout() {
+    const navigate = useNavigate();
+    const onLogOut = async () => {
+        const ok = confirm("Are you sure you want to log out?");
+        if (ok) {
+        await auth.signOut();
+        navigate("/login");
+        }
+    };
     return (
         <Wrapper>
             <Menu>
@@ -106,22 +124,27 @@ export default function Layout() {
                     </MenuItem>  
                 </Link>
                 <Link to="/" style={{ textDecoration: "none" }}>
-                    <MenuItem style={{ background: "#0085FF"}}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
+                    <MenuItem className="writeBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                         </svg>
-                        <ItemName style={{ color: "white" }}>게시하기</ItemName>
+                        <ItemName>게시하기</ItemName>
                     </MenuItem>  
                 </Link>
+                    <MenuItem onClick={onLogOut} className="log-out">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                    </svg>
+                        <ItemName>로그아웃</ItemName>
+                    </MenuItem>  
             </Menu>
             <Timeline>
-            <h2>(타임라인) or (프로필)</h2>
-            <Outlet/>
+                <h2>(타임라인) or (프로필)</h2>
+                <Outlet/>
             </Timeline>
             <Sidebar>
-            <h2>(사이드바)</h2>
+                <h2>(사이드바)</h2>
             </Sidebar>
-            <Outlet />
         </Wrapper>
     )
 }

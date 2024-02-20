@@ -4,20 +4,22 @@ import { styled } from "styled-components";
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  align-content: center;
 `;
 
 const TextArea = styled.textarea`
-  border: 2px solid white;
+  align-content: center;
+  border: none;
   padding: 20px;
-  border-radius: 20px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 1px #E2E6EA; 
   font-size: 16px;
-  color: white;
-  background-color: black;
+  color: #384048;
+  background-color: white;
   width: 100%;
+  max-width: 590px;
   resize: none;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: 'Noto Sans KR';
   &::placeholder {
     font-size: 16px;
   }
@@ -27,19 +29,27 @@ const TextArea = styled.textarea`
   }
 `;
 
-export default function PostTweetForm() {
+const SubmitBtn = styled.input`
+  background-color: #0085FF;
+  width: 89px;
+  color: white;
+  border: none;
+  padding: 10px 0px;
+  border-radius: 40px;
+  font-size: 12px;
+  cursor: pointer;
+  &:hover,
+  &:active {
+    opacity: 0.9;
+  }
+`;
+
+export default function PostForm() {
   const [isLoading, setLoading] = useState(false);
   const [tweet, setTweet] = useState("");
-  const [file, setFile] = useState<File | null>(null);
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTweet(e.target.value);
-  };
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    if (files && files.length === 1) {
-      setFile(files[0]);
-    }
-  };
+    };
   return (
     <Form>
       <TextArea
@@ -47,7 +57,11 @@ export default function PostTweetForm() {
         maxLength={180}
         onChange={onChange}
         value={tweet}
-        placeholder="What is happening?!"
+        placeholder="무슨 말을 하고 싶나요?"
+      />
+      <SubmitBtn
+        type="submit"
+        value={isLoading ? "Posting..." : "게시하기"}
       />
     </Form>
   );
