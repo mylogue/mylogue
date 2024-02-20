@@ -5,3 +5,7 @@
     src: url(./font/NotoSansKR-Regular.woff) format('woff'),
          url(./font/NotoSansKR-Regular.otf) format('opentype');
   }
+
+  html{
+    background: #F0F4F8;
+  }
