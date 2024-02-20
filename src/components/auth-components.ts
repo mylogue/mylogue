@@ -146,7 +146,11 @@ export const Submit = styled.input`
     cursor: pointer;
     
     &:hover{
+<<<<<<< HEAD
       color: #fff;
+=======
+      opacity: 0.8;
+>>>>>>> develop
     }
 `;
 
@@ -161,6 +165,12 @@ export const Input = styled.input`
   &::placeholder{
     color: var(--gray400, #BDC5CC);
   }
+<<<<<<< HEAD
+=======
+  &:focus{
+    color: var(--gray600); 
+  }
+>>>>>>> develop
 `;
 
 
@@ -171,6 +181,7 @@ export const Error = styled.span`
 
 export const Switcher = styled.span`
   margin-top: 20px;
+<<<<<<< HEAD
   color: #95A1AC;
   font-size: 14px;
   
@@ -182,5 +193,9 @@ export const Switcher = styled.span`
     color: #0085FF;
     text-decoration: none;
     margin-left: 4px;
+=======
+  a {
+    color: #1d9bf0;
+>>>>>>> develop
   }
 `;
