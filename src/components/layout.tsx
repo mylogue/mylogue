@@ -68,7 +68,6 @@ export default function Layout() {
     return (
         <Wrapper>
             <Menu>
-                <h2>(메뉴바)</h2>
                 <Link to="/" style={{ textDecoration: "none" }}>
                     <MenuItem>
                         <ItemName style={{ color: "#0085FF" , padding: "0px"}}>Mylogue</ItemName>
@@ -139,11 +138,9 @@ export default function Layout() {
                     </MenuItem>  
             </Menu>
             <Timeline>
-                <h2>(타임라인) or (프로필)</h2>
                 <Outlet/>
             </Timeline>
             <Sidebar>
-                <h2>(사이드바)</h2>
             </Sidebar>
         </Wrapper>
     )
