@@ -375,7 +375,7 @@ export default function Login() {
               </Circle>
           </CircleWrapper>
         <Form onSubmit={onSubmit}>
-          <Title>My logue</Title>
+          <Title>Mylogue</Title>
 
           <InputWrapper>
             <Label>이메일</Label>
