@@ -1,5 +1,5 @@
 
-import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../firebase";
@@ -20,16 +20,19 @@ const Button = styled.div`
 const LogoWrapper = styled.div`
   width: 20px;
   height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   svg{
     width: 100%;
-    padding-bottom: 4px;
+    /* padding-bottom: 4px; */
   }
 `
 export default function GoogleButton(){
   const navigate = useNavigate();
   const onClick = async () => {
     try {
-      const provider = new GithubAuthProvider();
+      const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       navigate("/");
     } catch (error) {

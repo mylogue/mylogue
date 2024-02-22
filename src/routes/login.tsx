@@ -3,7 +3,7 @@ import { useState } from "react";
 import {Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { FirebaseError } from "firebase/app";
-import { Circle, CircleWrapper, Input, InputWrapper,Form, Label, Submit, Title, Error, Switcher, GlobalStyles, Wrapper } from "../components/auth-components";
+import { Circle, SocialButtonWrapper, CircleWrapper, Input, InputWrapper,Form, Label, Submit, Title, Error, Switcher, GlobalStyles, Wrapper } from "../components/auth-components";
 import GithubButton from "../components/github-btn";
 import GoogleButton from "../components/google-btn";
 
@@ -405,11 +405,13 @@ export default function Login() {
             value={isLoading ? "Loading..." : "로그인"}
           />
           {error !== "" ? <Error>{error}</Error> : null}
-          <Switcher>
-          이미 계정이 있으신가요? <Link to="/create-account">회원가입 하기</Link>
-          </Switcher>
-          <GithubButton />
-          <GoogleButton />
+          <SocialButtonWrapper>
+            <Switcher>
+            이미 계정이 있으신가요? <Link to="/create-account">회원가입 하기</Link>
+            </Switcher>
+            <GithubButton />
+            <GoogleButton />
+          </SocialButtonWrapper>
         </Form>
       </Wrapper>
     </>

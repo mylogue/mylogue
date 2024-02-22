@@ -3,7 +3,9 @@ import { useState } from "react";
 import {Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { FirebaseError } from "firebase/app";
-import { Circle, CircleWrapper, Input, InputWrapper,Form, Label, Submit, Title, Error, Switcher, GlobalStyles, Wrapper } from "../components/auth-components";
+import { Circle, CircleWrapper, Input, InputWrapper,Form, Label, Submit, Title, Error, Switcher, GlobalStyles, Wrapper, SocialButtonWrapper } from "../components/auth-components";
+import GithubButton from "../components/github-btn";
+import GoogleButton from "../components/google-btn";
 
 export default function CreateAccount() {
   const navigate = useNavigate();
@@ -424,11 +426,14 @@ export default function CreateAccount() {
             value={isLoading ? "Loading..." : "회원가입"}
           />
           {error !== "" ? <Error>{error}</Error> : null}
-          <Switcher>
-          이미 계정이 있으신가요? <Link to="/login">로그인 하기</Link>
-            
-          </Switcher>
-
+          <SocialButtonWrapper>
+            <Switcher>
+            이미 계정이 있으신가요? <Link to="/login">로그인 하기</Link>
+              
+            </Switcher>
+            <GithubButton />
+            <GoogleButton />
+          </SocialButtonWrapper>
         </Form>
       </Wrapper>
     </>

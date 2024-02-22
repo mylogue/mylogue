@@ -10,6 +10,7 @@ export const GlobalStyles = createGlobalStyle`
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
   }
   #root{
     height: 100%;
@@ -173,7 +174,6 @@ export const Switcher = styled.span`
   margin-top: 20px;
   color: #95A1AC;
   font-size: 14px;
-  
   &:hover a{
     text-decoration:underline;
       color: var(--blue400, #69B9FF);
@@ -183,4 +183,12 @@ export const Switcher = styled.span`
     text-decoration: none;
     margin-left: 4px;
   }
+`;
+
+export const SocialButtonWrapper = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
 `;
