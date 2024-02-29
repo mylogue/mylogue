@@ -6,6 +6,14 @@ const Wrapper = styled.div`
     margin: 25px 20px 30px 40px;
 `;
 const Form = styled.form`
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 1px #E2E6EA; 
+    font-size: 16px;
+    color: #384048;
+    background-color: white;
+    width: 100%;
+    max-width: 590px;
 `;
 
 const UserPic = styled.div`
@@ -19,20 +27,13 @@ const UserPic = styled.div`
 `;
 
 const TextArea = styled.textarea`
-    border: none;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 1px 1px 1px #E2E6EA; 
-    font-size: 16px;
-    color: #384048;
-    background-color: white;
     width: 100%;
-    max-width: 590px;
+    padding: 15px 0 0 70px;
+    border: none;
     resize: none;
     font-family: 'Noto Sans KR';
     &::placeholder {
         font-size: 16px;
-        padding: 15px 0 0 70px;
         color: #384048;
     }
     &:focus {
