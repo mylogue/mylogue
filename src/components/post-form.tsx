@@ -5,7 +5,6 @@ import { auth, db } from "../firebase";
 
 const Wrapper = styled.div`
     position: relative;
-    margin: 25px 20px 30px 40px;
 `;
 const Form = styled.form`
     padding: 20px;
@@ -15,7 +14,7 @@ const Form = styled.form`
     color: #384048;
     background-color: white;
     width: 100%;
-    max-width: 590px;
+    height: 140px;
 `;
 
 const UserPic = styled.div`
@@ -30,10 +29,19 @@ const UserPic = styled.div`
 
 const TextArea = styled.textarea`
     width: 100%;
+    height: 65%;
     padding: 15px 0 0 70px;
+    margin-bottom: 40px;
     border: none;
     resize: none;
     font-family: 'Noto Sans KR';
+    &::-webkit-scrollbar {
+        background: #white;
+      }
+    &::-webkit-scrollbar-thumb{
+    background: #F0F4F8;
+    border-radius: 10px;
+    }
     &::placeholder {
         font-size: 16px;
         color: #384048;
@@ -46,9 +54,8 @@ const TextArea = styled.textarea`
 
 const TextBottom = styled.div`
     position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 0 16px 16px 0;
+    bottom: 16px;
+    right: 16px;
 `;
 
 const IconBtn = styled.div`
@@ -61,7 +68,6 @@ const IconBtn = styled.div`
         margin-right: 5px;
     }
 `;
-
 
 const SubmitBtn = styled.input`
     float: left;

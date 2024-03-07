@@ -21,8 +21,9 @@ export interface ITweet {
 
 const Wrapper = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 16px;
   flex-direction: column;
+  margin-top: 30px;
 `;
 
 export default function Timeline() {

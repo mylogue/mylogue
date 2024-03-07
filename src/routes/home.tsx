@@ -4,8 +4,11 @@ import Timeline from "../components/timeline";
 
 const Wrapper = styled.div`
   display: grid;
-  gap: 16px 20px 16px 40px;
+  padding: 25px 20px 0 40px;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    background: #F0F4F8;
+  }
 `;
 
 export default function Home() {
