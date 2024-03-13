@@ -1,6 +1,7 @@
 import {Link, Outlet, useNavigate} from "react-router-dom";
 import { styled } from "styled-components";
 import { auth } from "../firebase";
+import SideBar from "./side-bar";
 
 const Wrapper = styled.div`
   display: grid;
@@ -141,8 +142,7 @@ export default function Layout() {
             <Timeline>
                 <Outlet/>
             </Timeline>
-            <Sidebar>
-            </Sidebar>
+            <SideBar />
         </Wrapper>
     )
 }
