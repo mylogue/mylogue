@@ -53,10 +53,7 @@ const Timeline = styled.div`
     width: 100%;
     `;
 
-const Sidebar = styled.div`
-    height: 100%;
-    width: 100%;
-    `;
+
 
 export default function Layout() {
     const navigate = useNavigate();
