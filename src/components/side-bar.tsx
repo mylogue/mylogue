@@ -167,7 +167,7 @@ function SideBar() {
                     <Contents>
                         {NickNameArray.map((index) => (
                             <NickName>
-                                <img src={`../../public/profile${index+1}.png`} alt="" className="profileImg"/>
+                                <img src={`../../profile${index+1}.png`} alt="" className="profileImg"/>
                                 <span className="nickname">닉네임</span>
                                 <span className="id">@아이디</span>
                             </NickName>
