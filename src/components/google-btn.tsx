@@ -5,11 +5,11 @@ import styled from "styled-components";
 import { auth } from "../firebase";
 const Button = styled.div`
   display: inline-flex;
-  width: 323px;
-  padding: 12px 15px;
+  width: 20.1875rem;
+  padding: .75rem .9375rem;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: .9375rem;
   border-radius: 8px;
   background: #FFF;
   color: rgba(0, 0, 0, 0.54);
@@ -18,8 +18,8 @@ const Button = styled.div`
   &:hover{color:#000;}
 `;
 const LogoWrapper = styled.div`
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   display: flex;
   justify-content: center;
   align-items: center;

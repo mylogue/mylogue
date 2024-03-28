@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   padding: 1rem;
   background: white;
   border-radius: 8px;
-  box-shadow: 1px 1px 1px #E2E6EA;
+  box-shadow: .0625rem .0625rem .0625rem #E2E6EA;
 `;
 
 const Column = styled.div`

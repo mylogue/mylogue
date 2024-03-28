@@ -4,22 +4,27 @@ import styled from "styled-components";
 import { auth } from "../firebase";
 const Button = styled.div`
   display: inline-flex;
-  width: 323px;
-  padding: 12px 15px;
+  width: 20.1875rem;
+  padding: .75rem .9375rem;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: .9375rem;
   border-radius: 8px;
   background: #050708;
   font-size: .875rem;
+<<<<<<< HEAD
   margin-top: 82px;
   margin-bottom: 16px;
+=======
+  margin-top: 5.125rem;
+  margin-bottom: 1rem;
+>>>>>>> 554850dc48571c8ff231165c9f5de68b5c75fae8
   cursor: pointer;
   &:hover{color:#fff;}
 `;
 const LogoWrapper = styled.div`
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   display: flex;
     justify-content: center;
     align-items: center;

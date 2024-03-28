@@ -20,9 +20,9 @@ export interface ITweet {
 
 const Wrapper = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 1rem;
   flex-direction: column;
-  margin-top: 30px;
+  margin-top: 1.875rem;
 `;
 
 export default function Timeline() {

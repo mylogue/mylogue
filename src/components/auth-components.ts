@@ -28,8 +28,8 @@ export const Wrapper = styled.div`
 
 export const CircleWrapper = styled.div`
 
-  width: 520px;
-  height: 500px;
+  width: 32.5rem;
+  height: 31.25rem;
   margin: 0 auto;
   position: relative;
 `;
@@ -37,46 +37,46 @@ export const Circle = styled.span`
   position: absolute;
 
   &:nth-child(1){
-    width: 377px;
-    height: 377px;
+    width: 23.5625rem;
+    height: 23.5625rem;
     flex-shrink: 0;
     top: -30%;
-    left: -188px;
+    left: -11.75rem;
   }
   &:nth-child(2) {
-    width: 385px;
-    height: 385px;
+    width: 24.0625rem;
+    height: 24.0625rem;
     flex-shrink: 0;
     left: 60%;
-    bottom: -192px;
+    bottom: -12rem;
   }
   &:nth-child(3) {
-    width: 191px;
-    height: 191px;
+    width: 11.9375rem;
+    height: 11.9375rem;
     flex-shrink: 0;
     /* bottom: 50%;
     transform: translateY(50%);
     right: -100px; */
-    bottom: -95px;
-    left: -95px;
+    bottom: -5.9375rem;
+    left: -5.9375rem;
 
   }
   &:nth-child(4) {
-    width: 92px;
-    height: 92px;
+    width: 5.75rem;
+    height: 5.75rem;
     flex-shrink: 0;
 
         bottom: 70%;
     transform: translateY(50%);
-    right: -46px;
+    right: -2.875rem;
 
   }
   &:nth-child(5) {
-    width: 55px;
-    height: 55px;
+    width: 3.4375rem;
+    height: 3.4375rem;
     flex-shrink: 0;
-    top: -27px;
-    right: -27px;
+    top: -1.6875rem;
+    right: -1.6875rem;
   }
 `
 
@@ -94,11 +94,11 @@ export const Title = styled.h2`
 export const Form = styled.form`
     background: white;
     display: flex;
-    padding: 81px 99px;
+    padding: 5.0625rem 6.1875rem;
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    gap: 16px;
+    gap: 1rem;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -111,17 +111,17 @@ export const Form = styled.form`
     
 `;
 export const InputWrapper = styled.div`
-  width: 320px;
-  height: 50px;
+  width: 20rem;
+  height: 3.125rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   border-radius: 8px;
-  padding-left: 16px;
+  padding-left: 1rem;
   background: var(--gay200, #ECEEF0);
 `;
 export const Label = styled.label`
-  width: 76px;
+  width: 4.75rem;
   color: var(--gray400, #BDC5CC);
   font-size: .875rem;
   font-style: normal;
@@ -181,12 +181,12 @@ export const Switcher = styled.span`
   a {
     color: #0085FF;
     text-decoration: none;
-    margin-left: 4px;
+    margin-left: .25rem;
   }
 `;
 
 export const SocialButtonWrapper = styled.div`
-  margin-top: 20px;
+  margin-top: 1.25rem;
   display: flex;
   flex-flow: column;
   justify-content: center;
