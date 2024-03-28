@@ -10,10 +10,15 @@ import { useEffect, useState } from "react";
 import LoadingScreen from "./components/loading-screen";
 import './App.css';
 import { auth } from "./firebase";
+import ProtectedRoute from "./routes/protected-route";
 const router = createBrowserRouter([
   {
     path:"/",
-    element: <Layout />,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children:[
       {
         path:"",
@@ -39,9 +44,10 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
   body {
+    font-size: 16px;
     background-color: #F0F4F8;
     color:#384048;
-    font-family:'pretendard', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family:'Noto Sans KR', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 `;
 
