@@ -43,7 +43,7 @@ const MenuItem = styled.div`
   `;
 
 const ItemName = styled.div`
-    font-size: 24px;
+    font-size: 1rem;
     padding-left: 20px;
     font-weight: bold;
 `;

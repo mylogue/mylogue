@@ -30,7 +30,7 @@ const ProfileImg = styled.label`
 `;
 const ProfileBtn = styled.button`
     color: var(--blue500-primary, #0085FF);
-    font-size: 16px;
+    font-size: 1rem;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -62,7 +62,7 @@ const ProfileInfo = styled.div`
     gap: 4px;
     p:nth-child(1){
         span:first-child{
-            font-size: 24px;
+            font-size: 1.5rem;
             font-style: normal;
             font-weight: 700;
             line-height: normal;
@@ -74,7 +74,7 @@ const ProfileInfo = styled.div`
         span:last-child{
             color: var(--gray600, #606E7B);
             /* txt-base */
-            font-size: 16px;
+            font-size: 1rem;
             font-style: normal;
             font-weight: 500;
             line-height: normal;
@@ -84,7 +84,7 @@ const ProfileInfo = styled.div`
     .comment{
         color: var(--light-text-color, #222528);
         /* txt-base */
-        font-size: 16px;
+        font-size: 1rem;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
@@ -103,7 +103,7 @@ const ProfileInfo = styled.div`
         .following::before{
             content: '팔로잉';
             color: var(--gray600, #606E7B);
-            font-size: 16px;
+            font-size: 1rem;
             font-style: normal;
             font-weight: 500;
             line-height: normal;
@@ -112,7 +112,7 @@ const ProfileInfo = styled.div`
         .followers::before{
             content: '팔로워';
             color: var(--gray600, #606E7B);
-            font-size: 16px;
+            font-size: 1rem;
             font-style: normal;
             font-weight: 500;
             line-height: normal;
@@ -125,7 +125,7 @@ const AvatarInput = styled.input`
 `;
 
 const Name = styled.span`
-  font-size: 22px;
+  font-size: 1.375rem;
 `;
 
 const CommonBox = styled.article`

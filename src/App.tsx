@@ -44,6 +44,7 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
   body {
+    font-size: 16px;
     background-color: #F0F4F8;
     color:#384048;
     font-family:'Noto Sans KR', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
