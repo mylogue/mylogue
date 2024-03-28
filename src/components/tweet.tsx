@@ -6,14 +6,14 @@ import { deleteObject, ref } from "firebase/storage";
 
 const Wrapper = styled.div`
   display: grid;
-  padding: 16px;
+  padding: 1rem;
   background: white;
   border-radius: 8px;
-  box-shadow: 1px 1px 1px #E2E6EA;
+  box-shadow: .0625rem .0625rem .0625rem #E2E6EA;
 `;
 
 const Column = styled.div`
-  padding: 5px 0 0 76px;
+  padding: .3125rem 0 0 4.75rem;
   position: relative;
 `;
 
@@ -21,8 +21,8 @@ const UserPic = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    width: 60px;
-    height: 60px;
+    width: 3.75rem;
+    height: 3.75rem;
     border-radius: 100px;
     background: #0085FF;
     cursor: pointer;
@@ -33,40 +33,40 @@ const DeleteBtn = styled.div`
     top: 0;
     right: 0;
     svg {
-      width: 18px;
+      width: 1.125rem;
       color: #606E7B;
-      margin-right: 15px;
+      margin-right: .9375rem;
       cursor: pointer;
   }
 `;
 
 const Photo = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 6.25rem;
+  height: 6.25rem;
   border-radius: 15px;
   cursor: pointer;
 `;
 
 const Username = styled.span`
   font-weight: 800;
-  font-size: 20px;
+  font-size: 1.25rem;
   cursor: pointer;
 `;
 
 const UserId = styled.span`
   font-weight: 600;
-  font-size: 16px;
+  font-size: 1rem;
   color : #606E7B;
-  margin-left: 8px;
+  margin-left: .5rem;
   cursor: pointer;
 `;
 
 const Payload = styled.p`
-  margin: 10px 0px;
-  font-size: 16px;
+  margin: .625rem 0rem;
+  font-size: 1rem;
   color: #384048;
   line-height: 120%;
-  padding-bottom: 30px;
+  padding-bottom: 1.875rem;
 `;
 
 const TextBottom = styled.div`
@@ -78,10 +78,10 @@ const LeftIcon = styled.div`
   left: 0;
   bottom: 0;
     svg {
-        width: 24px;
+        width: 1.5rem;
         color: #0F172A;
         float: left;
-        margin-right: 15px;
+        margin-right: .9375rem;
         cursor: pointer;
     }
 `;
@@ -91,9 +91,9 @@ const RightIcon = styled.div`
     right: 0;
     bottom: 0;
     svg {
-        width: 24px;  
+        width: 1.5rem;  
         color: #0F172A;
-        margin-right: 15px;
+        margin-right: .9375rem;
         cursor: pointer;
     }
 `;

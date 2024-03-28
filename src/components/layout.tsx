@@ -15,7 +15,7 @@ const Menu = styled.div`
     flex-direction: column;
     height: 100%;
     width: 100%;
-    padding: 60px 30px 0 30px; 
+    padding: 3.75rem 1.875rem 0 1.875rem; 
     background: white;
     `;
 
@@ -24,13 +24,13 @@ const MenuItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    height: 74px;
+    height: 4.625rem;
     width: 100%;
-    max-width: 330px;
-    padding: 20px;
+    max-width: 20.625rem;
+    padding: 1.25rem;
     color: black;
     svg {
-      width: 30px;
+      width: 1.875rem;
     }
     &.log-out {
         color: tomato;
@@ -44,7 +44,7 @@ const MenuItem = styled.div`
 
 const ItemName = styled.div`
     font-size: 1rem;
-    padding-left: 20px;
+    padding-left: 1.25rem;
     font-weight: bold;
 `;
 

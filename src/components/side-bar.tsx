@@ -6,7 +6,7 @@ import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
 const CommonBox = styled.div`
     /* Common styles go here */
     background-color: white;
-    padding: 18px;
+    padding: 1.125rem;
     border-radius: 8px;
     display: flex;
     flex-flow: row wrap;
@@ -16,8 +16,8 @@ const CommonBox = styled.div`
 const Wrapper = styled.div`
     display: flex;
     flex-flow: column;
-    gap: 30px;
-    padding: 25px;
+    gap: 1.875rem;
+    padding: 1.5625rem;
 `;
 let SearchBox = styled(CommonBox)``;
 let SearchWordBox = styled(CommonBox)``;
@@ -26,7 +26,7 @@ let FollowBox = styled(CommonBox)``;
 SearchBox = styled(SearchBox)`
     input{
         border: none;
-        font-size: 16px;
+        font-size: 1rem;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
@@ -43,11 +43,11 @@ const Title = styled.h3`
     width: 100%;
     color: var(--light-text-color, #222528);
     font-family: "Noto Sans KR";
-    font-size: 24px;
+    font-size: 1.5rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    margin-bottom: 18px;
+    margin-bottom: 1.125rem;
 
 `;
 const Contents = styled.div`
@@ -55,7 +55,7 @@ const Contents = styled.div`
     display: flex;
     flex-flow: column;
     align-items: flex-start;
-    gap: 18px;
+    gap: 1.125rem;
     cursor: pointer;
     
 `;
@@ -69,7 +69,7 @@ const Post = styled.a`
         color: var(--light-text-color, #222528);
         /* tit-base */
         font-family: "Noto Sans KR";
-        font-size: 16px;
+        font-size: 1rem;
         font-style: normal;
         font-weight: 700;
         line-height: normal;
@@ -79,7 +79,7 @@ const Post = styled.a`
 
         /* txt-base */
         font-family: "Noto Sans KR";
-        font-size: 16px;
+        font-size: 1rem;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
@@ -93,15 +93,15 @@ const NickName = styled.div`
     align-items: center;
     .profileImg{
         background: white;
-        width: 60px;
-        height: 60px;
-        border-radius: 100px;
-        margin-right:20px;
+        width: 3.75rem;
+        height: 3.75rem;
+        border-radius: 6.25rem;
+        margin-right:1.25rem;
     }
     .nickname{
         color: var(--light-text-color, #222528);
         font-family: "Noto Sans KR";
-        font-size: 18px;
+        font-size: 1.125rem;
         font-style: normal;
         font-weight: 700;
         line-height: normal;
@@ -109,24 +109,24 @@ const NickName = styled.div`
     .id{
         color: var(--gray600, #606E7B);
         font-family: "Noto Sans KR";
-        font-size: 16px;
+        font-size: 1rem;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
-        margin-left: 20px;
+        margin-left: 1.25rem;
     }
 `;
 const TermsOfService = styled.div`
-    margin: 0 8px;
+    margin: 0 .5rem;
     color: var(--gray700, #384048);
     font-family: "Noto Sans KR";
-    font-size: 12px;
+    font-size: .75rem;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
     display: flex;
     flex-flow: column;
-    gap: 8px;
+    gap: .5rem;
     width: 100%;
     a{
         text-decoration:none;
@@ -134,9 +134,9 @@ const TermsOfService = styled.div`
     }
 `;
 const StyledIcon = styled(FontAwesomeIcon)`
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: .625rem;
 `;
 
 function SideBar() {

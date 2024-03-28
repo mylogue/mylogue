@@ -7,7 +7,7 @@ const Wrapper = styled.div`
     
 `
 const Text = styled.span`
-    font-size:23px;
+    font-size:1.4375rem;
 `;
 
 export default function LoadingScreen() {

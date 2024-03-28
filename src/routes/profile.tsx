@@ -15,7 +15,7 @@ export interface ITweet {
   }
 const ProfileBg = styled.div`
     width: 100%;
-    height: 200px;
+    height: 12.5rem;
     background: url('https://images.unsplash.com/photo-1709487577432-9238a48c5a58?q=80&w=4140&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center;
     background-size: cover;
     position: relative;
@@ -24,8 +24,8 @@ const ProfileBg = styled.div`
 const ProfileImg = styled.label`
 
     position: absolute;
-    left: 40px;
-    bottom: -90px;
+    left: 2.5rem;
+    bottom: -5.625rem;
 
 `;
 const ProfileBtn = styled.button`
@@ -35,41 +35,41 @@ const ProfileBtn = styled.button`
     font-weight: 500;
     line-height: normal;
     display: inline-flex;
-    padding: 13px 21px 11px 21px;
+    padding: .8125rem 1.3125rem .6875rem 1.3125rem;
     justify-content: center;
     align-items: center;
     border-radius: 40px;
     border: 2px solid var(--blue500-primary, #0085FF);
     position: absolute;
-    right: 40px;
-    bottom: -60px;
+    right: 2.5rem;
+    bottom: -3.75rem;
     cursor: pointer;
 `;
 
 const AvatarImg = styled.img`
-    width: 180px;
-    height: 180px;
+    width: 11.25rem;
+    height: 11.25rem;
   border-radius: 100px;
   background-color: black;
   object-fit: contain;
 `;
 const ProfileInfo = styled.div`
-    padding-top: 107px;
-    padding-left: 32px;
+    padding-top: 6.6875rem;
+    padding-left: 2rem;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
-    gap: 4px;
+    gap: .25rem;
     p:nth-child(1){
         span:first-child{
-            font-size: 1.5rem;
+            font-size: 24px;
             font-style: normal;
             font-weight: 700;
             line-height: normal;
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            gap: 10px;
+            gap: .625rem;
         }
         span:last-child{
             color: var(--gray600, #606E7B);
@@ -93,12 +93,12 @@ const ProfileInfo = styled.div`
     p:nth-child(3){
         span{
             color: var(--light-text-color, #222528);
-            font-size: 16px;
+            font-size: 1rem;
             font-style: normal;
             font-weight: 700;
             line-height: normal;
         }
-        span:first-child{margin-right:8px;}
+        span:first-child{margin-right:.5rem;}
         
         .following::before{
             content: '팔로잉';
@@ -107,7 +107,7 @@ const ProfileInfo = styled.div`
             font-style: normal;
             font-weight: 500;
             line-height: normal;
-            margin-right: 8px;
+            margin-right: .5rem;
         }
         .followers::before{
             content: '팔로워';
@@ -116,7 +116,7 @@ const ProfileInfo = styled.div`
             font-style: normal;
             font-weight: 500;
             line-height: normal;
-            margin-right: 8px;
+            margin-right: .5rem;
         }
     }
 `;
@@ -131,12 +131,12 @@ const Name = styled.span`
 const CommonBox = styled.article`
     background: #fff;
     border-radius: 8px;
-    margin: 0 32px;
+    margin: 0 2rem;
 `;
 const DisplaynameInput = styled.input``;
 const EditImg = styled.div`
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   color: #1d9bf0;
   cursor: pointer;
   svg {
