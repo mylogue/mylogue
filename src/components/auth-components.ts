@@ -85,7 +85,7 @@ export const Title = styled.h2`
   color: white;
   text-align: center;
   color: var(--gray100, #F9F9FA);
-  font-size: 32px;
+  font-size: 2rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -123,7 +123,7 @@ export const InputWrapper = styled.div`
 export const Label = styled.label`
   width: 76px;
   color: var(--gray400, #BDC5CC);
-  font-size: 14px;
+  font-size: .875rem;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -139,7 +139,7 @@ export const Submit = styled.input`
     background: var(--blue500-primary, #0085FF);
     color: var(--white, #FFF);
     text-align: center;
-    font-size: 14px;
+    font-size: .875rem;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -153,7 +153,7 @@ export const Submit = styled.input`
 
 export const Input = styled.input`
   all:unset;
-  font-size: 14px;
+  font-size: .875rem;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -173,7 +173,7 @@ export const Error = styled.span`
 export const Switcher = styled.span`
   margin-top: 20px;
   color: #95A1AC;
-  font-size: 14px;
+  font-size: .875rem;
   &:hover a{
     text-decoration:underline;
       color: var(--blue400, #69B9FF);

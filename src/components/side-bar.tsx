@@ -26,7 +26,7 @@ let FollowBox = styled(CommonBox)``;
 SearchBox = styled(SearchBox)`
     input{
         border: none;
-        font-size: 16px;
+        font-size: 1rem;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
@@ -43,7 +43,7 @@ const Title = styled.h3`
     width: 100%;
     color: var(--light-text-color, #222528);
     font-family: "Noto Sans KR";
-    font-size: 24px;
+    font-size: 1.5rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -69,7 +69,7 @@ const Post = styled.a`
         color: var(--light-text-color, #222528);
         /* tit-base */
         font-family: "Noto Sans KR";
-        font-size: 16px;
+        font-size: 1rem;
         font-style: normal;
         font-weight: 700;
         line-height: normal;
@@ -79,7 +79,7 @@ const Post = styled.a`
 
         /* txt-base */
         font-family: "Noto Sans KR";
-        font-size: 16px;
+        font-size: 1rem;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
@@ -101,7 +101,7 @@ const NickName = styled.div`
     .nickname{
         color: var(--light-text-color, #222528);
         font-family: "Noto Sans KR";
-        font-size: 18px;
+        font-size: 1.125rem;
         font-style: normal;
         font-weight: 700;
         line-height: normal;
@@ -109,7 +109,7 @@ const NickName = styled.div`
     .id{
         color: var(--gray600, #606E7B);
         font-family: "Noto Sans KR";
-        font-size: 16px;
+        font-size: 1rem;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
@@ -120,7 +120,7 @@ const TermsOfService = styled.div`
     margin: 0 8px;
     color: var(--gray700, #384048);
     font-family: "Noto Sans KR";
-    font-size: 12px;
+    font-size: .75rem;
     font-style: normal;
     font-weight: 500;
     line-height: normal;

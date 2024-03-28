@@ -11,7 +11,7 @@ const Button = styled.div`
   gap: 15px;
   border-radius: 8px;
   background: #050708;
-  font-size: 14px;
+  font-size: .875rem;
   margin-top: 82px;
   margin-bottom: 16px;
   cursor: pointer;

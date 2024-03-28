@@ -7,36 +7,41 @@ const Wrapper = styled.div`
     position: relative;
 `;
 const Form = styled.form`
-    padding: 20px;
+    padding: 1.25rem;
     border-radius: 8px;
     box-shadow: 1px 1px 1px #E2E6EA; 
-    font-size: 16px;
+    font-size: 1rem;
     color: #384048;
     background-color: white;
     width: 100%;
-    height: 140px;
+    height: 8.75rem;
 `;
 
 const UserPic = styled.div`
     position: absolute;
-    top: 16px;
-    left: 16px;
-    width: 60px;
-    height: 60px;
+    top: 1rem;
+    left: 1rem;
+    width: 3.75rem;
+    height: 3.75rem;
     border-radius: 100px;
     background: #0085FF;
+    cursor: pointer;
 `;
 
 const AvatarImg = styled.img`
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 100px;
     position: absolute;
-  object-fit: contain;
+    object-fit: contain;
+    cursor: pointer;
 `;
 
 const TextArea = styled.textarea`
     width: 100%;
     height: 65%;
-    padding: 15px 0 0 70px;
-    margin-bottom: 40px;
+    padding: .9375rem 0 0 4.375rem;
+    margin-bottom: 2.5rem;
     border: none;
     resize: none;
     font-family: 'Noto Sans KR';
@@ -48,7 +53,7 @@ const TextArea = styled.textarea`
     border-radius: 10px;
     }
     &::placeholder {
-        font-size: 16px;
+        font-size: 1rem;
         color: #384048;
     }
     &:focus {
@@ -59,30 +64,31 @@ const TextArea = styled.textarea`
 
 const TextBottom = styled.div`
     position: absolute;
-    bottom: 16px;
-    right: 16px;
+    bottom: 1rem;
+    right: 1rem;
 `;
 
 const IconBtn = styled.div`
     float: left;
-    padding-top: 5px;
+    padding-top: .3125rem;
     svg {
-        width: 25px;
+        width: 1.5625rem;
         color: #0085FF;
         float: left;
-        margin-right: 5px;
+        margin-right: .3125rem;
+        cursor: pointer;
     }
 `;
 
 const SubmitBtn = styled.input`
     float: left;
     background-color: #0085FF;
-    width: 89px;
+    width: 5.5625rem;
     color: white;
     border: none;
-    padding: 10px 0px;
+    padding: .625rem 0rem;
     border-radius: 40px;
-    font-size: 12px;
+    font-size: .75rem;
     cursor: pointer;
     &:hover,
     &:active {
