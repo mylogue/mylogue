@@ -59,7 +59,7 @@ const ProfileInfo = styled.div`
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
-    gap: .25rem;
+    gap: .7rem;
     p:nth-child(1){
         span:first-child{
             font-size: 24px;
@@ -131,7 +131,7 @@ const Name = styled.span`
 const CommonBox = styled.article`
     background: #fff;
     border-radius: 8px;
-    margin: 0 2rem;
+    margin: 2rem;
 `;
 const DisplaynameInput = styled.input``;
 const EditImg = styled.div`

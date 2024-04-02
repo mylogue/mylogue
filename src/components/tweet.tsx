@@ -131,7 +131,7 @@ export default function Tweet({ userId, username, photo, tweet,id }: ITweet) {
   return (
     <Wrapper>
       <Column>
-        <UserPic htmlFor="avatar">
+        <UserPic>
          {avatar ? (
               <AvatarImg src={avatar}/>
           ) : (

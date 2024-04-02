@@ -1,11 +1,6 @@
-@font-face {
+html{
+    background: #F0F4F8;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 600;
-    src: url(./font/NotoSansKR-Regular.woff) format('woff'),
-         url(./font/NotoSansKR-Regular.otf) format('opentype');
-  }
-
-  html{
-    background: #F0F4F8;
   }

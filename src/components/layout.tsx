@@ -5,7 +5,7 @@ import SideBar from "./side-bar";
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr 46% 1fr;
+  grid-template-columns: 1fr 55% 1fr;
   height: 100%;
   width: 100%;
 `;
@@ -15,7 +15,7 @@ const Menu = styled.div`
     flex-direction: column;
     height: 100%;
     width: 100%;
-    padding: 3.75rem 1.875rem 0 1.875rem; 
+    padding: 3.75rem 1.875rem 0 5.875rem; 
     background: white;
     `;
 
@@ -24,10 +24,10 @@ const MenuItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    height: 4.625rem;
+    height: 4rem;
     width: 100%;
     max-width: 20.625rem;
-    padding: 1.25rem;
+    padding: 1.25rem; 
     color: black;
     svg {
       width: 1.875rem;
@@ -43,13 +43,8 @@ const MenuItem = styled.div`
   `;
 
 const ItemName = styled.div`
-<<<<<<< HEAD
-    font-size: 1.5rem;
-    padding-left: 20px;
-=======
-    font-size: 1rem;
+    font-size: 1.1rem;
     padding-left: 1.25rem;
->>>>>>> 554850dc48571c8ff231165c9f5de68b5c75fae8
     font-weight: bold;
 `;
 
@@ -74,7 +69,7 @@ export default function Layout() {
             <Menu>
                 <Link to="/" style={{ textDecoration: "none" }}>
                     <MenuItem>
-                        <ItemName style={{ color: "#0085FF" , padding: "0px"}}>Mylogue</ItemName>
+                        <ItemName style={{ color: "#0085FF" , padding: "0px", fontSize: "1.5rem"}}>Mylogue</ItemName>
                     </MenuItem>
                 </Link>
                 <Link to="/" style={{ textDecoration: "none" }}>
@@ -127,7 +122,7 @@ export default function Layout() {
                     </MenuItem>  
                 </Link>
                 <Link to="/" style={{ textDecoration: "none" }}>
-                    <MenuItem className="writeBtn">
+                    <MenuItem className="writeBtn" style={{ width: "210px" }}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                         </svg>
