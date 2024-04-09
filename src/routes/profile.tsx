@@ -9,10 +9,10 @@ export interface ITweet {
     id: string;
     photo?: string;
     tweet: string;
-    userProfile: string;
     userId: string;
     username: string;
     createdAt: number;
+    userProfile:string | null | undefined;
   }
 const ProfileBg = styled.div`
     width: 100%;
@@ -101,6 +101,9 @@ const ProfileInfo = styled.div`
         }
         span:first-child{margin-right:.5rem;}
         
+       
+    }
+    .count{
         .following::before{
             content: '팔로잉';
             color: var(--gray600, #606E7B);
@@ -203,12 +206,11 @@ export default function Profile(){
             userId,
             username,
             photo,
-            userProfile:user?.photoURL, 
             id: doc.id,
+            userProfile:user?.photoURL,
         };
         });
         setTweets(tweets);
-        console.log(tweets)
     };
     
     useEffect(() => {
@@ -274,7 +276,7 @@ export default function Profile(){
                     <span>@{user?.uid ?? "Anonymous"}</span>
                 </div>
                 <p className="comment">솰라솰라 자기소개 한마디 욜로로</p>
-                <div>
+                <div className="count">
                     <span className="following">100</span>
                     <span className="followers">101</span>
                 </div>
