@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { styled } from "styled-components";
-import { auth } from "../firebase";
+import { auth} from "../firebase";
 
 const Wrapper = styled.div`
     position: relative;

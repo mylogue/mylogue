@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import { useState } from "react";
 import { ITweet } from "./timeline";
 import { auth, db, storage } from "../firebase";
 import { deleteDoc, doc } from "firebase/firestore";
@@ -112,7 +111,7 @@ const RightIcon = styled.div`
 
 export default function Tweet({ userId, username, photo, tweet,id }: ITweet) {
   const user = auth.currentUser;
-  const [avatar, setAvatar] = useState(user?.photoURL);
+  // const [avatar, setAvatar] = useState(user?.photoURL);
   const onDelete = async () => {
     const ok = confirm("Are you sure you want to delete this tweet?");
     if (!ok || user?.uid !== userId) return;
@@ -132,11 +131,13 @@ export default function Tweet({ userId, username, photo, tweet,id }: ITweet) {
     <Wrapper>
       <Column>
         <UserPic>
-         {avatar ? (
-              <AvatarImg src={avatar}/>
+        {/* <AvatarImg src="../../public/profileImg.png"/> */}
+        <AvatarImg src="../../public/profileImg.png"/>
+         {/* {avatar ? (
+              <AvatarImg src={user?.photoURL}/>
           ) : (
               <AvatarImg src="../../public/profileImg.png"/>
-          )}
+          )} */}
         </UserPic>
         <Username>{username}</Username>
         <UserId>@{userId}</UserId>

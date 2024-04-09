@@ -179,9 +179,11 @@ export default function Profile(){
         const result = await uploadBytes(locationRef, file);
         const avatarUrl = await getDownloadURL(result.ref);
         setAvatar(avatarUrl);
+        console.log(avatarUrl)
         await updateProfile(user, {
             photoURL: avatarUrl,
         });
+
         }
     };
     const fetchTweets = async () => {
@@ -205,6 +207,7 @@ export default function Profile(){
         });
         setTweets(tweets);
     };
+    
     useEffect(() => {
         fetchTweets();
     }, []);
@@ -216,7 +219,7 @@ export default function Profile(){
                     {avatar ? (
                         <AvatarImg src={avatar}/>
                     ) : (
-                        <AvatarImg src="../../public/profileImg.png"/>
+                        <AvatarImg src="/profileImg.png"/>
                     )}
                 </ProfileImg>
                 <ProfileBtn>프로필수정</ProfileBtn>
@@ -228,7 +231,7 @@ export default function Profile(){
                 accept="image/*"
             />
             <ProfileInfo>
-                <p>
+                <div>
                     <Name>
                         {editDisplayname ? (
                              <DisplaynameInput
@@ -266,12 +269,12 @@ export default function Profile(){
                         </EditImg>
                     </Name>
                     <span>@{user?.uid ?? "Anonymous"}</span>
-                </p>
+                </div>
                 <p className="comment">솰라솰라 자기소개 한마디 욜로로</p>
-                <p>
+                <div>
                     <span className="following">100</span>
                     <span className="followers">101</span>
-                </p>
+                </div>
             </ProfileInfo>
             
             <CommonBox>

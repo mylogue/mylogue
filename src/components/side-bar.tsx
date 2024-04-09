@@ -166,8 +166,8 @@ function SideBar() {
                     <Title>팔로우 추천</Title>
                     <Contents>
                         {NickNameArray.map((index) => (
-                            <NickName>
-                                <img src={`../../public/profile${index+1}.png`} alt="" className="profileImg"/>
+                            <NickName key={index}>
+                                <img src={`/profile${index+1}.png`} alt="" className="profileImg"/>
                                 <span className="nickname">닉네임</span>
                                 <span className="id">@아이디</span>
                             </NickName>
