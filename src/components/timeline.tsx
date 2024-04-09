@@ -13,6 +13,7 @@ export interface ITweet {
   id: string;
   photo?: string;
   tweet: string;
+  userProfile: string;
   userId: string;
   username: string;
   createdAt: number;

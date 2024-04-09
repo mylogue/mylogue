@@ -109,7 +109,7 @@ const RightIcon = styled.div`
 
 
 
-export default function Tweet({ userId, username, photo, tweet,id }: ITweet) {
+export default function Tweet({ userId, username, photo, tweet,id, userProfile }: ITweet) {
   const user = auth.currentUser;
   // const [avatar, setAvatar] = useState(user?.photoURL);
   const onDelete = async () => {
@@ -131,13 +131,7 @@ export default function Tweet({ userId, username, photo, tweet,id }: ITweet) {
     <Wrapper>
       <Column>
         <UserPic>
-        {/* <AvatarImg src="../../public/profileImg.png"/> */}
-        <AvatarImg src="../../public/profileImg.png"/>
-         {/* {avatar ? (
-              <AvatarImg src={user?.photoURL}/>
-          ) : (
-              <AvatarImg src="../../public/profileImg.png"/>
-          )} */}
+        <AvatarImg>{userProfile}</AvatarImg>
         </UserPic>
         <Username>{username}</Username>
         <UserId>@{userId}</UserId>
