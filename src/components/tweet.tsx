@@ -132,7 +132,7 @@ export default function Tweet({ userId, username, photo, tweet,id, userProfile }
     <Wrapper>
       <Column>
         <UserPic>
-        <AvatarImg src={userProfile}></AvatarImg>
+        {userProfile && <AvatarImg src={userProfile}></AvatarImg>}
         </UserPic>
         <Username>{username}</Username>
         <UserId>@{userId}</UserId>
