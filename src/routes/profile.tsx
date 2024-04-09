@@ -202,11 +202,12 @@ export default function Profile(){
             userId,
             username,
             photo,
-            userProfile:user?.photoURL,
+            userProfile:user?.photoURL, 
             id: doc.id,
         };
         });
         setTweets(tweets);
+        console.log(tweets)
     };
     
     useEffect(() => {
