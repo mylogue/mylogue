@@ -4,18 +4,22 @@ import { auth } from "../firebase";
 import SideBar from "./side-bar";
 import { useState } from "react";
 
+
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 55% 1fr;
   height: 100%;
   width: 100%;
 `;
-
-const SideMenu = styled.div`
-
-  color: ${({ isOpen }) => (isOpen ? '#0085FF' : '#777')};
-  transition: color 0.3s ease;
+interface SideMenuProps {
+    isOpen: boolean;
+  }
+  
+const SideMenu = styled.div<SideMenuProps>`
+color: ${({ isOpen }) => (isOpen ? '#0085FF' : '#777')};
+transition: color 0.3s ease;
 `;
+
 const Menu = styled.div`
     display: flex;
     flex-direction: column;
@@ -80,14 +84,14 @@ export default function Layout() {
         navigate("/login");
         }
     };
+    const [activeIndex, setActiveIndex] = useState(-1);
     const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
-    const [activeIndex, setActiveIndex] = useState(null);
 
     const toggleSideMenu = () => {
         setIsSideMenuOpen(!isSideMenuOpen);
     };
 
-    const handleItemClick = (index) => {
+    const handleItemClick = (index: number) => {
         setActiveIndex(index);
         toggleSideMenu(); // 메뉴 클릭시 사이드 메뉴를 닫습니다.
     };
