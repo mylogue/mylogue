@@ -45,6 +45,10 @@ const ProfileBtn = styled.button`
     right: 2.5rem;
     bottom: -3.75rem;
     cursor: pointer;
+    &:hover,:active,:focus{
+        background: #0085FF;
+        color: white;
+    }
 `;
 
 const AvatarImg = styled.img`
@@ -61,7 +65,7 @@ const ProfileInfo = styled.div`
     flex-flow: column;
     justify-content: flex-start;
     gap: .7rem;
-    p:nth-child(1){
+    div:first-child{
         span:first-child{
             font-size: 24px;
             font-style: normal;
@@ -72,7 +76,7 @@ const ProfileInfo = styled.div`
             align-items: center;
             gap: .625rem;
         }
-        span:last-child{
+        span:nth-child(2){
             color: var(--gray600, #606E7B);
             /* txt-base */
             font-size: 1rem;
@@ -104,6 +108,7 @@ const ProfileInfo = styled.div`
        
     }
     .count{
+        span{margin-right: 1rem; font-weight: 600;}
         .following::before{
             content: '팔로잉';
             color: var(--gray600, #606E7B);
