@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { styled } from "styled-components";
-import { auth} from "../firebase";
+import { auth, db} from "../firebase";
+import { addDoc, collection } from "firebase/firestore";
 
 const Wrapper = styled.div`
     position: relative;
@@ -45,7 +46,7 @@ const TextArea = styled.textarea`
     resize: none;
     font-family: 'Noto Sans KR';
     &::-webkit-scrollbar {
-        background: #white;
+        background: white;
       }
     &::-webkit-scrollbar-thumb{
     background: #F0F4F8;
@@ -96,7 +97,7 @@ const SubmitBtn = styled.input`
 `;
 
 export default function PostForm() {
-  const [isLoading] = useState(false);
+  const [isLoading,setLoading] = useState(false);
   const [tweet, setTweet] = useState("");
   const user = auth.currentUser;
   const [avatar] = useState(user?.photoURL);
@@ -104,14 +105,32 @@ export default function PostForm() {
     setTweet(e.target.value);
     };
    
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const user = auth.currentUser;
+        if (!user || isLoading || tweet === "" || tweet.length > 180) return;
+        try {
+            setLoading(true);
+            await addDoc(collection(db, "tweets"), {
+            tweet,
+            createdAt: Date.now(),
+            username: user.displayName || "Anonymous",
+            userId: user.uid,
+            });
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false);
+        }
+    };
   return (
     <Wrapper>
-        <Form>
+        <Form onSubmit={onSubmit}>
             <UserPic>
                  {avatar ? (
                         <AvatarImg src={avatar}/>
                     ) : (
-                        <AvatarImg src="../../public/profileImg.png"/>
+                        <AvatarImg src="../public/profileImg.png"/>
                     )}
             </UserPic>
             <TextArea
