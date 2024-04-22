@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom";
 import { useState } from "react";
 import { styled } from "styled-components";
 import { ITweet } from "./timeline";
@@ -131,9 +132,11 @@ export default function Tweet({ userId, username, photo, tweet,id, userProfile }
   return (
     <Wrapper>
       <Column>
-        <UserPic>
-        {userProfile && <AvatarImg src={avatar}></AvatarImg>}
-        </UserPic>
+        <Link to="/profile">
+          <UserPic>
+          {userProfile && <AvatarImg src={userProfile}></AvatarImg>}
+          </UserPic>
+        </Link>
         <Username>{username}</Username>
         <UserId>@{userId}</UserId>
         {user?.uid === userId ? (
