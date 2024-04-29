@@ -116,6 +116,7 @@ export default function PostForm() {
             createdAt: Date.now(),
             username: user.displayName || "Anonymous",
             userId: user.uid,
+            avatar
             });
         } catch (e) {
             console.log(e);

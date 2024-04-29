@@ -186,6 +186,8 @@ export default function Tweet({ userId, username, photo, tweet,id, userProfile }
 
   
   const user = auth.currentUser;
+
+  // const [avatar, setAvatar] = useState(user?.photoURL);
   const onDelete = async () => {
     const ok = confirm("Are you sure you want to delete this tweet?");
     if (!ok || user?.uid !== userId) return;
