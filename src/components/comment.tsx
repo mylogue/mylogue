@@ -47,20 +47,30 @@ const AvatarImg = styled.img`
     object-fit: contain;
     cursor: pointer;
 `;
-function CommentContent({username, tweet, userProfile,userId}) {
-    return ( <>
-        <CommentComponent>
-                <UserPic>
-                {userProfile && <AvatarImg src={userProfile}></AvatarImg>}
-                </UserPic>
-                <UserInfo>
-                  <Username>{username}</Username>
-                  <UserId>@{userId}</UserId>
-                </UserInfo>
-                <Payload>{tweet}</Payload>
-         
-        </CommentComponent>
-    </> );
+
+interface CommentContentProps {
+  username: string;
+  tweet: string;
+  userProfile?: string | null;
+  userId: string;
 }
+
+const CommentContent: React.FC<CommentContentProps> = ({ username, tweet, userProfile, userId }) => {
+  return (
+    <>
+      <CommentComponent>
+        <UserPic>
+          {userProfile && <AvatarImg src={userProfile} />}
+        </UserPic>
+        <UserInfo>
+          <Username>{username}</Username>
+          <UserId>@{userId}</UserId>
+        </UserInfo>
+        <Payload>{tweet}</Payload>
+      </CommentComponent>
+    </>
+  );
+}
+
 
 export default CommentContent;
