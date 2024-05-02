@@ -139,55 +139,65 @@ const StyledSVG = styled.svg`
 `;
 
 const Comment = styled.div`
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
   background: white;
-  width: 800px;
+  width: 50vw;
   height: 550px;
   z-index: 100;
 `;
+
+const CloseBtn = styled.div`
+  position : absolute;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  z-index: 99;
+  margin: 4px;
+`
 export default function Tweet({ userId, username, photo, tweet,id, userProfile }: ITweet) {
-  const [heartClicked, setheartClicked] = useState(false);
+  const [heartClicked, setHeartClicked] = useState(false);
   const [bookmarkClicked, setBookmarkClicked] = useState(false);
   const [commentClicked, setCommentClicked] = useState(false);
   const [shareClicked, setShareClicked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
   const heart = () => {
-    setheartClicked(!heartClicked);
+    setHeartClicked(!heartClicked);
   };
+
   const bookmark = () => {
     setBookmarkClicked(!bookmarkClicked);
   };
+
   const comment = () => {
+    if (modalOpen) {
+      setModalOpen(false);
+    }
+  
+    // Toggle the commentClicked state
     setCommentClicked(!commentClicked);
+  
+    // Open the modal when clicking comment for the first time
     if (!commentClicked) {
-      setModalOpen(true); // 하트가 클릭되었을 때 모달을 열기
+      setModalOpen(true);
     }
   };
+
   const share = () => {
     setShareClicked(!shareClicked);
-    if(!shareClicked) {
-      setShareClicked(false)
-    }
   };
-
-
+  
   const closeModal = () => {
     setModalOpen(false);
-    if (commentClicked) {
-      // 만약 commentClicked가 true일 경우 (즉, 클릭된 상태에서 모달이 닫혔을 때)
-      // 검정색으로 stroke 변경
-      setCommentClicked(false);
-    }
+    setCommentClicked(false);
   };
 
-  
   const user = auth.currentUser;
 
-  // const [avatar, setAvatar] = useState(user?.photoURL);
   const onDelete = async () => {
     const ok = confirm("Are you sure you want to delete this tweet?");
     if (!ok || user?.uid !== userId) return;
@@ -199,10 +209,9 @@ export default function Tweet({ userId, username, photo, tweet,id, userProfile }
       }
     } catch (e) {
       console.log(e);
-    } finally {
-      //
     }
   };
+
   return (
     <Wrapper>
       <Column>
@@ -257,8 +266,13 @@ export default function Tweet({ userId, username, photo, tweet,id, userProfile }
       </Column>
         {modalOpen && (
             <Comment >
-              <div onClick={closeModal} >&times;</div>
-              <CommentContent username={username} userId={userId} photo={photo} tweet={tweet} userId={userId} userProfile={userProfile}/>
+              <CloseBtn onClick={closeModal} >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+
+              </CloseBtn>
+              <CommentContent username={username} tweet={tweet} userId={userId} userProfile={userProfile}/>
             </Comment>
           )}
     </Wrapper>

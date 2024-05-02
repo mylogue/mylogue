@@ -1,30 +1,41 @@
 import styled from "styled-components";
-import Tweet from "./tweet";
 
 const CommentComponent = styled.div`
   background-color  : #fff;
   stroke: 1px solid black/0.5;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  padding: 24px;
 `;
 const UserPic = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 3.75rem;
     height: 3.75rem;
     border-radius: 100px;
     background: #0085FF;
+    margin-right: 8px;
     cursor: pointer;
+`;
+const UserInfo = styled.div`
+  width: calc(100% - 110px);
 `;
 const Username = styled.span`
   font-weight: 800;
   font-size: 1.25rem;
   cursor: pointer;
 `;
-
+const UserId = styled.span`
+  font-weight: 800;
+  font-size: 1.25rem;
+  cursor: pointer;
+  word-wrap: break-word;
+`;
 const Payload = styled.p`
   margin: .625rem 0rem;
   font-size: 1rem;
   color: #384048;
+  width: 100%;
   line-height: 120%;
   padding-bottom: 1.875rem;
 `;
@@ -37,17 +48,17 @@ const AvatarImg = styled.img`
     cursor: pointer;
 `;
 function CommentContent({username, tweet, userProfile,userId}) {
-    console.log(tweet)
     return ( <>
         <CommentComponent>
-            <div>
                 <UserPic>
                 {userProfile && <AvatarImg src={userProfile}></AvatarImg>}
                 </UserPic>
-                <Username>{username}</Username>
-                <div>@{userId}</div>
+                <UserInfo>
+                  <Username>{username}</Username>
+                  <UserId>@{userId}</UserId>
+                </UserInfo>
                 <Payload>{tweet}</Payload>
-            </div>
+         
         </CommentComponent>
     </> );
 }
