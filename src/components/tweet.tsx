@@ -19,25 +19,25 @@ const Column = styled.div`
   position: relative;
 `;
 
-const UserPic = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3.75rem;
-    height: 3.75rem;
-    border-radius: 100px;
-    background: #0085FF;
-    cursor: pointer;
-`;
+// const UserPic = styled.div`
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     width: 3.75rem;
+//     height: 3.75rem;
+//     border-radius: 100px;
+//     background: #0085FF;
+//     cursor: pointer;
+// `;
 
-const AvatarImg = styled.img`
-    width: 3.75rem;
-    height: 3.75rem;
-    border-radius: 100px;
-    position: absolute;
-    object-fit: contain;
-    cursor: pointer;
-`;
+// const AvatarImg = styled.img`
+//     width: 3.75rem;
+//     height: 3.75rem;
+//     border-radius: 100px;
+//     position: absolute;
+//     object-fit: contain;
+//     cursor: pointer;
+// `;
 
 const DeleteBtn = styled.div`
     position: absolute;
@@ -104,7 +104,7 @@ const RightIcon = styled.div`
     svg {
         width: 1.5rem;  
         color: #0F172A;
-        margin-right: .9375rem;
+        /* margin-right: .9375rem; */
         cursor: pointer;
     }
 `;
