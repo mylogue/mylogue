@@ -11,18 +11,22 @@ const CommentComponent = styled.div`
   display: flex;
   align-items: center;
   flex-flow: row wrap;
-  padding: 24px;
+  padding: 1.5rem;
+  border: 1px solid #bfbfbf;
+  border-radius: .75rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 `;
 const UserPic = styled.div`
     width: 3.75rem;
     height: 3.75rem;
     border-radius: 100px;
     background: #0085FF;
-    margin-right: 8px;
+    margin-right: .5rem;
     cursor: pointer;
 `;
 const UserInfo = styled.div`
-  width: calc(100% - 110px);
+  width: calc(100% - 6.875rem);
 `;
 const Username = styled.span`
   font-weight: 800;
@@ -53,10 +57,9 @@ const AvatarImg = styled.img`
 `;
 const TextArea = styled.textarea`
     width: 100%;
-    height: 65%;
-    padding: .9375rem 0 0 4.375rem;
-    margin-bottom: 2.5rem;
-    border: 1px solid black;
+    height: 100%;
+    padding: .9375rem ;
+
     resize: none;
     font-family: 'Noto Sans KR';
     &::-webkit-scrollbar {
@@ -94,17 +97,42 @@ const Form = styled.form`
   display: flex;
   width: 100%;
 `;
-
+const CommentWrapper = styled.section`
+  margin-top: 1.5rem;
+  width: 100%;
+`;
 const Comment = styled.div`
   display: flex;
   flex-flow: column;
-  width: 100%;
-  border: 1px solid black;
+  border-bottom: 1px solid #eee;
+  padding: .9375rem ;
+  &:last-child {
+    border-bottom: none;
+  }
 `;
-
-
+const Info = styled.p`
+  display: flex;
+  gap: .25rem;
+  span:nth-child(1){
+    font-weight: 800;
+  font-size: 1.25rem;
+  cursor: pointer;
+  }
+  span:nth-child(2){
+    font-weight: 500;
+  font-size: 1rem;
+  color : #606E7B;
+  margin-left: .5rem;
+  cursor: pointer;
+  }
+`;
+const Content = styled.div`
+  margin-top: .75rem;
+`;
 const DeleteBtn = styled.div`
-  
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
     svg {
       width: 1.125rem;
       color: #606E7B;
@@ -247,7 +275,7 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
         </UserInfo>
         <Payload>{tweet}</Payload>
         <Form onSubmit={onSubmit}>
-          <textarea
+          <TextArea
             rows={5}
             maxLength={180}
             value={tweetContent}
@@ -260,16 +288,16 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
             disabled={isLoading}
           />
         </Form>
-        <section>
+        <CommentWrapper>
           {comment.map((comments,index)=>(
 
             <>
               <Comment key={index}>
-                <p>
+                <Info>
                   <span>{comments.username}</span>
                   <span>@{comments.userId.substring(0,8)}</span>
-                </p>
-                <p>{comments.content}</p>
+                </Info>
+                <Content>{comments.content}</Content>
                 {user?.uid === comments.userId ? (
                   <DeleteBtn onClick={() => onDelete(index)}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -280,7 +308,7 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
               </Comment>
             </>
           ))}
-        </section>
+        </CommentWrapper>
         
       </CommentComponent>
     </>
