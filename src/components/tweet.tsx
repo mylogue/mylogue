@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 `;
 
 const Column = styled.div`
-  padding: .3125rem 0 0 4.75rem;
+  padding: .3125rem 0 0  .3125rem;
   position: relative;
 `;
 
@@ -215,9 +215,9 @@ export default function Tweet({ userId, username, photo, tweet,id, userProfile }
   return (
     <Wrapper>
       <Column>
-        <UserPic>
+        {/* <UserPic>
         {userProfile && <AvatarImg src={userProfile}></AvatarImg>}
-        </UserPic>
+        </UserPic> */}
         <Username>{username}</Username>
         <UserId>@{userId}</UserId>
         {user?.uid === userId ? (
