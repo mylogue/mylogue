@@ -181,6 +181,7 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
       console.log('트윗 문서가 성공적으로 업데이트되었습니다.');
   
       // 상태 초기화 및 알림 표시
+      setTweetContent('');
       setIsLoading(false);
       alert('트윗이 성공적으로 업데이트되었습니다!');
     } catch (error) {
@@ -190,7 +191,7 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
     }
   };
   
-
+  console.log(tweetContent)
   return (
     <>
       <CommentComponent>
