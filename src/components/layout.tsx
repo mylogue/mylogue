@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { auth } from "../firebase";
 import SideBar from "./side-bar";
 import { useState } from "react";
-
+import Modal from "../components/modal";
 
 const Wrapper = styled.div`
   display: grid;
@@ -94,7 +94,23 @@ export default function Layout() {
     const handleItemClick = (index: number) => {
         setActiveIndex(index);
         toggleSideMenu(); // 메뉴 클릭시 사이드 메뉴를 닫습니다.
-    };
+
+    
+    const [writeModal,setwriteModal] = useState(false); 
+    const [ModalClicked, setModalClicked] = useState(false);
+    const Modal = () => {
+        if (writeModal) {
+        setwriteModal(false);
+        }
+      
+        // Toggle the commentClicked state
+        setModalClicked(!ModalClicked);
+      
+        // Open the modal when clicking comment for the first time
+        if (!ModalClicked) {
+        setwriteModal(true);
+        }
+      };
     return (
         <Wrapper>
             <Menu>
@@ -139,7 +155,6 @@ export default function Layout() {
                             <ItemName>알림</ItemName>
                         </MenuItem>  
                     </Link>
-                    
                 </SideMenu>
                 <SideMenu isOpen={isSideMenuOpen}>
                     <Link to="/" style={{ textDecoration: "none" }}>
@@ -176,7 +191,7 @@ export default function Layout() {
                     </Link>
                 </SideMenu>
                 <Link to="/" style={{ textDecoration: "none" }}>
-                    <MenuItem className="writeBtn" style={{ width: "210px" }}>
+                    <MenuItem className="writeBtn" style={{ width: "210px" }} onClick={Modal}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                         </svg>
@@ -195,5 +210,6 @@ export default function Layout() {
             </Timeline>
             <SideBar />
         </Wrapper>
-    )
-}
+        )
+    }
+};
