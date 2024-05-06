@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { ITweet } from "./timeline";
+import { ITweet} from "./timeline";
 import { auth, db, storage } from "../firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
@@ -154,13 +154,14 @@ const Comment = styled.div`
 const CloseBtn = styled.div`
   position : absolute;
   right: 0;
-  width: 44px;
-  height: 44px;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: .25rem;
   cursor: pointer;
   z-index: 99;
-  margin: 4px;
+  margin: .25rem;
 `
-export default function Tweet({ userId, username, photo, tweet,id, userProfile }: ITweet) {
+export default function Tweet({ userId, username, photo, tweet, id }: ITweet) {
   const [heartClicked, setHeartClicked] = useState(false);
   const [bookmarkClicked, setBookmarkClicked] = useState(false);
   const [commentClicked, setCommentClicked] = useState(false);
@@ -275,7 +276,7 @@ export default function Tweet({ userId, username, photo, tweet,id, userProfile }
               </svg>
 
               </CloseBtn>
-              <CommentContent username={username} tweet={tweet} userId={userId} id={id} userProfile={userProfile}/>
+              <CommentContent username={username} tweet={tweet} userId={userId} id={id} />
             </Comment>
           )}
     </Wrapper>
