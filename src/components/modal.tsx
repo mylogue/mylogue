@@ -124,8 +124,23 @@ export default function PostForm() {
             setLoading(false);
         }
     };
+    const [writeModal,setwriteModal] = useState(false); 
+    const [ModalClicked, setModalClicked] = useState(false);
+    const Modal = () => {
+        if (writeModal) {
+        setwriteModal(false);
+        }
+      
+        // Toggle the commentClicked state
+        setModalClicked(!ModalClicked);
+      
+        // Open the modal when clicking comment for the first time
+        if (!ModalClicked) {
+        setwriteModal(true);
+        }
+      };
   return (
-    <Wrapper>
+    <Wrapper onclick={Modal}>
         <Form onSubmit={onSubmit}>
             <UserPic>
                  {avatar ? (
