@@ -1,9 +1,21 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 import { auth, db } from "../firebase";
-import { getFirestore, addDoc, collection, doc, serverTimestamp, updateDoc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
-import firebase from "firebase/compat/app";
+import {doc, updateDoc, getDoc } from "firebase/firestore";
+interface Comment {
+  content: string;
+  userId: string;
+  username: string;
+  createdAt: string;
+}
 
+interface CommentContentProps {
+  id: string;
+  username: string;
+  tweet: string;
+  userProfile?: string | null | undefined;
+  userId: string;
+}
 const CommentComponent = styled.div`
   background-color  : #fff;
   stroke: 1px solid black/0.5;
@@ -17,44 +29,42 @@ const CommentComponent = styled.div`
   box-shadow: 0 3px 10px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 `;
-const UserPic = styled.div`
-    width: 3.75rem;
-    height: 3.75rem;
-    border-radius: 100px;
-    background: #0085FF;
-    margin-right: .5rem;
-    cursor: pointer;
-`;
+
 const UserInfo = styled.div`
   width: calc(100% - 6.875rem);
+  margin-top: 1.25rem;
 `;
 const Username = styled.span`
   font-weight: 800;
   font-size: 1.25rem;
   cursor: pointer;
+  padding: 0 .625rem;
+  word-break: break-all;
 `;
 const UserId = styled.span`
-  font-weight: 800;
-  font-size: 1.25rem;
+  font-weight: 400;
+  font-size: .875rem;
   cursor: pointer;
   word-wrap: break-word;
+
 `;
 const Payload = styled.p`
   margin: .625rem 0rem;
   font-size: 1rem;
   color: #384048;
+  padding: 0 .625rem;
   width: 100%;
   line-height: 120%;
   padding-bottom: 1.875rem;
 `;
-const AvatarImg = styled.img`
-    width: 3.75rem;
-    height: 3.75rem;
-    border-radius: 100px;
-    position: absolute;
-    object-fit: contain;
-    cursor: pointer;
-`;
+// const AvatarImg = styled.img`
+//     width: 3.75rem;
+//     height: 3.75rem;
+//     border-radius: 100px;
+//     position: absolute;
+//     object-fit: contain;
+//     cursor: pointer;
+// `;
 const TextArea = styled.textarea`
     width: 100%;
     height: 100%;
@@ -78,21 +88,7 @@ const TextArea = styled.textarea`
         border-color: #1d9bf0;
     }
 `;
-const SubmitBtn = styled.input`
-    float: left;
-    background-color: #0085FF;
-    width: 5.5625rem;
-    color: white;
-    border: none;
-    padding: .625rem 0rem;
-    border-radius: 40px;
-    font-size: .75rem;
-    cursor: pointer;
-    &:hover,
-    &:active {
-        opacity: 0.9;
-    }
-`;
+
 const Form = styled.form`
   display: flex;
   width: 100%;
@@ -100,6 +96,8 @@ const Form = styled.form`
 const CommentWrapper = styled.section`
   margin-top: 1.5rem;
   width: 100%;
+  height: 21.9375rem;
+  overflow: scroll;
 `;
 const Comment = styled.div`
   display: flex;
@@ -113,6 +111,7 @@ const Comment = styled.div`
 const Info = styled.p`
   display: flex;
   gap: .25rem;
+  align-items: baseline;
   span:nth-child(1){
     font-weight: 800;
   font-size: 1.25rem;
@@ -120,14 +119,14 @@ const Info = styled.p`
   }
   span:nth-child(2){
     font-weight: 500;
-  font-size: 1rem;
+    font-size: .875rem;
   color : #606E7B;
   margin-left: .5rem;
   cursor: pointer;
   }
 `;
 const Content = styled.div`
-  margin-top: .75rem;
+  margin-top: 1.25rem;
 `;
 const DeleteBtn = styled.div`
     width: 100%;
@@ -145,11 +144,12 @@ interface CommentContentProps {
   tweet: string;
   userProfile?: string | null;
   userId: string;
+  id:string;
 }
 
-const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, userProfile, userId }) => {
+const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, userId }) => {
   const [tweetContent, setTweetContent] = useState('');
-  const [comment,setComment] = useState([]);
+  const [comment, setComment] = useState<Comment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const user = auth.currentUser;
 
@@ -184,11 +184,11 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
   }, [userId, id]); // userId 또는 id가 변경될 때마다 useEffect 실행
   
   // TextArea 입력 값 변경 시 호출되는 함수
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setTweetContent(e.target.value);
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   
     if (!tweetContent.trim()) {
@@ -236,9 +236,9 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
     }
   };
   
-  const onDelete = async (indexToDelete) => {
+  const onDelete = async (indexToDelete: number) => {
     const ok = confirm("Are you sure you want to delete this tweet?");
-    if (!ok || user?.uid === comment.userId) return;
+    if (!ok) return;
     try {
       const tweetDocRef = doc(db, 'tweets', id); // 'tweets' 컬렉션에서 해당 문서 참조
 
@@ -266,9 +266,9 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
   return (
     <>
       <CommentComponent>
-        <UserPic>
+        {/* <UserPic>
           {userProfile && <AvatarImg src={userProfile} />}
-        </UserPic>
+        </UserPic> */}
         <UserInfo>
           <Username>{username}</Username>
           <UserId>@{userId}</UserId>
