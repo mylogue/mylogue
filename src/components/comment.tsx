@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { auth, db } from "../firebase";
-import { getFirestore, addDoc, collection, doc, serverTimestamp, updateDoc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, addDoc, collection, doc, serverTimestamp, updateDoc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 import firebase from "firebase/compat/app";
 
 const CommentComponent = styled.div`
@@ -95,9 +95,22 @@ const Form = styled.form`
   width: 100%;
 `;
 
-const Comment = styled.p`
+const Comment = styled.div`
   display: flex;
+  flex-flow: column;
   width: 100%;
+  border: 1px solid black;
+`;
+
+
+const DeleteBtn = styled.div`
+  
+    svg {
+      width: 1.125rem;
+      color: #606E7B;
+      margin-right: .9375rem;
+      cursor: pointer;
+  }
 `;
 interface CommentContentProps {
   username: string;
@@ -110,6 +123,7 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
   const [tweetContent, setTweetContent] = useState('');
   const [comment,setComment] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const user = auth.currentUser;
 
   // useEffect를 사용하여 userId가 변경될 때마다 사용자 정보를 가져옴
   useEffect(() => {
@@ -140,6 +154,7 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
       getUserDocument();
     }
   }, [userId, id]); // userId 또는 id가 변경될 때마다 useEffect 실행
+  
   // TextArea 입력 값 변경 시 호출되는 함수
   const onChange = (e) => {
     setTweetContent(e.target.value);
@@ -166,6 +181,8 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
       const newComment = {
         content: tweetContent,
         createdAt: new Date().toISOString(),
+        userId: user?.uid, // 로그인한 사용자의 ID
+        username: username, // 로그인한 사용자의 이름
       };
   
       const updatedComments = [...existingComments, newComment];
@@ -181,6 +198,7 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
       console.log('트윗 문서가 성공적으로 업데이트되었습니다.');
   
       // 상태 초기화 및 알림 표시
+      setTweetContent('');
       setIsLoading(false);
       alert('트윗이 성공적으로 업데이트되었습니다!');
     } catch (error) {
@@ -190,6 +208,32 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
     }
   };
   
+  const onDelete = async (indexToDelete) => {
+    const ok = confirm("Are you sure you want to delete this tweet?");
+    if (!ok || user?.uid === comment.userId) return;
+    try {
+      const tweetDocRef = doc(db, 'tweets', id); // 'tweets' 컬렉션에서 해당 문서 참조
+
+      // 기존 Comment 배열에서 삭제할 Comment 제외
+      const updatedComments = comment.filter((_, index) => index !== indexToDelete);
+
+      // Firestore 문서 업데이트
+      await updateDoc(tweetDocRef, {
+        comment: updatedComments,
+        userId: user?.uid, // 로그인한 사용자의 ID
+        username: username, // 로그인한 사용자의 이름
+        updatedAt: new Date() // 업데이트된 시간 추가
+      });
+      console.log(userId)
+
+      setComment(updatedComments); // 상태 업데이트
+
+      console.log('트윗 문서가 성공적으로 업데이트되었습니다.');
+    } catch (error) {
+      console.error('트윗 업데이트 중 오류 발생:', error);
+      alert('트윗 업데이트 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
 
   return (
     <>
@@ -216,9 +260,28 @@ const CommentContent: React.FC<CommentContentProps> = ({id, username, tweet, use
             disabled={isLoading}
           />
         </Form>
-        {comment.map((comments,index)=>(
-          <Comment key={index}>{comments.content}</Comment>
-        ))}
+        <section>
+          {comment.map((comments,index)=>(
+
+            <>
+              <Comment key={index}>
+                <p>
+                  <span>{comments.username}</span>
+                  <span>@{comments.userId.substring(0,8)}</span>
+                </p>
+                <p>{comments.content}</p>
+                {user?.uid === comments.userId ? (
+                  <DeleteBtn onClick={() => onDelete(index)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                    </svg>
+                  </DeleteBtn>
+                ) : null}
+              </Comment>
+            </>
+          ))}
+        </section>
+        
       </CommentComponent>
     </>
   );
