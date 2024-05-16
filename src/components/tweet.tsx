@@ -19,25 +19,25 @@ const Column = styled.div`
   position: relative;
 `;
 
-// const UserPic = styled.div`
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     width: 3.75rem;
-//     height: 3.75rem;
-//     border-radius: 100px;
-//     background: #0085FF;
-//     cursor: pointer;
-// `;
+const UserPic = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 100px;
+    background: #0085FF;
+    cursor: pointer;
+`;
 
-// const AvatarImg = styled.img`
-//     width: 3.75rem;
-//     height: 3.75rem;
-//     border-radius: 100px;
-//     position: absolute;
-//     object-fit: contain;
-//     cursor: pointer;
-// `;
+const AvatarImg = styled.img`
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 100px;
+    position: absolute;
+    object-fit: contain;
+    cursor: pointer;
+`;
 
 const DeleteBtn = styled.div`
     position: absolute;
@@ -161,7 +161,7 @@ const CloseBtn = styled.div`
   z-index: 99;
   margin: .25rem;
 `
-export default function Tweet({ userId, username, photo, tweet, id }: ITweet) {
+export default function Tweet({ userId, username, userProfile, photo, tweet, id }: ITweet) {
   const [heartClicked, setHeartClicked] = useState(false);
   const [bookmarkClicked, setBookmarkClicked] = useState(false);
   const [commentClicked, setCommentClicked] = useState(false);
@@ -219,9 +219,9 @@ export default function Tweet({ userId, username, photo, tweet, id }: ITweet) {
   return (
     <Wrapper>
       <Column>
-        {/* <UserPic>
+        <UserPic>
         {userProfile && <AvatarImg src={userProfile}></AvatarImg>}
-        </UserPic> */}
+        </UserPic> 
         <Username>{username}</Username>
         <UserId>@{charsId}...</UserId>
         {user?.uid === userId ? (

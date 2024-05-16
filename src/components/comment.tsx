@@ -7,6 +7,7 @@ interface Comment {
   userId: string;
   username: string;
   createdAt: string;
+  userProfile: string;
 }
 
 interface CommentContentProps {
@@ -165,7 +166,7 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
   const [comment, setComment] = useState<Comment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const user = auth.currentUser;
-  console.log(user?.displayName)
+  console.log(user?.photoURL)
   // useEffect를 사용하여 userId가 변경될 때마다 사용자 정보를 가져옴
   useEffect(() => {
     if (userId) {
@@ -224,8 +225,9 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
         createdAt: new Date().toISOString(),
         userId: user?.uid, // 로그인한 사용자의 ID
         username: user?.displayName, // 로그인한 사용자의 이름
+        userProfile: user?.photoURL
       };
-      
+
       const updatedComments = [...existingComments, newComment];
       console.log('업데이트된 Comments:', updatedComments);
   
@@ -263,7 +265,8 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
         comment: updatedComments,
         userId: user?.uid, // 로그인한 사용자의 ID
         username: user?.displayName, // 로그인한 사용자의 이름
-        updatedAt: new Date() // 업데이트된 시간 추가
+        updatedAt: new Date(), // 업데이트된 시간 추가
+        userProfile: user?.photoURL
       });
       
       setComment(updatedComments); // 상태 업데이트
@@ -275,7 +278,7 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
       alert('트윗 업데이트 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
-  console.log(  )
+  console.log(comment)
   
 
   
@@ -326,10 +329,10 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
                               </svg>
                           </DeleteBtn>
                       ) : null}
+                      <img src={comments.userProfile}/>
                       </Info>
                       <Content>{comments.content}</Content>
                       <FormattedDate>{formattedDate} {formattedTime}</FormattedDate>
-                      
                   </Comment>
               
           );
