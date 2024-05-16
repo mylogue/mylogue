@@ -223,7 +223,7 @@ export default function Tweet({ userId, username, photo, tweet, id }: ITweet) {
         {userProfile && <AvatarImg src={userProfile}></AvatarImg>}
         </UserPic> */}
         <Username>{username}</Username>
-        <UserId>@{charsId}</UserId>
+        <UserId>@{charsId}...</UserId>
         {user?.uid === userId ? (
         <DeleteBtn onClick={onDelete}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

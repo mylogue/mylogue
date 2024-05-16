@@ -9,7 +9,7 @@ import { db } from "../firebase";
 import Tweet from "./tweet";
 import { Unsubscribe } from "firebase/auth";
 
-export interface ITweet {
+export interface ITwweet {
   id: string;
   photo?: string;
   tweet: string;
