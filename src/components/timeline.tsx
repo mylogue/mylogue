@@ -5,7 +5,7 @@ import { collection,
   query, } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { auth, db } from "../firebase";
+import { db } from "../firebase";
 import Tweet from "./tweet";
 import { Unsubscribe } from "firebase/auth";
 
@@ -29,7 +29,6 @@ const Wrapper = styled.div`
 export default function Timeline() {
 
   const [tweets, setTweet] = useState<ITweet[]>([]);
-  const user = auth.currentUser;
   useEffect(() => {
     let unsubscribe: Unsubscribe | null = null;
     const fetchTweets = async () => {

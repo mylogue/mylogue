@@ -7,7 +7,7 @@ interface Comment {
   userId: string;
   username: string;
   createdAt: string;
-  userProfile: string;
+  userProfile: string | null | undefined;
 }
 
 interface CommentContentProps {
@@ -32,6 +32,24 @@ const CommentComponent = styled.div`
   
 `;
 
+const UserPic = styled.div`
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 100px;
+    background: #0085FF;
+    cursor: pointer;
+`;
+
+const AvatarImg = styled.img`
+    display: inline-flex;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 100px;
+    position: absolute;
+    object-fit: cover;
+    cursor: pointer;
+`;
+
 const UserInfo = styled.div`
   width: calc(100% - 6.875rem);
   margin-top: 1.25rem;
@@ -50,7 +68,7 @@ const UserId = styled.span`
   word-wrap: break-word;
 
 `;
-const Payload = styled.p`
+const Payload = styled.div`
   margin: .625rem 0rem;
   font-size: 1rem;
   color: #384048;
@@ -59,14 +77,14 @@ const Payload = styled.p`
   line-height: 120%;
   padding-bottom: 1.875rem;
 `;
-// const AvatarImg = styled.img`
-//     width: 3.75rem;
-//     height: 3.75rem;
-//     border-radius: 100px;
-//     position: absolute;
-//     object-fit: contain;
-//     cursor: pointer;
-// `;
+const Profile = styled.img`
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 100px;
+    object-fit: cover;
+    cursor: pointer;
+    align-items: center;
+`;
 const TextArea = styled.textarea`
     width: 100%;
     height: 100%;
@@ -109,11 +127,12 @@ const Comment = styled.div`
   &:last-child{border-bottom:none;}
 
 `;
-const Info = styled.p`
+const Info = styled.div`
   display: flex;
   width: 100%;
   gap: .25rem;
   align-items: baseline;
+  align-items: center;
   span:nth-child(1){
     font-weight: 800;
   font-size: 1.25rem;
@@ -123,9 +142,10 @@ const Info = styled.p`
   span:nth-child(2){
     font-weight: 500;
     font-size: .875rem;
-  color : #606E7B;
-  margin-left: .5rem;
-  cursor: pointer;
+    color : #606E7B;
+    margin-left: .5rem;
+    text-wrap: nowrap;
+    cursor: pointer;
   }
 `;
 const Content = styled.div`
@@ -161,12 +181,12 @@ interface CommentContentProps {
   id:string;
 }
 
-const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, userId }) => {
+const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, userProfile, userId }) => {
   const [tweetContent, setTweetContent] = useState('');
   const [comment, setComment] = useState<Comment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const user = auth.currentUser;
-  console.log(user?.photoURL)
+
   // useEffect를 사용하여 userId가 변경될 때마다 사용자 정보를 가져옴
   useEffect(() => {
     if (userId) {
@@ -181,10 +201,15 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
             const userData = userDocSnapshot.data();
             setTweetContent(userData.Comment || '');
             console.log('성공'); // 기존 트윗 내용 설정
+            
+            const existingComments: Comment[] = userData.comment || [];
+            const sortedComments = existingComments.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+            setComment(sortedComments);
 
-            // 사용자 문서가 존재할 때 Comment 데이터를 가져와 comment 상태 설정
-            const existingComments = userData.comment || [];
-            setComment(existingComments);
+            
+            // // 사용자 문서가 존재할 때 Comment 데이터를 가져와 comment 상태 설정
+            // const existingComments = userData.comment || [];
+            // setComment(existingComments);
           } else {
             console.log('사용자 문서를 찾을 수 없습니다.');
           }
@@ -231,12 +256,18 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
       const updatedComments = [...existingComments, newComment];
       console.log('업데이트된 Comments:', updatedComments);
   
+      
+      
+      
       await updateDoc(tweetDocRef, {
         comment: updatedComments,
         // updatedAt: new Date() // 업데이트된 시간 추가
       });
-  
-      setComment(updatedComments); // 배열로 상태 업데이트
+
+      const sortedComments = updatedComments.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      setComment(sortedComments);
+
+      // setComment(updatedComments); // 배열로 상태 업데이트
   
       console.log('트윗 문서가 성공적으로 업데이트되었습니다.');
   
@@ -278,7 +309,7 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
       alert('트윗 업데이트 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
-  console.log(comment)
+
   
 
   
@@ -286,9 +317,9 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
   return (
     <>
       <CommentComponent>
-        {/* <UserPic>
+        <UserPic>
           {userProfile && <AvatarImg src={userProfile} />}
-        </UserPic> */}
+        </UserPic>
         <UserInfo>
           <Username>{username}</Username>
           <UserId>@{userId.substring(0,8)}...</UserId>
@@ -312,14 +343,15 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
         {comment.map((comments, index) => {
           const date = new Date(comments.createdAt);
           const formattedDate = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
-          console.log(formattedDate)
           const formattedTime = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-          console.log(formattedTime)
+
           
           return (
              
                   <Comment key={index}>
                       <Info>
+                          <Profile src={comments.userProfile ?? undefined} />
+
                           <span>{comments.username}</span>
                           <span>@{comments.userId.substring(0, 8)}...</span>
                           {user?.uid === comments.userId ? (
@@ -329,7 +361,7 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
                               </svg>
                           </DeleteBtn>
                       ) : null}
-                      <img src={comments.userProfile}/>
+                     
                       </Info>
                       <Content>{comments.content}</Content>
                       <FormattedDate>{formattedDate} {formattedTime}</FormattedDate>
