@@ -140,7 +140,7 @@ export default function PostForm() {
         }
       };
   return (
-    <Wrapper onclick={Modal}>
+    <Wrapper onClick={Modal}>
         <Form onSubmit={onSubmit}>
             <UserPic>
                  {avatar ? (
