@@ -339,7 +339,8 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
              
                   <Comment key={index}>
                       <Info>
-                          <Profile src={comments.userProfile}/>
+                          <Profile src={comments.userProfile ?? undefined} />
+
                           <span>{comments.username}</span>
                           <span>@{comments.userId.substring(0, 8)}...</span>
                           {user?.uid === comments.userId ? (
