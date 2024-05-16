@@ -33,7 +33,7 @@ const AvatarImg = styled.img`
     height: 3.75rem;
     border-radius: 100px;
     position: absolute;
-    object-fit: contain;
+    object-fit: cover;
     cursor: pointer;
 `;
 
@@ -124,7 +124,6 @@ export default function PostForm() {
             setLoading(false);
         }
     };
-    console.log(onSubmit)
   return (
     <Wrapper>
         <Form onSubmit={onSubmit}>
