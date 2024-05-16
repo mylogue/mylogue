@@ -28,6 +28,7 @@ const CommentComponent = styled.div`
   border-radius: .75rem;
   box-shadow: 0 3px 10px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  
 `;
 
 const UserInfo = styled.div`
@@ -101,21 +102,22 @@ const CommentWrapper = styled.section`
 `;
 const Comment = styled.div`
   display: flex;
-  flex-flow: column;
+  flex-flow: row wrap;
   border-bottom: 1px solid #eee;
   padding: .9375rem ;
-  &:last-child {
-    border-bottom: none;
-  }
+  &:last-child{border-bottom:none;}
+
 `;
 const Info = styled.p`
   display: flex;
+  width: 100%;
   gap: .25rem;
   align-items: baseline;
   span:nth-child(1){
     font-weight: 800;
   font-size: 1.25rem;
   cursor: pointer;
+  text-wrap: nowrap;
   }
   span:nth-child(2){
     font-weight: 500;
@@ -127,6 +129,10 @@ const Info = styled.p`
 `;
 const Content = styled.div`
   margin-top: 1.25rem;
+  display: flex;
+  flex-flow: row wrap;
+  width: 70%;
+ 
 `;
 const DeleteBtn = styled.div`
     width: 100%;
@@ -138,6 +144,13 @@ const DeleteBtn = styled.div`
       margin-right: .9375rem;
       cursor: pointer;
   }
+`;
+const FormattedDate = styled.span`
+  display: flex;
+  flex-flow: row wrap;
+  width: 30%;
+  margin-top: 1.25rem;
+  justify-content: flex-end;
 `;
 interface CommentContentProps {
   username: string;
@@ -152,7 +165,7 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
   const [comment, setComment] = useState<Comment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const user = auth.currentUser;
-
+  console.log(user?.displayName)
   // useEffect를 사용하여 userId가 변경될 때마다 사용자 정보를 가져옴
   useEffect(() => {
     if (userId) {
@@ -210,9 +223,9 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
         content: tweetContent,
         createdAt: new Date().toISOString(),
         userId: user?.uid, // 로그인한 사용자의 ID
-        username: username, // 로그인한 사용자의 이름
+        username: user?.displayName, // 로그인한 사용자의 이름
       };
-  
+      
       const updatedComments = [...existingComments, newComment];
       console.log('업데이트된 Comments:', updatedComments);
   
@@ -249,20 +262,24 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
       await updateDoc(tweetDocRef, {
         comment: updatedComments,
         userId: user?.uid, // 로그인한 사용자의 ID
-        username: username, // 로그인한 사용자의 이름
+        username: user?.displayName, // 로그인한 사용자의 이름
         updatedAt: new Date() // 업데이트된 시간 추가
       });
-      console.log(userId)
-
+      
       setComment(updatedComments); // 상태 업데이트
-
+      
+      console.log(comment)
       console.log('트윗 문서가 성공적으로 업데이트되었습니다.');
     } catch (error) {
       console.error('트윗 업데이트 중 오류 발생:', error);
       alert('트윗 업데이트 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
+  console.log(  )
+  
 
+  
+  
   return (
     <>
       <CommentComponent>
@@ -271,7 +288,7 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
         </UserPic> */}
         <UserInfo>
           <Username>{username}</Username>
-          <UserId>@{userId}</UserId>
+          <UserId>@{userId.substring(0,8)}...</UserId>
         </UserInfo>
         <Payload>{tweet}</Payload>
         <Form onSubmit={onSubmit}>
@@ -289,25 +306,35 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
           />
         </Form>
         <CommentWrapper>
-          {comment.map((comments,index)=>(
+        {comment.map((comments, index) => {
+          const date = new Date(comments.createdAt);
+          const formattedDate = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+          console.log(formattedDate)
+          const formattedTime = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+          console.log(formattedTime)
+          
+          return (
+             
+                  <Comment key={index}>
+                      <Info>
+                          <span>{comments.username}</span>
+                          <span>@{comments.userId.substring(0, 8)}...</span>
+                          {user?.uid === comments.userId ? (
+                          <DeleteBtn onClick={() => onDelete(index)}>
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                              </svg>
+                          </DeleteBtn>
+                      ) : null}
+                      </Info>
+                      <Content>{comments.content}</Content>
+                      <FormattedDate>{formattedDate} {formattedTime}</FormattedDate>
+                      
+                  </Comment>
+              
+          );
+      })}
 
-            <>
-              <Comment key={index}>
-                <Info>
-                  <span>{comments.username}</span>
-                  <span>@{comments.userId.substring(0,8)}</span>
-                </Info>
-                <Content>{comments.content}</Content>
-                {user?.uid === comments.userId ? (
-                  <DeleteBtn onClick={() => onDelete(index)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                    </svg>
-                  </DeleteBtn>
-                ) : null}
-              </Comment>
-            </>
-          ))}
         </CommentWrapper>
         
       </CommentComponent>
