@@ -4,3 +4,35 @@ html{
     font-style: normal;
     font-weight: 600;
   }
+
+.ping {
+    display: inline-flex;
+    position: absolute;
+    right: -6px;
+    top: -6px;
+    
+    justify-content: center;
+    align-items: center;
+    background: hsl(209, 100%, 50%);
+    color: white;
+    font-size: 8px;
+    border-radius: 50%;
+    border: 8px solid #0085FF;
+    width: 10px;
+    height: 10px;
+    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+    -webkit-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+ 
+
+
+ @keyframes ping {
+   75%, 100% {
+     transform: scale(1.2);
+     opacity: 1;
+     -webkit-transform: scale(1.2);
+     -moz-transform: scale(1.2);
+     -ms-transform: scale(1.2);
+     -o-transform: scale(1.2);
+}
+ }

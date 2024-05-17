@@ -43,7 +43,7 @@ const DeleteBtn = styled.div`
     svg {
       width: 1.125rem;
       color: #606E7B;
-      margin-right: .9375rem;
+      /* margin-right: .9375rem; */
       cursor: pointer;
   }
 `;
@@ -100,7 +100,7 @@ const LeftIcon = styled.div`
         width: 1.5rem;
         color: #0F172A;
         float: left;
-        margin-right: .9375rem;
+        /* margin-right: .9375rem; */
         cursor: pointer;
     }
 `;
@@ -146,7 +146,15 @@ const StyledSVG = styled.svg`
     fill: #0085FF;
   }
 `;
+const Badge = styled.div`
+  position: relative;
 
+  &:svg{
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+`;
 const Comment = styled.div`
   position: fixed;
   top: 50%;
@@ -176,7 +184,7 @@ const FormattedDate = styled.div`
 `;
 
 
-export default function Tweet({ userId, username, userProfile, createdAt, photo, tweet, id }: ITweet) {
+export default function Tweet({ userId, username, comment, userProfile, createdAt, photo, tweet, id }: ITweet) {
   const [heartClicked, setHeartClicked] = useState(false);
   const [bookmarkClicked, setBookmarkClicked] = useState(false);
   const [commentClicked, setCommentClicked] = useState(false);
@@ -192,9 +200,10 @@ export default function Tweet({ userId, username, userProfile, createdAt, photo,
     setBookmarkClicked(!bookmarkClicked);
   };
 
-  const comment = () => {
+  const comment1 = () => {
     if (modalOpen) {
       setModalOpen(false);
+      // console.log(comment.length)
     }
   
     // Toggle the commentClicked state
@@ -233,6 +242,7 @@ export default function Tweet({ userId, username, userProfile, createdAt, photo,
   const date = new Date(createdAt);
   const formattedDate = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
   const formattedTime = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+  console.log(comment)
 
   return (
     <Wrapper>
@@ -257,15 +267,20 @@ export default function Tweet({ userId, username, userProfile, createdAt, photo,
             >
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
             </StyledSVG>
-            <StyledSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.5" 
-              className={`w-6 h-6 ${commentClicked ? 'commentClicked' : ''}`}
-              fill={commentClicked ? "#0085FF" : "currentColor"}
-              stroke={commentClicked ? "#0085FF" : "currentColor"}
-              onClick={comment}
-            >
+           
 
-            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+            <Badge className="container">
+              <span className={`${comment && comment.length > 0 ? "ping" : ""}`}>{comment && comment.length}</span>
+              <StyledSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.5" 
+                className={`w-6 h-6 ${commentClicked ? 'commentClicked' : ''}`}
+                fill={commentClicked ? "#0085FF" : "currentColor"}
+                stroke={commentClicked ? "#0085FF" : "currentColor"}
+                onClick={comment1}
+                >
+            
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
             </StyledSVG>
+            </Badge>
             <StyledSVG xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" strokeWidth="1.5" 
             className={`w-6 h-6 ${shareClicked ? 'heartClicked' : ''}`}
             fill={shareClicked ? "#0085FF" : "currentColor"}
@@ -300,7 +315,7 @@ export default function Tweet({ userId, username, userProfile, createdAt, photo,
               </svg>
 
               </CloseBtn>
-              <CommentContent username={username} tweet={tweet} userId={userId} id={id} userProfile={userProfile}/>
+              <CommentContent  comment={comment} username={username} tweet={tweet} userId={userId} id={id} userProfile={userProfile}/>
             </Comment>
           )}
     </Wrapper>

@@ -33,6 +33,8 @@ const CommentComponent = styled.div`
 `;
 
 const UserPic = styled.div`
+
+
     width: 3.75rem;
     height: 3.75rem;
     border-radius: 100px;
@@ -41,8 +43,9 @@ const UserPic = styled.div`
 `;
 
 const AvatarImg = styled.img`
+
     display: inline-flex;
-    width: 3.75rem;
+    min-width: 3.75rem;
     height: 3.75rem;
     border-radius: 100px;
     position: absolute;
@@ -78,6 +81,7 @@ const Payload = styled.div`
   padding-bottom: 1.875rem;
 `;
 const Profile = styled.img`
+    min-width: 3.75rem;
     width: 3.75rem;
     height: 3.75rem;
     border-radius: 100px;
@@ -179,11 +183,12 @@ interface CommentContentProps {
   userProfile?: string | null;
   userId: string;
   id:string;
+  comment?: { [key: string]: any }[];
 }
 
 const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, userProfile, userId }) => {
   const [tweetContent, setTweetContent] = useState('');
-  const [comment, setComment] = useState<Comment[]>([]);
+  const [comments, setComment] = useState<Comment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const user = auth.currentUser;
 
@@ -289,7 +294,7 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
       const tweetDocRef = doc(db, 'tweets', id); // 'tweets' 컬렉션에서 해당 문서 참조
 
       // 기존 Comment 배열에서 삭제할 Comment 제외
-      const updatedComments = comment.filter((_, index) => index !== indexToDelete);
+      const updatedComments: Comment[] = comments.filter((_, index) => index !== indexToDelete);
 
       // Firestore 문서 업데이트
       await updateDoc(tweetDocRef, {
@@ -302,15 +307,12 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
       
       setComment(updatedComments); // 상태 업데이트
       
-      console.log(comment)
       console.log('트윗 문서가 성공적으로 업데이트되었습니다.');
     } catch (error) {
       console.error('트윗 업데이트 중 오류 발생:', error);
       alert('트윗 업데이트 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
-
-  
 
   
   
@@ -340,8 +342,8 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
           />
         </Form>
         <CommentWrapper>
-        {comment.map((comments, index) => {
-          const date = new Date(comments.createdAt);
+        {comments.map((comments1, index) => {
+          const date = new Date(comments1.createdAt);
           const formattedDate = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
           const formattedTime = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 
@@ -350,11 +352,11 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
              
                   <Comment key={index}>
                       <Info>
-                          <Profile src={comments.userProfile ?? undefined} />
+                          <Profile src={comments1.userProfile ?? undefined} />
 
-                          <span>{comments.username}</span>
-                          <span>@{comments.userId.substring(0, 8)}...</span>
-                          {user?.uid === comments.userId ? (
+                          <span>{comments1.username}</span>
+                          <span>@{comments1.userId.substring(0, 8)}...</span>
+                          {user?.uid === comments1.userId ? (
                           <DeleteBtn onClick={() => onDelete(index)}>
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
@@ -363,7 +365,7 @@ const CommentContent: React.FC<CommentContentProps> = ({ id, username, tweet, us
                       ) : null}
                      
                       </Info>
-                      <Content>{comments.content}</Content>
+                      <Content>{comments1.content}</Content>
                       <FormattedDate>{formattedDate} {formattedTime}</FormattedDate>
                   </Comment>
               
