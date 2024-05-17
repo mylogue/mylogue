@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { styled } from "styled-components";
 import PostForm from "../components/post-form";
 
@@ -32,14 +31,7 @@ const ModalContainer = styled.div`
   width: 90%;
 `;
 
-export default function useOpenModal() {
-    const [isOpenModal, setIsOpenModal] = useState(false);
-    const clickModal = () => {
-      setIsOpenModal(true);
-    };
-    const closeModal = () => {
-      setIsOpenModal(false);
-    };
+export default function () {
 
   return (
     <ModalWrap>
@@ -49,4 +41,4 @@ export default function useOpenModal() {
         </ModalContainer>
     </ModalWrap>
   );
-}
+};
