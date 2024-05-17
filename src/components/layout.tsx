@@ -4,7 +4,6 @@ import { auth } from "../firebase";
 import SideBar from "./side-bar";
 import { useState } from "react";
 
-
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 55% 1fr;
@@ -95,6 +94,7 @@ export default function Layout() {
         setActiveIndex(index);
         toggleSideMenu(); // 메뉴 클릭시 사이드 메뉴를 닫습니다.
     };
+
     return (
         <Wrapper>
             <Menu>
@@ -139,7 +139,6 @@ export default function Layout() {
                             <ItemName>알림</ItemName>
                         </MenuItem>  
                     </Link>
-                    
                 </SideMenu>
                 <SideMenu isOpen={isSideMenuOpen}>
                     <Link to="/" style={{ textDecoration: "none" }}>
@@ -175,7 +174,7 @@ export default function Layout() {
                         </MenuItem>  
                     </Link>
                 </SideMenu>
-                <Link to="/" style={{ textDecoration: "none" }}>
+                <Link to="/modal" style={{ textDecoration: "none" }}>
                     <MenuItem className="writeBtn" style={{ width: "210px" }}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
@@ -195,5 +194,5 @@ export default function Layout() {
             </Timeline>
             <SideBar />
         </Wrapper>
-    )
-}
+        );
+    }
