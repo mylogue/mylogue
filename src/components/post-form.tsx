@@ -33,7 +33,7 @@ const AvatarImg = styled.img`
     height: 3.75rem;
     border-radius: 100px;
     position: absolute;
-    object-fit: contain;
+    object-fit: cover;
     cursor: pointer;
 `;
 
@@ -100,7 +100,7 @@ export default function PostForm() {
   const [isLoading,setLoading] = useState(false);
   const [tweet, setTweet] = useState("");
   const user = auth.currentUser;
-  const [avatar] = useState(user?.photoURL);
+  const [userProfile] = useState(user?.photoURL);
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTweet(e.target.value);
     };
@@ -114,9 +114,9 @@ export default function PostForm() {
             await addDoc(collection(db, "tweets"), {
             tweet,
             createdAt: Date.now(),
-            username: user.displayName || "Anonymous",
-            userId: user.uid,
-            avatar
+            username: user?.displayName || "Anonymous",
+            userId: user?.uid,
+            userProfile:user?.photoURL
             });
         } catch (e) {
             console.log(e);
@@ -128,11 +128,11 @@ export default function PostForm() {
     <Wrapper>
         <Form onSubmit={onSubmit}>
             <UserPic>
-                 {avatar ? (
-                        <AvatarImg src={avatar}/>
+                 {userProfile ? (
+                        <AvatarImg src={userProfile}/>
                     ) : (
                         <AvatarImg src="../public/profileImg.png"/>
-                    )}
+                )}
             </UserPic>
             <TextArea
                 rows={5}
