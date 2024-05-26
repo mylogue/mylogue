@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
-
+import FollowBox from './followBox';
+import { useEffect, useState } from "react";
+import { collection, limit, onSnapshot, orderBy, query } from "firebase/firestore";
+import { db } from "../firebase";
 // Define a common style
 const CommonBox = styled.div`
     /* Common styles go here */
@@ -21,7 +24,6 @@ const Wrapper = styled.div`
 `;
 let SearchBox = styled(CommonBox)``;
 let SearchWordBox = styled(CommonBox)``;
-let FollowBox = styled(CommonBox)``;
 
 SearchBox = styled(SearchBox)`
     input{
@@ -36,9 +38,7 @@ SearchBox = styled(SearchBox)`
 SearchWordBox = styled(SearchBox)`
     flex-flow: column;
 `;
-FollowBox = styled(SearchBox)`
-    
-`;
+
 const Title = styled.h3`
     width: 100%;
     color: var(--light-text-color, #222528);
@@ -141,10 +141,52 @@ const StyledIcon = styled(FontAwesomeIcon)`
 
 function SideBar() {
     const numPosts = 7;
-    const numNickName = 4;
     const postsArray = Array.from({ length: numPosts }, (_, index) => index);
-    const NickNameArray = Array.from({ length: numNickName }, (_, index) => index);
     
+    const [tweets, setTweet] = useState<ITweet[]>([]);
+    useEffect(() => {
+      let unsubscribe: Unsubscribe | null = null;
+      const fetchTweets = async () => {
+        const tweetsQuery = query(
+          collection(db, "tweets"),
+          orderBy("createdAt", "desc"),
+          limit(25)
+        );
+  
+        unsubscribe = await onSnapshot(tweetsQuery, (snapshot) => {
+          const tweets = snapshot.docs.map((doc) => {
+            const { tweet, createdAt,comment, userId, username, userProfile, photo } = doc.data();
+           
+            return {
+              tweet,
+              createdAt,
+              userId,
+              username,
+              photo,
+              id: doc.id,
+              userProfile,
+              comment
+            };
+          });
+          setTweet(tweets);
+          
+        });
+      
+      };
+      fetchTweets();
+      return () => {
+        unsubscribe && unsubscribe();
+      };
+    }, []);
+
+    const uniqueNames = [...new Set(tweets.map(user => user.username))];
+
+    // 결과 생성
+    const userInfo = uniqueNames.map(username => {
+        const userWithSameName = tweets.find(user => user.username === username);
+        return {username: username, id: userWithSameName.userId , userProfile: userWithSameName.userProfile};
+    });
+
     return ( <>
             <Wrapper>
                 <SearchBox>
@@ -162,18 +204,7 @@ function SideBar() {
                         ))}
                     </Contents>
                 </SearchWordBox>
-                <FollowBox>
-                    <Title>팔로우 추천</Title>
-                    <Contents>
-                        {NickNameArray.map((index) => (
-                            <NickName key={index}>
-                                <img src={`/profile${index+1}.png`} alt="" className="profileImg"/>
-                                <span className="nickname">닉네임</span>
-                                <span className="id">@아이디</span>
-                            </NickName>
-                        ))}
-                    </Contents>
-                </FollowBox>
+                <FollowBox userInfo={userInfo}/>
                 <TermsOfService>
                     <div>
                         <span>이용약관</span>

@@ -64,7 +64,7 @@ export default function Timeline() {
       unsubscribe && unsubscribe();
     };
   }, []);
-  
+  console.log(tweets)
   return (
     <Wrapper>
       {tweets.map((tweet) => (
