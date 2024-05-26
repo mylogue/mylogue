@@ -14,7 +14,6 @@ const Title = styled.h3`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  margin-bottom: 1.125rem;
 `;
 
 const Contents = styled.div`
@@ -73,8 +72,8 @@ const FollowBox: React.FC = ({userInfo}) => {
     console.log(userInfo)
   return (
     <>
-      <Title>팔로우 추천</Title>
       <Contents>
+      <Title>팔로우 추천</Title>
         <LayoutBox>
             {userInfo.map((user,index)=>(
                 <UserBox key={index}>
