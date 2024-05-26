@@ -24,6 +24,10 @@ const Contents = styled.div`
   align-items: flex-start;
   gap: 1.125rem;
   cursor: pointer;
+  background: white;
+  border-radius: 8px;
+  box-shadow: .0625rem .0625rem .0625rem #E2E6EA;
+  padding: 1.125rem;
 `;
 
 const LayoutBox = styled.div`
