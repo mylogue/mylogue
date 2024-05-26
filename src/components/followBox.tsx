@@ -42,6 +42,7 @@ const LayoutBox = styled.div`
     height: 3.75rem;
     border-radius: 6.25rem;
     margin-right: 1.25rem;
+    object-fit:cover;
   }
   .nickname {
     color: var(--light-text-color, #222528);
