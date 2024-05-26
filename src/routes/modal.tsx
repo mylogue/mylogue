@@ -16,19 +16,12 @@ const ModalBackGround = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 2rem;
-  gap: 2rem;
-  padding: 3.6rem 0;
-  border: 1px solid var(--color-white);
-  background-color: var(--color-white);
   position: absolute;
-  left: 2rem;
-  top: 30rem;
-  width: 90%;
+  top: 20%;
+  left: 20%;
+  width: 60%;
+  heigt: 10rem;
+  background: black;
 `;
 
 export default function () {

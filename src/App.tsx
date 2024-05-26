@@ -11,6 +11,7 @@ import LoadingScreen from "./components/loading-screen";
 import './App.css';
 import { auth } from "./firebase";
 import ProtectedRoute from "./routes/protected-route";
+import Modal from "./routes/modal";
 const router = createBrowserRouter([
   {
     path:"/",
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path:"profile",
         element: <Profile />, 
+      },
+      {
+        path:"modal",
+        element: <Modal />, 
       }
     ]
   },
