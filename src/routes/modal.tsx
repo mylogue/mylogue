@@ -20,8 +20,12 @@ const ModalContainer = styled.div`
   top: 20%;
   left: 20%;
   width: 60%;
-  heigt: 10rem;
-  background: black;
+  padding: 3rem 2rem;
+  background: #E2E6EA;
+  border-radius: 10px;
+`;
+
+const CloseBtn = styled.div`
 `;
 
 export default function () {
@@ -30,6 +34,7 @@ export default function () {
     <ModalWrap>
         <ModalBackGround/>
         <ModalContainer>
+            <CloseBtn/>
             <PostForm/>
         </ModalContainer>
     </ModalWrap>
