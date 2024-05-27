@@ -5,6 +5,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import { useState } from "react";
 import CommentContent from "../components/comment";
+import FollowBtn from "./follow-btn";
 
 const Wrapper = styled.div`
   display: grid;
@@ -18,6 +19,8 @@ const Column = styled.div`
   position: relative;
   display: flex;
   flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 const UserPic = styled.div`
@@ -90,12 +93,14 @@ const Payload = styled.p`
 const TextBottom = styled.div`
   position: relative;
   width: 100%;
+  display: flex;
+  align-items: center;
 `;
 
 const LeftIcon = styled.div`
-  position: absolute;
-  left: 0;
-  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
     svg {
         width: 1.5rem;
         color: #0F172A;
@@ -106,7 +111,6 @@ const LeftIcon = styled.div`
 `;
 
 const RightIcon = styled.div`
-    width: 100%;
     display: flex;
     margin-left: auto;
     justify-content: flex-end;
@@ -181,6 +185,9 @@ const FormattedDate = styled.div`
   align-items: center;
   justify-content: flex-end;
   margin-left:auto;
+  font-size: 11px;
+  color: #5f5f5f;
+  margin-left: 12px;
 `;
 
 
@@ -253,11 +260,12 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
         </UserPic> 
         <Username>{username}</Username>
         <UserId>@{charsId}...</UserId>
-        <FormattedDate>{formattedDate} {formattedTime}</FormattedDate>
+        <FollowBtn  tweet={tweet} username={username} userId={userId} id={id}/>
        
         <Payload>{tweet} {photo ? <Photo src={photo} /> : null} </Payload>
         <TextBottom>
           <LeftIcon>
+              <FormattedDate>{formattedDate} {formattedTime}</FormattedDate>
           </LeftIcon>
           <RightIcon>
             <StyledSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.5"       className={`w-6 h-6 ${heartClicked ? 'heartClicked' : ''}`}
