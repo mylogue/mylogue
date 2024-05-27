@@ -1,9 +1,4 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getDatabase, ref, onValue } from "firebase/database";
-import { app } from "../firebase"
-import { getAuth } from "firebase/auth";
-// Firebase 설정
 
 
 const Title = styled.h3`
@@ -69,7 +64,7 @@ const UserBox = styled.div`
 `;
 
 const FollowBox: React.FC = ({userInfo}) => {
-    console.log(userInfo)
+  
   return (
     <>
       <Contents>
