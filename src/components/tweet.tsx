@@ -260,7 +260,7 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
         </UserPic> 
         <Username>{username}</Username>
         <UserId>@{charsId}...</UserId>
-        <FollowBtn  tweet={tweet} username={username} userId={userId} id={id}/>
+        <FollowBtn  followerId={userId} followingId={userId}  username={username} userId={userId} id={id}/>
        
         <Payload>{tweet} {photo ? <Photo src={photo} /> : null} </Payload>
         <TextBottom>
