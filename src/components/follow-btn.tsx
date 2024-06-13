@@ -10,16 +10,17 @@ interface FollowButtonProps {
 }
 
 const Btn = styled.button<{ isFollowing: boolean }>`
-  background-color: ${({ isFollowing }) => (isFollowing ? "#dc3545" : "#007bff")};
-  color: white;
-  border: none;
+  border: ${({ isFollowing }) => (isFollowing ? "1px solid #007bff" : "#007bff")};
+  background-color: ${({ isFollowing }) => (isFollowing ? "none" : "#007bff")};
+  color: ${({ isFollowing }) => (isFollowing ? "#007bff" : "white")};
+  /* border: none; */
   padding: 10px 20px;
   margin-left: auto;
   border-radius: 5px;
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ isFollowing }) => (isFollowing ? "#c82333" : "#0056b3")};
+    border: ${({ isFollowing }) => (isFollowing ? "1px solid #007bff" : "#0056b3")};
   }
 `;
 
