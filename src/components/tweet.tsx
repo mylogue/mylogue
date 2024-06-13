@@ -198,7 +198,7 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
   const [shareClicked, setShareClicked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const charsId = userId.substring(0,8);
-
+  
   const heart = () => {
     setHeartClicked(!heartClicked);
   };
