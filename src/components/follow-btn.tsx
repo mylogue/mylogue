@@ -1,101 +1,97 @@
-import { Timestamp, addDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { Timestamp, setDoc, doc, getDoc, updateDoc, deleteField, onSnapshot } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { auth, db } from "../firebase";
 
 interface FollowButtonProps {
-  followerId: string;
-  followingId: string;
+  username: string;
+  id: string;
+  userId: string;
 }
 
-  const Btn = styled.button`
-    background: #0085FF;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    width: 5.5625rem;
-    font-size: .75rem;
-    cursor: pointer;
-    display: inline-flex;
-    padding: 12px 2px;
-    height: fit-content;
-    justify-content: center;
-    margin-left: auto;
-  `;
-  
-  const addFollow = async (followerId: string, followingId: string): Promise<void> => {
- 
-    console.log(user)
-    const follow = {
-      followerId,
-      followingId,
-      timestamp: Timestamp.now(),
-    };
-  
-    try {
-      await addDoc(collection(db, 'follows'), follow);
-      console.log('Follow added successfully');
-    } catch (error) {
-      console.error('Error adding follow: ', error);
-    }
-  };
-  
-  
-  const FollowBtn: React.FC<FollowButtonProps> = ({ followerId, followingId }) => {
-    const [isFollowing, setIsFollowing] = useState(false);
-    const user = auth.currentUser;
-    console.log(user)
-    useEffect(() => {
-      console.log('followerId:', followerId);
-      console.log('followingId:', followingId);
+const Btn = styled.button`
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-left:auto;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const FollowBtn: React.FC<FollowButtonProps> = ({ username, id, userId }) => {
+  const user = auth.currentUser;
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);
       
-      if (!followerId || !followingId) {
-        console.error('followerId or followingId is undefined');
-        return;
-      }
-  
-      const fetchFollowStatus = async () => {
-        try {
-          const followsQuery = query(
-            collection(db, 'follows'),
-            where('followerId', '==', followerId),
-            where('followingId', '==', followingId)
-          );
-          const querySnapshot = await getDocs(followsQuery);
-  
-          if (!querySnapshot.empty) {
+      // Set up a Firestore snapshot listener for real-time updates
+      const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          if (userData && userData.follow && userData.follow[userId]) {
             setIsFollowing(true);
           } else {
             setIsFollowing(false);
           }
-        } catch (error) {
-          console.error('Error fetching follow data:', error);
         }
-      };
-  
-      fetchFollowStatus();
-    }, [followerId, followingId]);
-  
-    const handleFollow = async () => {
-      if (!followerId || !followingId) {
-        console.error('followerId or followingId is undefined');
-        return;
-      }
-  
-      if (isFollowing) {
-        console.log('Already following');
-        return;
-      }
-      await addFollow(followerId, followingId);
-      setIsFollowing(true);
-    };
- 
+      });
 
-    return (
-        <Btn onClick={handleFollow}>
-        {isFollowing ? 'Unfollow' : 'Follow'}
-      </Btn>
-    );
+      // Clean up the listener on component unmount
+      return () => unsubscribe();
+    }
+  }, [user, userId]);
+
+  const handleFollow = async () => {
+    if (user) {
+      try {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+
+          if (userData && userData.follow && userData.follow[userId]) {
+            // Unfollow user
+            await updateDoc(userDocRef, {
+              [`follow.${userId}`]: deleteField()
+            });
+            console.log(`User ${username} with id ${userId} unfollowed by ${user.uid}`);
+          } else {
+            // Follow user
+            await setDoc(userDocRef, {
+              follow: {
+                [userId]: { username, followedAt: Timestamp.now() }
+              }
+            }, { merge: true });
+            console.log(`User ${username} with id ${userId} followed by ${user.uid}`);
+          }
+        } else {
+          // Document does not exist, create a new one
+          await setDoc(userDocRef, {
+            follow: {
+              [userId]: { username, followedAt: Timestamp.now() }
+            }
+          });
+          console.log(`User ${username} with id ${userId} followed by ${user.uid}`);
+        }
+      } catch (error) {
+        console.error("Error following user: ", error);
+      }
+    }
+  };
+
+  return (
+    <Btn onClick={handleFollow}>
+      {isFollowing ? "Unfollow" : "Follow"}
+    </Btn>
+  );
 }
 
 export default FollowBtn;
