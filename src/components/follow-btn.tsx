@@ -9,17 +9,17 @@ interface FollowButtonProps {
   userId: string;
 }
 
-const Btn = styled.button`
-  background-color: #007bff;
+const Btn = styled.button<{ isFollowing: boolean }>`
+  background-color: ${({ isFollowing }) => (isFollowing ? "#dc3545" : "#007bff")};
   color: white;
   border: none;
   padding: 10px 20px;
-  margin-left:auto;
+  margin-left: auto;
   border-radius: 5px;
   cursor: pointer;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: ${({ isFollowing }) => (isFollowing ? "#c82333" : "#0056b3")};
   }
 `;
 
@@ -30,7 +30,7 @@ const FollowBtn: React.FC<FollowButtonProps> = ({ username, id, userId }) => {
   useEffect(() => {
     if (user) {
       const userDocRef = doc(db, "users", user.uid);
-      
+
       // Set up a Firestore snapshot listener for real-time updates
       const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
         if (docSnapshot.exists()) {
@@ -88,7 +88,7 @@ const FollowBtn: React.FC<FollowButtonProps> = ({ username, id, userId }) => {
   };
 
   return (
-    <Btn onClick={handleFollow}>
+    <Btn onClick={handleFollow} isFollowing={isFollowing}>
       {isFollowing ? "Unfollow" : "Follow"}
     </Btn>
   );
