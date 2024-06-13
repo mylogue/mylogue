@@ -29,6 +29,10 @@ const FollowBtn: React.FC<FollowButtonProps> = ({ username, id, userId }) => {
 
   useEffect(() => {
     if (user) {
+      if (user.uid === userId) {
+        return;  // Don't set up listener if the button is for the current user
+      }
+
       const userDocRef = doc(db, "users", user.uid);
 
       // Set up a Firestore snapshot listener for real-time updates
@@ -86,6 +90,11 @@ const FollowBtn: React.FC<FollowButtonProps> = ({ username, id, userId }) => {
       }
     }
   };
+
+  // Hide the follow button if the userId matches the logged-in user's userId
+  if (user?.uid === userId) {
+    return null;
+  }
 
   return (
     <Btn onClick={handleFollow} isFollowing={isFollowing}>
