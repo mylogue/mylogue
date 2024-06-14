@@ -2,6 +2,7 @@ import { useState } from "react";
 import { styled } from "styled-components";
 import { auth, db} from "../firebase";
 import { addDoc, collection } from "firebase/firestore";
+import { useNavigate } from "react-router-dom"; 
 
 const Wrapper = styled.div`
     position: relative;
@@ -101,6 +102,8 @@ export default function PostForm() {
   const [tweet, setTweet] = useState("");
   const user = auth.currentUser;
   const [userProfile] = useState(user?.photoURL);
+  const navigate = useNavigate(); // Initialize navigate function
+
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTweet(e.target.value);
     };
@@ -118,11 +121,22 @@ export default function PostForm() {
             userId: user?.uid,
             userProfile:user?.photoURL
             });
+        setLoading(false); // Move setLoading to after the tweet is added to the database
+            // Close modal and navigate to home
+        closeModalAndNavigate();
         } catch (e) {
             console.log(e);
         } finally {
             setLoading(false);
         }
+
+    const closeModalAndNavigate = () => {
+        // Close modal
+        const modal = document.getElementById("modal");
+        modal?.classList.remove("show-modal");
+        // Navigate to home
+        navigate("/");
+        };
     };
   return (
     <Wrapper>
