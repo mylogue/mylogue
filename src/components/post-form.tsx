@@ -130,9 +130,11 @@ export default function PostForm() {
             setLoading(false);
         }
     };
-    function closeModal() {
-        navigate("/"); //url 이동
-        }
+    function closeModal(){
+		setTimeout(() => {
+			navigate("/");
+		}, 2000);
+    };
   return (
     <Wrapper>
         <Form onSubmit={onSubmit}>
