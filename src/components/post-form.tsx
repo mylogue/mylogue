@@ -123,21 +123,16 @@ export default function PostForm() {
             });
         setLoading(false); // Move setLoading to after the tweet is added to the database
             // Close modal and navigate to home
-        closeModalAndNavigate();
+        
         } catch (e) {
             console.log(e);
         } finally {
             setLoading(false);
         }
-
-    const closeModalAndNavigate = () => {
-        // Close modal
-        const modal = document.getElementById("modal");
-        modal?.classList.remove("show-modal");
-        // Navigate to home
-        navigate("/");
-        };
     };
+    function closeModal() {
+        navigate("/"); //url 이동
+        }
   return (
     <Wrapper>
         <Form onSubmit={onSubmit}>
@@ -170,6 +165,7 @@ export default function PostForm() {
                 <SubmitBtn
                 type="submit"
                 value={isLoading ? "Posting..." : "게시하기"}
+                onClick={closeModal}
                 />
             </TextBottom>
         </Form>
