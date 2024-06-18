@@ -133,7 +133,7 @@ export default function PostForm() {
     function closeModal(){
 		setTimeout(() => {
 			navigate("/");
-		}, 2000);
+		}, 500);
     };
   return (
     <Wrapper>
