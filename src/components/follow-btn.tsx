@@ -13,7 +13,6 @@ const Btn = styled.button<{ isFollowing: boolean }>`
   border: ${({ isFollowing }) => (isFollowing ? "1px solid #007bff" : "#007bff")};
   background-color: ${({ isFollowing }) => (isFollowing ? "none" : "#007bff")};
   color: ${({ isFollowing }) => (isFollowing ? "#007bff" : "white")};
-  /* border: none; */
   padding: 10px 20px;
   margin-left: auto;
   border-radius: 5px;
@@ -24,7 +23,7 @@ const Btn = styled.button<{ isFollowing: boolean }>`
   }
 `;
 
-const FollowBtn: React.FC<FollowButtonProps> = ({ username, id, userId }) => {
+const FollowBtn: React.FC<FollowButtonProps> = ({ username, userId }) => {
   const user = auth.currentUser;
   const [isFollowing, setIsFollowing] = useState(false);
 
@@ -40,7 +39,7 @@ const FollowBtn: React.FC<FollowButtonProps> = ({ username, id, userId }) => {
       const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
-          if (userData && userData.follow && userData.follow[userId]) {
+          if (userData && userData.following && userData.following[userId]) {
             setIsFollowing(true);
           } else {
             setIsFollowing(false);
@@ -57,33 +56,46 @@ const FollowBtn: React.FC<FollowButtonProps> = ({ username, id, userId }) => {
     if (user) {
       try {
         const userDocRef = doc(db, "users", user.uid);
+        const followedUserDocRef = doc(db, "users", userId);
+
         const userDocSnap = await getDoc(userDocRef);
+        const followedUserDocSnap = await getDoc(followedUserDocRef);
 
-        if (userDocSnap.exists()) {
+        if (userDocSnap.exists() && followedUserDocSnap.exists()) {
           const userData = userDocSnap.data();
+          const followedUserData = followedUserDocSnap.data();
 
-          if (userData && userData.follow && userData.follow[userId]) {
+          if (userData && userData.following && userData.following[userId]) {
             // Unfollow user
             await updateDoc(userDocRef, {
-              [`follow.${userId}`]: deleteField()
+              [`following.${userId}`]: deleteField()
+            });
+            await updateDoc(followedUserDocRef, {
+              [`followers.${user.uid}`]: deleteField()
             });
             console.log(`User ${username} with id ${userId} unfollowed by ${user.uid}`);
           } else {
             // Follow user
-            await setDoc(userDocRef, {
-              follow: {
-                [userId]: { username, followedAt: Timestamp.now() }
-              }
+            await updateDoc(userDocRef, {
+              [`following.${userId}`]: { username, followedAt: Timestamp.now() }
+            }, { merge: true });
+            await updateDoc(followedUserDocRef, {
+              [`followers.${user.uid}`]: { username: user.displayName, followedAt: Timestamp.now() }
             }, { merge: true });
             console.log(`User ${username} with id ${userId} followed by ${user.uid}`);
           }
         } else {
           // Document does not exist, create a new one
           await setDoc(userDocRef, {
-            follow: {
+            following: {
               [userId]: { username, followedAt: Timestamp.now() }
             }
-          });
+          }, { merge: true });
+          await setDoc(followedUserDocRef, {
+            followers: {
+              [user.uid]: { username: user.displayName, followedAt: Timestamp.now() }
+            }
+          }, { merge: true });
           console.log(`User ${username} with id ${userId} followed by ${user.uid}`);
         }
       } catch (error) {
