@@ -3,7 +3,7 @@ import { auth, db, storage } from "../firebase";
 import { useEffect, useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
-import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import Tweet from "../components/tweet";
 export interface ITweet {
     id: string;
@@ -165,6 +165,8 @@ export default function Profile(){
     const [tweets, setTweets] = useState<ITweet[]>([]);
     const [displayname, setDisplayname] = useState(user?.displayName ?? "");
     const [editDisplayname, setEditDisplayname] = useState(false);
+    const [users, setUsers] = useState([]);
+    
     const onEditChange = async () => {
         if(!user) return;
         if(!editDisplayname){
@@ -220,8 +222,15 @@ export default function Profile(){
     
     useEffect(() => {
         fetchTweets();
+
+        const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
+            const usersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setUsers(usersData);
+        });
+
+        return () => unsubscribe();
     }, []);
-    
+    console.log(users)
     return (
         <div>
             <ProfileBg>

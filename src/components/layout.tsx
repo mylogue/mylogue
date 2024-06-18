@@ -10,13 +10,16 @@ const Wrapper = styled.div`
   height: 100%;
   width: 100%;
 `;
+// Helper function to filter props
+const shouldForwardProp = (prop: string) => prop !== 'isOpen';
+
 interface SideMenuProps {
-    isOpen: boolean;
-  }
-  
-const SideMenu = styled.div<SideMenuProps>`
-color: ${({ isOpen }) => (isOpen ? '#0085FF' : '#777')};
-transition: color 0.3s ease;
+  isOpen: boolean;
+}
+
+const SideMenu = styled.div.withConfig({ shouldForwardProp })<SideMenuProps>`
+  color: ${({ isOpen }) => (isOpen ? '#0085FF' : '#777')};
+  transition: color 0.3s ease;
 `;
 
 const Menu = styled.div`

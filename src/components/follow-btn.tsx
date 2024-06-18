@@ -9,9 +9,11 @@ interface FollowButtonProps {
   userId: string;
 }
 
-const Btn = styled.button<{ isFollowing: boolean }>`
-  border: ${({ isFollowing }) => (isFollowing ? "1px solid #007bff" : "#007bff")};
-  background-color: ${({ isFollowing }) => (isFollowing ? "none" : "#007bff")};
+const shouldForwardProp = (prop: string) => prop !== 'isFollowing';
+
+const Btn = styled.button.withConfig({ shouldForwardProp })<{ isFollowing: boolean }>`
+  border: ${({ isFollowing }) => (isFollowing ? "1px solid #007bff" : "1px solid #007bff")};
+  background-color: ${({ isFollowing }) => (isFollowing ? "transparent" : "#007bff")};
   color: ${({ isFollowing }) => (isFollowing ? "#007bff" : "white")};
   padding: 10px 20px;
   margin-left: auto;
@@ -19,9 +21,10 @@ const Btn = styled.button<{ isFollowing: boolean }>`
   cursor: pointer;
 
   &:hover {
-    border: ${({ isFollowing }) => (isFollowing ? "1px solid #007bff" : "#0056b3")};
+    border: ${({ isFollowing }) => (isFollowing ? "1px solid #007bff" : "1px solid #0056b3")};
   }
 `;
+
 
 const FollowBtn: React.FC<FollowButtonProps> = ({ username, userId }) => {
   const user = auth.currentUser;
