@@ -14,6 +14,7 @@ export interface ITweet {
   photo?: string;
   tweet: string;
   userProfile:string | null | undefined;
+  userprofile?: string | null; 
   userId: string;
   username: string;
   createdAt: number;

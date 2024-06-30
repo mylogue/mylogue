@@ -244,8 +244,19 @@ export default function Profile() {
     return () => unsubscribe();
   }, []);
 
-  const followerCount  = users.reduce((count, u) => count + (u.following && u.following[user?.uid] ? 1 : 0), 0);
-  const followingCount = users.reduce((count, u) => count + (u.followers && u.followers[user?.uid] ? 1 : 0), 0);
+  const followerCount = users.reduce((count, u) => {
+    if (user && user.uid && u.following && u.following[user.uid]) {
+      return count + 1;
+    }
+    return count;
+  }, 0);
+  
+  const followingCount = users.reduce((count, u) => {
+    if (user && user.uid && u.followers && u.followers[user.uid]) {
+      return count + 1;
+    }
+    return count;
+  }, 0);
   
   const toggleFollowingModal = () => {
     setIsFollowingModalOpen(!isFollowingModalOpen);
@@ -320,14 +331,12 @@ export default function Profile() {
       <FollowingModal
         isOpen={isFollowingModalOpen}
         onClose={toggleFollowingModal}
-        // list={users}
-        list={users.filter(u => u.following && u.following[user?.uid])}
+        list={users.filter(u => user && user.uid && u.following && u.following[user.uid])}
       />
-        <FollowersModal
+      <FollowersModal
         isOpen={isFollowersModalOpen}
         onClose={toggleFollowersModal}
-        // list={users}
-        list={users.filter(u => u.followers && u.followers[user?.uid])}
+        list={users.filter(u => user && user.uid && u.followers && u.followers[user.uid])}
       />
       <CommonBox>
         {tweets.map((tweet) => (

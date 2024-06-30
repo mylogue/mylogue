@@ -1,5 +1,10 @@
 import styled from "styled-components";
 
+interface UserInfo {
+  userProfile: string;
+  username: string;
+  id: string;
+}
 
 const Title = styled.h3`
   width: 100%;
@@ -63,24 +68,24 @@ const UserBox = styled.div`
     align-items: center;
 `;
 
-const FollowBox: React.FC = ({userInfo}) => {
-  
-  return (
-    <>
-      <Contents>
-      <Title>팔로우 추천</Title>
-        <LayoutBox>
-            {userInfo.map((user,index)=>(
-                <UserBox key={index}>
-                    <img src={user.userProfile} alt="image" className="profileImg" />
-                    <span className="nickname">{user.username}</span>
-                    <span className="id">@{user.id.substring(0,8)}</span>
-                </UserBox>
-            ))}
-        </LayoutBox>
+interface FollowBoxProps {
+  userInfo: UserInfo[];
+}
 
-      </Contents>
-    </>
+const FollowBox: React.FC<FollowBoxProps> = ({ userInfo }) => {
+  return (
+    <Contents>
+      <Title>팔로우 추천</Title>
+      <LayoutBox>
+        {userInfo.map((user, index) => (
+          <UserBox key={index}>
+            <img src={user.userProfile} alt="image" className="profileImg" />
+            <span className="nickname">{user.username}</span>
+            <span className="id">@{user.id.substring(0, 8)}</span>
+          </UserBox>
+        ))}
+      </LayoutBox>
+    </Contents>
   );
 };
 
