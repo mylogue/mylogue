@@ -177,7 +177,6 @@ export default function Profile() {
   const [users, setUsers] = useState<any[]>([]);
   const [isFollowingModalOpen,setIsFollowingModalOpen] = useState(false);
   const [isFollowersModalOpen,setIsFollowersModalOpen] = useState(false);
-  console.log(users)
   const onEditChange = async () => {
     if (!user) return;
     if (!editDisplayname) {
@@ -234,16 +233,20 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    fetchTweets();
-
+    fetchTweets()
     const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
       const usersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      // Filter users where the current user is either a follower or following
+      // const filteredUsers = usersData.filter(u => {
+      //   return (u => u.id == user?.uid);
+      // });
       setUsers(usersData);
     });
-
+  
     return () => unsubscribe();
   }, []);
-
+  console.log(users)
+  console.log(user?.uid)
   const followerCount = users.reduce((count, u) => {
     if (user && user.uid && u.following && u.following[user.uid]) {
       return count + 1;
@@ -324,19 +327,19 @@ export default function Profile() {
         </div>
         <p className="comment">솰라솰라 자기소개 한마디 욜로로</p>
         <div className="count">
-          <span className="following" onClick={toggleFollowersModal}>{followingCount}</span>
-          <span className="followers" onClick={toggleFollowingModal}>{followerCount}</span>
+          <span className="following" onClick={toggleFollowingModal}>{followingCount}</span>
+          <span className="followers" onClick={toggleFollowersModal}>{followerCount}</span>
         </div>
       </ProfileInfo>
       <FollowingModal
         isOpen={isFollowingModalOpen}
         onClose={toggleFollowingModal}
-        list={users.filter(u => user && user.uid && u.following && u.following[user.uid])}
+        list={users}
       />
       <FollowersModal
         isOpen={isFollowersModalOpen}
         onClose={toggleFollowersModal}
-        list={users.filter(u => user && user.uid && u.followers && u.followers[user.uid])}
+        list={users.filter(u => u.id == user?.uid)}
       />
       <CommonBox>
         {tweets.map((tweet) => (
