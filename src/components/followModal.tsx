@@ -80,11 +80,10 @@ const Closer = styled.button`
 
 
 const FollowingModal = ({ isOpen, onClose, list }) => {
-  console.log(list)
   const user = auth.currentUser;
   if (!isOpen) return null;
   const followingFilter = list.filter(u => u.id == user?.uid);
-  console.log(Object.values(followingFilter))
+  const isData = Object.values(followingFilter).map(a => Object.values(a.following).map(b => b.username)[0]);
   return (
     <Box className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -102,7 +101,7 @@ const FollowingModal = ({ isOpen, onClose, list }) => {
             </li>
           ))}
         </ul>
-        {followingFilter.length === 0 && <NoDataMessage>리스트 정보가 없습니다</NoDataMessage>}
+        {isData[0] == undefined && <NoDataMessage>리스트 정보가 없습니다</NoDataMessage>}
       </div>
     <Closer>
            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12"></path></svg>
@@ -112,15 +111,17 @@ const FollowingModal = ({ isOpen, onClose, list }) => {
   );
 };
 const  FollowersModal = ({ isOpen, onClose, list }) => {
+  const user = auth.currentUser;
   if (!isOpen) return null;
-  console.log(list)
-  const followersFilter = list.filter(u => u.followers);
+  const followerFilter = list.filter(u => u.id == user?.uid);
+  const isData = Object.values(followerFilter).map(a => Object.values(a.followers).map(b => b.username)[0]);
+
   return (
     <Box className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2>Followers</h2>
         <ul>
-          {list.map((user) => (
+          {followerFilter.map((user) => (
             <li key={user.id}>
               {user.followers && typeof user.followers === "object" && Object.values(user.followers).map(follower => (
                 <UserList>                
@@ -132,7 +133,7 @@ const  FollowersModal = ({ isOpen, onClose, list }) => {
             </li>
           ))}
         </ul>
-        {followersFilter.length === 0 && <NoDataMessage>리스트 정보가 없습니다</NoDataMessage>}
+        {isData[0] == undefined && <NoDataMessage>리스트 정보가 없습니다</NoDataMessage>}
       </div>
     <Closer>
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12"></path></svg>
