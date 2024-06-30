@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { auth } from "../firebase";
 const NoDataMessage = styled.p`
   color: #606e7b;
   font-size: 1rem;
@@ -79,15 +80,17 @@ const Closer = styled.button`
 
 
 const FollowingModal = ({ isOpen, onClose, list }) => {
+  console.log(list)
+  const user = auth.currentUser;
   if (!isOpen) return null;
-  const followingFilter = list.filter(u => u.following);
-  console.log(list.filter(u => u.following))
+  const followingFilter = list.filter(u => u.id == user?.uid);
+  console.log(Object.values(followingFilter))
   return (
     <Box className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2> Following</h2>
         <ul>
-          {list.map((user) => (
+          {followingFilter.map((user) => (
             <li key={user.id}>
               {user.following && typeof user.following === "object" && Object.values(user.following).map(followings => (
                 <UserList>                
