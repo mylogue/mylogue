@@ -237,10 +237,10 @@ export default function Profile() {
     const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
       const usersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       // Filter users where the current user is either a follower or following
-      const filteredUsers = usersData.filter(u => {
-        return (u => u.id == user?.uid);
-      });
-      setUsers(filteredUsers);
+      // const filteredUsers = usersData.filter(u => {
+      //   return (u => u.id == user?.uid);
+      // });
+      setUsers(usersData);
     });
   
     return () => unsubscribe();
@@ -339,7 +339,7 @@ export default function Profile() {
       <FollowersModal
         isOpen={isFollowersModalOpen}
         onClose={toggleFollowersModal}
-        list={users}
+        list={users.filter(u => u.id == user?.uid)}
       />
       <CommonBox>
         {tweets.map((tweet) => (
