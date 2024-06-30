@@ -5,7 +5,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { collection, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import Tweet from "../components/tweet";
-
+import {FollowingModal, FollowersModal } from "../components/followModal"
 export interface ITweet {
   id: string;
   photo?: string;
@@ -113,6 +113,8 @@ const ProfileInfo = styled.div`
       margin-right: 1rem;
       font-weight: 600;
     }
+    .following{cursor: pointer;}
+    .followers{cursor: pointer;}
     .following::before {
       content: '팔로잉';
       color: var(--gray600, #606E7B);
@@ -173,7 +175,9 @@ export default function Profile() {
   const [displayname, setDisplayname] = useState(user?.displayName ?? "");
   const [editDisplayname, setEditDisplayname] = useState(false);
   const [users, setUsers] = useState<any[]>([]);
-
+  const [isFollowingModalOpen,setIsFollowingModalOpen] = useState(false);
+  const [isFollowersModalOpen,setIsFollowersModalOpen] = useState(false);
+  console.log(users)
   const onEditChange = async () => {
     if (!user) return;
     if (!editDisplayname) {
@@ -240,9 +244,15 @@ export default function Profile() {
     return () => unsubscribe();
   }, []);
 
-  const followingCount = users.reduce((count, u) => count + (u.following && u.following[user?.uid] ? 1 : 0), 0);
-  const followerCount = users.reduce((count, u) => count + (u.followers && u.followers[user?.uid] ? 1 : 0), 0);
-
+  const followerCount  = users.reduce((count, u) => count + (u.following && u.following[user?.uid] ? 1 : 0), 0);
+  const followingCount = users.reduce((count, u) => count + (u.followers && u.followers[user?.uid] ? 1 : 0), 0);
+  
+  const toggleFollowingModal = () => {
+    setIsFollowingModalOpen(!isFollowingModalOpen);
+  };
+  const toggleFollowersModal = () => {
+    setIsFollowersModalOpen(!isFollowersModalOpen);
+  };
   return (
     <div>
       <ProfileBg>
@@ -303,11 +313,22 @@ export default function Profile() {
         </div>
         <p className="comment">솰라솰라 자기소개 한마디 욜로로</p>
         <div className="count">
-          <span className="following">{followingCount}</span>
-          <span className="followers">{followerCount}</span>
+          <span className="following" onClick={toggleFollowersModal}>{followingCount}</span>
+          <span className="followers" onClick={toggleFollowingModal}>{followerCount}</span>
         </div>
       </ProfileInfo>
-
+      <FollowingModal
+        isOpen={isFollowingModalOpen}
+        onClose={toggleFollowingModal}
+        // list={users}
+        list={users.filter(u => u.following && u.following[user?.uid])}
+      />
+        <FollowersModal
+        isOpen={isFollowersModalOpen}
+        onClose={toggleFollowersModal}
+        // list={users}
+        list={users.filter(u => u.followers && u.followers[user?.uid])}
+      />
       <CommonBox>
         {tweets.map((tweet) => (
           <Tweet key={tweet.id} {...tweet} />

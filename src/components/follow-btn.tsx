@@ -7,6 +7,11 @@ interface FollowButtonProps {
   username: string;
   id: string;
   userId: string;
+  user: {
+    username: string;
+    userprofile: string;
+    userId: string;
+  };
 }
 
 const shouldForwardProp = (prop: string) => prop !== 'isFollowing';
@@ -26,7 +31,7 @@ const Btn = styled.button.withConfig({ shouldForwardProp })<{ isFollowing: boole
 `;
 
 
-const FollowBtn: React.FC<FollowButtonProps> = ({ username, userId }) => {
+const FollowBtn: React.FC<FollowButtonProps> = ({ username, userId, userprofile }) => {
   const user = auth.currentUser;
   const [isFollowing, setIsFollowing] = useState(false);
 
@@ -80,10 +85,10 @@ const FollowBtn: React.FC<FollowButtonProps> = ({ username, userId }) => {
           } else {
             // Follow user
             await updateDoc(userDocRef, {
-              [`following.${userId}`]: { username, followedAt: Timestamp.now() }
+              [`following.${userId}`]: { username, userprofile, followedAt: Timestamp.now() }
             }, { merge: true });
             await updateDoc(followedUserDocRef, {
-              [`followers.${user.uid}`]: { username: user.displayName, followedAt: Timestamp.now() }
+              [`followers.${user.uid}`]: { username: user.displayName, userprofile: user.photoURL, followedAt: Timestamp.now() }
             }, { merge: true });
             console.log(`User ${username} with id ${userId} followed by ${user.uid}`);
           }
@@ -91,12 +96,12 @@ const FollowBtn: React.FC<FollowButtonProps> = ({ username, userId }) => {
           // Document does not exist, create a new one
           await setDoc(userDocRef, {
             following: {
-              [userId]: { username, followedAt: Timestamp.now() }
+              [userId]: { username, userprofile,followedAt: Timestamp.now() }
             }
           }, { merge: true });
           await setDoc(followedUserDocRef, {
             followers: {
-              [user.uid]: { username: user.displayName, followedAt: Timestamp.now() }
+              [user.uid]: { username: user.displayName, userprofile: user.photoURL, followedAt: Timestamp.now() }
             }
           }, { merge: true });
           console.log(`User ${username} with id ${userId} followed by ${user.uid}`);
