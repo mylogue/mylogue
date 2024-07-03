@@ -1,17 +1,13 @@
 import { styled } from "styled-components";
 import PostForm from "../components/post-form";
 import SubmitBtn from "../components/post-form";
-import { useNavigate } from "react-router-dom";
-import Home from "../routes/home"
+import {useNavigate } from "react-router-dom";
+import Wrapper from "./home";
+import Timeline from "../components/timeline";
 
 const ModalWrap = styled.div`
   width: 100vw;
   height: 100vh;
-`;
-
-const StyledHome =styled(Home)`
-  overflow-y:hidden;
-  overflow-x:hidden;
 `;
 
 const ModalBackGround = styled.div`
@@ -67,7 +63,6 @@ export default function() {
 
   return (
     <ModalWrap>
-      <StyledHome/>
         <ModalBackGround onClick={closeModal}/>
           <ModalContainer>
                 <CloseBtn onClick={closeModal}>
