@@ -10,7 +10,8 @@ const ModalWrap = styled.div`
 `;
 
 const StyledHome =styled(Home)`
-    position: fixed;
+  overflow-y:hidden;
+  overflow-x:hidden;
 `;
 
 const ModalBackGround = styled.div`
