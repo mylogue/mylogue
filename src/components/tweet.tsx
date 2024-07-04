@@ -6,6 +6,7 @@ import { deleteObject, ref } from "firebase/storage";
 import { useState } from "react";
 import CommentContent from "../components/comment";
 import FollowBtn from "./follow-btn";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   display: grid;
@@ -256,7 +257,9 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
       <Column>
         
         <UserPic>
-        {userProfile && <AvatarImg src={userProfile}></AvatarImg>}
+          <Link to={`/profile/${userId}`}>
+            {userProfile && <AvatarImg src={userProfile}></AvatarImg>}
+          </Link>
         </UserPic> 
         <Username>{username}</Username>
         <UserId>@{charsId}...</UserId>

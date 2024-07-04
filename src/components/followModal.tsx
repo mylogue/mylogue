@@ -16,9 +16,11 @@ const Box = styled.section`
   align-items: center;
   background: white;
   border-radius: 8px;
-  margin: 0 16px;
+  margin: 0 1.875rem;
   max-width: auto;
   box-shadow: .0625rem .0625rem .0625rem #E2E6EA;
+  margin-top: 2.75rem;
+  .modal-content{width:100%;}
   ul {
     width: 100%;
     display: flex;
@@ -30,11 +32,21 @@ const Box = styled.section`
       flex-flow: column;
       justify-content: center;
       align-items: center;
+      width: 100%;
     }
   }
   h2 {
     text-align: center;
+    font-weight: 500;
+    font-size: medium;
+    margin:1.25rem 0;
+    text-align: left;
+    color: #a3a3a3;
+    margin:2.5rem .75rem 0;
+    padding-bottom:.5rem;
+    border-bottom: 1px solid #dad2d2;
   }
+
 `;
 
 const Name = styled.span`
@@ -54,9 +66,8 @@ const UserList = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  margin: 0 auto;
   height: auto;
-  padding: 12px;
+  padding: .75rem;
 `;
 
 const UserProfile = styled.img`
@@ -80,7 +91,7 @@ const Closer = styled.button`
   border: none;
   width: 2.75rem;
   height: 2.75rem;
-  padding: .25rem;
+  padding: .5rem;
   cursor: pointer;
   z-index: 99;
   margin: .25rem;

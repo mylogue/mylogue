@@ -12,6 +12,7 @@ import './App.css';
 import { auth } from "./firebase";
 import ProtectedRoute from "./routes/protected-route";
 import Modal from "./routes/modal";
+import UserProfile from "./routes/user-profile";
 const router = createBrowserRouter([
   {
     path:"/",
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path:"modal",
         element: <Modal />, 
+      },
+      {
+        path:"/profile/:id",
+        element: <UserProfile />, 
       }
     ]
   },

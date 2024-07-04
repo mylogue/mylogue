@@ -32,7 +32,6 @@ const Btn = styled.button.withConfig({ shouldForwardProp })<{ isFollowing: boole
 
 const FollowBtn: React.FC<FollowButtonProps> = ({ username, userprofile, userId }) => {
   const user = auth.currentUser;
-  console.log(user)
   const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
@@ -61,7 +60,6 @@ const FollowBtn: React.FC<FollowButtonProps> = ({ username, userprofile, userId 
   }, [user, userId]);
 
   const handleFollow = async () => {
-    console.log(user)
     if (user) {
       try {
         const userDocRef = doc(db, "users", user.uid);
