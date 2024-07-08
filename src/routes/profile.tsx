@@ -3,7 +3,7 @@ import { auth, db, storage } from "../firebase";
 import { useEffect, useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
-import { collection, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, limit, onSnapshot, orderBy, query, setDoc, where } from "firebase/firestore";
 import Tweet from "../components/tweet";
 import {FollowingModal, FollowersModal } from "../components/followModal"
 import { useParams } from "react-router";
@@ -15,6 +15,16 @@ export interface ITweet {
   username: string;
   createdAt: number;
   userProfile: string | null | undefined;
+}
+
+interface UserProfile {
+  UserInfo: {
+    userId: string;
+    username?: string;
+    userprofile?: string;
+  };
+  followers: Record<string, boolean>;
+  following: Record<string, boolean>;
 }
 
 const ProfileBg = styled.div`
@@ -169,10 +179,11 @@ const EditImg = styled.div`
   }
 `;
 
-export default function Profile({params}) {
-  let {id} = useParams();
-  console.log(params)
+export default function Profile() {
+  const { id } = useParams<{ id: string }>();
+  console.log(id)
   const user = auth.currentUser;
+  // const [avatar, setAvatar] = useState(user?.photoURL);
   const [avatar, setAvatar] = useState(user?.photoURL);
   const [tweets, setTweets] = useState<ITweet[]>([]);
   const [displayname, setDisplayname] = useState(user?.displayName ?? "");
@@ -180,8 +191,12 @@ export default function Profile({params}) {
   const [users, setUsers] = useState<any[]>([]);
   const [isFollowingModalOpen,setIsFollowingModalOpen] = useState(false);
   const [isFollowersModalOpen,setIsFollowersModalOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  
   const onEditChange = async () => {
-    if (!user) return;
+    if (!id) return;
     if (!editDisplayname) {
       setEditDisplayname(true);
     } else {
@@ -211,8 +226,9 @@ export default function Profile({params}) {
       });
     }
   };
-
-  const fetchTweets = async () => {
+  
+  const myTweets = async () => {
+   
     const tweetQuery = query(
       collection(db, "tweets"),
       where("userId", "==", user?.uid),
@@ -221,7 +237,7 @@ export default function Profile({params}) {
     );
     const snapshot = await getDocs(tweetQuery);
     const tweets = snapshot.docs.map((doc) => {
-      const { tweet, createdAt, userId, username, photo } = doc.data();
+      const { tweet, createdAt, userProfile, userId, username, photo } = doc.data();
       return {
         tweet,
         createdAt,
@@ -229,25 +245,76 @@ export default function Profile({params}) {
         username,
         photo,
         id: doc.id,
-        userProfile: user?.photoURL,
+        userProfile,
+      };
+    });
+    setTweets(tweets);
+
+  };
+  
+  const userTweets = async () => {
+
+    const tweetQuery = query(
+      collection(db, "tweets"),
+      where("userId", "==", id),
+      orderBy("createdAt", "desc"),
+      limit(25)
+    );
+    const snapshot = await getDocs(tweetQuery);
+    const tweets = snapshot.docs.map((doc) => {
+      const { tweet,userProfile, createdAt, userId, username, photo } = doc.data();
+      return {
+        tweet,
+        createdAt,
+        userId,
+        username,
+        photo,
+        id: doc.id,
+        userProfile,
       };
     });
     setTweets(tweets);
   };
+  console.log(id)
+
+  
+  useEffect(() => {
+    if (typeof id === "undefined") {
+      console.log("mypage");
+      myTweets()
+      const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
+        const usersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setUsers(usersData);
+        return () => unsubscribe();
+      });
+    } else {
+      console.log("userpage");
+      userTweets();
+      const fetchUser = async () => {
+        if (!id) return;
+        const userDoc = await getDoc(doc(db, 'users', id));
+        if (userDoc.exists()) {
+          setUserInfo(userDoc.data() as UserProfile);
+        }
+        setLoading(false);
+      };
+  
+      fetchUser();
+      const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
+        const usersData = snapshot.docs.map(doc => ({ id:  doc.id, ...doc.data() }));
+        setUsers(usersData);
+        return () => unsubscribe();
+      });
+    }
+  }, [id]);
 
   useEffect(() => {
-    fetchTweets()
-    const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
-      const usersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      // Filter users where the current user is either a follower or following
-      // const filteredUsers = usersData.filter(u => {
-      //   return (u => u.id == user?.uid);
-      // });
-      setUsers(usersData);
-    });
+    if (userInfo) {
+      console.log(userInfo.UserInfo);
+    }
+  }, [userInfo]);
   
-    return () => unsubscribe();
-  }, []);
+  console.log(userInfo)
   const followerCount = users.reduce((count, u) => {
     if (user && user.uid && u.following && u.following[user.uid]) {
       return count + 1;
@@ -268,17 +335,20 @@ export default function Profile({params}) {
   const toggleFollowersModal = () => {
     setIsFollowersModalOpen(!isFollowersModalOpen);
   };
+  console.log(avatar)
   return (
     <div>
       <ProfileBg>
         <ProfileImg htmlFor="avatar">
-          {avatar ? (
+  
+          {typeof id === "undefined" || id === user.uid? (
             <AvatarImg src={avatar} />
           ) : (
-            <AvatarImg src="/profileImg.png" />
+            <AvatarImg src={userInfo?.UserInfo.userprofile} />
           )}
         </ProfileImg>
-        <ProfileBtn>프로필수정</ProfileBtn>
+        {typeof id === "undefined" || id === user.uid ? (<ProfileBtn>프로필수정</ProfileBtn>) : (<></>)}
+        
       </ProfileBg>
       <AvatarInput
         onChange={onAvatarChange}
@@ -289,15 +359,24 @@ export default function Profile({params}) {
       <ProfileInfo>
         <div>
           <Name>
+            {/* {typeof id === "undefined"  ? (
+              <DisplaynameInput
+                onChange={onDisplaynameChange}
+                placeholder={displayname}
+              />
+            ) : (
+              userInfo?.UserInfo.username
+            )} */}
             {editDisplayname ? (
               <DisplaynameInput
                 onChange={onDisplaynameChange}
                 placeholder={displayname}
               />
             ) : (
-              user?.displayName ?? "Anonymous"
+              typeof id === "undefined" ? user?.displayName ?? "Anonymous" : userInfo?.UserInfo.username ?? "Anonymous"
             )}
-            <EditImg onClick={onEditChange}>
+            {typeof id === "undefined" || id === user.uid ? (            
+              <EditImg onClick={onEditChange}>
               {editDisplayname ? (
                 <svg
                   fill="currentColor"
@@ -322,9 +401,15 @@ export default function Profile({params}) {
                   <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
                 </svg>
               )}
-            </EditImg>
+            </EditImg>) : (<>
+            </>)}            
+
           </Name>
-          <span>@{user?.uid ?? "Anonymous"}</span>
+          <span>@{typeof id === "undefined" ? (
+            user?.uid ?? "Anonymous"
+          ) : (
+            userInfo?.UserInfo.userId
+          )}</span>
         </div>
         <p className="comment">솰라솰라 자기소개 한마디 욜로로</p>
         <div className="count">

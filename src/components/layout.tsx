@@ -78,6 +78,7 @@ const Timeline = styled.div`
 
 
 export default function Layout() {
+    const user = auth.currentUser;
     const navigate = useNavigate();
     const onLogOut = async () => {
         const ok = confirm("Are you sure you want to log out?");
@@ -155,7 +156,7 @@ export default function Layout() {
                     </Link>
                 </SideMenu>
                 <SideMenu isOpen={isSideMenuOpen}>
-                    <Link to="/profile" style={{ textDecoration: "none" }}>
+                    <Link to={`/profile/${user.uid}`} style={{ textDecoration: "none" }}>
                         <MenuItem  className={activeIndex === 5 ? "active" : ""}
                 onClick={() => handleItemClick(5)}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
