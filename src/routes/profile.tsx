@@ -347,10 +347,10 @@ export default function Profile() {
   const toggleFollowersModal = () => {
     setIsFollowersModalOpen(!isFollowersModalOpen);
   };
-  if(id === user.uid){
+  if(id == user.uid){
     console.log(true)
   }else{
-    console.log
+    console.log(false)
   }
   console.log(user?.photoURL)
   return (
@@ -358,17 +358,19 @@ export default function Profile() {
       <ProfileBg>
      
         <ProfileImg htmlFor="avatar">
+          { id == user.uid ? ( <AvatarImg src={avatar} />) : (<PiUserCircleDuotone />)}
+{/*           
           {typeof id === user.uid && user.uid !== "null" ? (
             <AvatarImg src={user.uid} />
           ) : (
-            userInfo === null ? (
+            userInfo === null ||  user.uid !== "null" ? (
               <PiUserCircleDuotone />
 
             ) : (
               
               <AvatarImg src={userInfo?.UserInfo.userprofile} />
             )
-          )}
+          )} */}
         </ProfileImg>
         {typeof id === "undefined" || id === user.uid ? (<ProfileBtn>프로필수정</ProfileBtn>) : (<></>)}
         
