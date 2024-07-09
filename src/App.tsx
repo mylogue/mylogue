@@ -64,14 +64,33 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 function App() {
-    const [isLoading, setIsLoading] = useState(true);
-  const init = async()=>{
-    await auth.authStateReady();
-    setIsLoading(false);
-  }
-  useEffect(()=>{
-    init();
-  },[])
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUser(user);
+        // 업데이트할 프로필 정보
+        const profileData = {
+          username: user.displayName, // 기본 사용자 이름 설정
+          userId: user.uid,
+          userprofile: user.photoURL
+        };
+        const userDocRef = doc(db, "users", user.uid);
+        await setDoc(userDocRef, {
+          UserInfo: profileData
+        }, { merge: true });
+      } else {
+        setUser(null);
+      }
+      setIsLoading(false);
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
   return (
     <>
         <GlobalStyles />

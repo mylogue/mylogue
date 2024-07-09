@@ -7,6 +7,8 @@ import { collection, doc, getDoc, getDocs, limit, onSnapshot, orderBy, query, se
 import Tweet from "../components/tweet";
 import {FollowingModal, FollowersModal } from "../components/followModal"
 import { useParams } from "react-router";
+import { PiUserCircleDuotone } from "react-icons/pi";
+
 export interface ITweet {
   id: string;
   photo?: string;
@@ -31,6 +33,8 @@ const ProfileBg = styled.div`
   width: 100%;
   height: 12.5rem;
   background: url('https://images.unsplash.com/photo-1709487577432-9238a48c5a58?q=80&w=4140&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center;
+  
+  /* background-color: #3a4047; */
   background-size: cover;
   position: relative;
 `;
@@ -39,6 +43,13 @@ const ProfileImg = styled.label`
   position: absolute;
   left: 2.5rem;
   bottom: -5.625rem;
+  svg{
+    width: 11.25rem;
+    height: 11.25rem;
+    border-radius: 100px;
+    background-color: #F0F4F8;
+    object-fit: cover;
+  }
 `;
 
 const ProfileBtn = styled.button`
@@ -70,7 +81,7 @@ const AvatarImg = styled.img`
   height: 11.25rem;
   border-radius: 100px;
   background-color: black;
-  object-fit: contain;
+  object-fit: cover;
 `;
 
 const ProfileInfo = styled.div`
@@ -181,8 +192,9 @@ const EditImg = styled.div`
 
 export default function Profile() {
   const { id } = useParams<{ id: string }>();
-  console.log(id)
   const user = auth.currentUser;
+  console.log(id)
+  console.log(user.uid)
   // const [avatar, setAvatar] = useState(user?.photoURL);
   const [avatar, setAvatar] = useState(user?.photoURL);
   const [tweets, setTweets] = useState<ITweet[]>([]);
@@ -194,7 +206,7 @@ export default function Profile() {
   const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  
+  console.log(avatar)
   const onEditChange = async () => {
     if (!id) return;
     if (!editDisplayname) {
@@ -335,16 +347,27 @@ export default function Profile() {
   const toggleFollowersModal = () => {
     setIsFollowersModalOpen(!isFollowersModalOpen);
   };
-  console.log(avatar)
+  if(id === user.uid){
+    console.log(true)
+  }else{
+    console.log
+  }
+  console.log(user?.photoURL)
   return (
     <div>
       <ProfileBg>
+     
         <ProfileImg htmlFor="avatar">
-  
-          {typeof id === "undefined" || id === user.uid? (
-            <AvatarImg src={avatar} />
+          {typeof id === user.uid && user.uid !== "null" ? (
+            <AvatarImg src={user.uid} />
           ) : (
-            <AvatarImg src={userInfo?.UserInfo.userprofile} />
+            userInfo === null ? (
+              <PiUserCircleDuotone />
+
+            ) : (
+              
+              <AvatarImg src={userInfo?.UserInfo.userprofile} />
+            )
           )}
         </ProfileImg>
         {typeof id === "undefined" || id === user.uid ? (<ProfileBtn>프로필수정</ProfileBtn>) : (<></>)}
