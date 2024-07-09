@@ -7,6 +7,7 @@ import { useState } from "react";
 import CommentContent from "../components/comment";
 import FollowBtn from "./follow-btn";
 import { Link } from "react-router-dom";
+import { PiUserCircleDuotone } from "react-icons/pi";
 
 const Wrapper = styled.div`
   display: grid;
@@ -28,8 +29,19 @@ const UserPic = styled.div`
     width: 3.75rem;
     height: 3.75rem;
     border-radius: 100px;
-    background: #0085FF;
+    /* background: #3a4047; */
     cursor: pointer;
+    svg{
+      display: inline-flex;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 100px;
+    position: absolute;
+    object-fit: cover;
+    cursor: pointer;
+    /* background: #3a4047; */
+    color: #606E7B;
+    }
 `;
 
 const AvatarImg = styled.img`
@@ -258,7 +270,7 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
         
         <UserPic>
           <Link to={`/profile/${userId}`}>
-            {userProfile && <AvatarImg src={userProfile}></AvatarImg>}
+            {userProfile === null ? (<PiUserCircleDuotone />) : (userProfile && <AvatarImg src={userProfile}></AvatarImg>)}
           </Link>
         </UserPic> 
         <Username>{username}</Username>

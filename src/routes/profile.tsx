@@ -358,7 +358,11 @@ export default function Profile() {
       <ProfileBg>
      
         <ProfileImg htmlFor="avatar">
-          { id == user.uid ? ( <AvatarImg src={avatar} />) : (<PiUserCircleDuotone />)}
+          { id == user.uid && user?.photoURL === "null" ? ( 
+            <AvatarImg src={avatar} />
+          ) : (
+            user?.photoURL ? (<AvatarImg src={avatar} />) :
+          <PiUserCircleDuotone />)}
 {/*           
           {typeof id === user.uid && user.uid !== "null" ? (
             <AvatarImg src={user.uid} />
