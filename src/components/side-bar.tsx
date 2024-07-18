@@ -30,7 +30,9 @@ const Wrapper = styled.div`
   display: flex;
   flex-flow: column;
   gap: 1.875rem;
-  padding: 1.5625rem;
+  padding: 1.5625rem 1.25rem 0 2.5rem;
+  width: 100%;
+  flex: 1;
 `;
 
 let SearchBox = styled(CommonBox)``;

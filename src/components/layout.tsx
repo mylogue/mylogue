@@ -5,8 +5,8 @@ import SideBar from "./side-bar";
 import { useState } from "react";
 
 const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 55% 1fr;
+  display: flex;
+ flex-flow: row wrap;
   height: 100%;
   width: 100%;
 `;
@@ -20,15 +20,24 @@ interface SideMenuProps {
 const SideMenu = styled.div.withConfig({ shouldForwardProp })<SideMenuProps>`
   color: ${({ isOpen }) => (isOpen ? '#0085FF' : '#777')};
   transition: color 0.3s ease;
+
 `;
 
 const Menu = styled.div`
     display: flex;
     flex-direction: column;
-    height: 100%;
-    width: 100%;
+    /* height: 100%; */
+    /* width: 100%; */
     padding: 3.75rem 1.875rem 0 5.875rem; 
     background: white;
+    
+    @media (max-width: 768px) {
+    display: none;
+    }
+
+  @media (min-width: 992px) {
+    
+  }
     `;
 
 const MenuItem = styled.div`
@@ -37,6 +46,7 @@ const MenuItem = styled.div`
     align-items: center;
     justify-content: flex-start;
     height: 4rem;
+    flex:2;
     width: 100%;
     max-width: 20.625rem;
     padding: 1.25rem; 
@@ -72,10 +82,9 @@ const ItemName = styled.div`
 
 const Timeline = styled.div`
     height: 100%;
-    width: 100%;
+    /* width: 100%; */
+    flex: 4;
     `;
-
-
 
 export default function Layout() {
     const user = auth.currentUser;
