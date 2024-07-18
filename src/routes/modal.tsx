@@ -7,6 +7,7 @@ import Timeline from "../components/timeline";
 const ModalWrap = styled.div`
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 `;
 
 const StyledTimeline =styled(Timeline)`
