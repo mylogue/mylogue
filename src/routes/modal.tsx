@@ -8,12 +8,11 @@ import Timeline from "../components/timeline";
 const ModalWrap = styled.div`
   height: 100vh;
   overflow: hidden;
+  margin: 0 1.25rem 0 2.5rem;
 `;
 
 const StyledTimeline =styled(Timeline)`
-    height: 30vh;
-    oveflow: hidden;
-    opacity: 0.5;
+    padding-left: 3rem;
 `;
 
 const ModalBackGround = styled.div`
@@ -91,7 +90,6 @@ export default function modal() {
                   <StyledSubmitBtn/>
                 </StyledPostForm>
           </ModalContainer>
-          
     </ModalWrap>
   );
 };
