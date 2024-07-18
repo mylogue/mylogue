@@ -1,11 +1,11 @@
 import { styled } from "styled-components";
 import PostForm from "../components/post-form";
 import SubmitBtn from "../components/post-form";
-import {useNavigate } from "react-router-dom";
+import { useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 import Timeline from "../components/timeline";
 
 const ModalWrap = styled.div`
-  width: 100vw;
   height: 100vh;
   overflow: hidden;
 `;
@@ -19,7 +19,7 @@ const StyledTimeline =styled(Timeline)`
 const ModalBackGround = styled.div`
   background-color: rgba(0, 0, 0, 0.6);
   width: 100%;
-  height: 100vh;
+  height: 200vh;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -66,6 +66,18 @@ export default function modal() {
       if (!ok) return;
       navigate("/"); //url 이동
       }
+      useEffect(() => {
+        document.body.style.cssText = `
+          position: fixed; 
+          top: -${window.scrollY}px;
+          overflow-y: scroll;
+          width: 100%;`;
+        return () => {
+          const scrollY = document.body.style.top;
+          document.body.style.cssText = "";
+          window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+        };
+      }, []);
 
   return (
     <ModalWrap>
