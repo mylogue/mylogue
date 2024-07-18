@@ -2,12 +2,19 @@ import { styled } from "styled-components";
 import PostForm from "../components/post-form";
 import SubmitBtn from "../components/post-form";
 import {useNavigate } from "react-router-dom";
-import Wrapper from "./home";
 import Timeline from "../components/timeline";
 
 const ModalWrap = styled.div`
   width: 100vw;
   height: 100vh;
+`;
+
+const StyledTimeline =styled(Timeline)`
+    margin: 3rem;
+    width: 30vw;
+    height: 100vh;
+    oveflow: hidden;
+    opacity: 0.5;
 `;
 
 const ModalBackGround = styled.div`
@@ -63,6 +70,7 @@ export default function() {
 
   return (
     <ModalWrap>
+      <StyledTimeline />
         <ModalBackGround onClick={closeModal}/>
           <ModalContainer>
                 <CloseBtn onClick={closeModal}>
@@ -72,6 +80,7 @@ export default function() {
                   <StyledSubmitBtn/>
                 </StyledPostForm>
           </ModalContainer>
+          
     </ModalWrap>
   );
 };
