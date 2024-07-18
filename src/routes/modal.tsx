@@ -58,7 +58,7 @@ const CloseBtn = styled.div`
 `;
 
 
-export default function() {
+export default function modal() {
     const navigate = useNavigate();
     function closeModal() {
       const ok = confirm("Are you sure you stop writing this tweet?");
