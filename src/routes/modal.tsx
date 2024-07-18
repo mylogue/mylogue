@@ -10,9 +10,7 @@ const ModalWrap = styled.div`
 `;
 
 const StyledTimeline =styled(Timeline)`
-    margin: 3rem;
-    width: 30vw;
-    height: 100vh;
+    height: 30vh;
     oveflow: hidden;
     opacity: 0.5;
 `;
