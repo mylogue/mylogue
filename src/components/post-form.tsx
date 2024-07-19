@@ -174,6 +174,7 @@ export default function PostForm() {
         <TextBottom>
           <IconBtn>
             <label htmlFor="file">
+              {file ? "Photo added":""}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
