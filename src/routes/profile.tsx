@@ -193,9 +193,7 @@ const EditImg = styled.div`
 export default function Profile() {
   const { id } = useParams<{ id: string }>();
   const user = auth.currentUser;
-  console.log(id)
-  console.log(user.uid)
-  // const [avatar, setAvatar] = useState(user?.photoURL);
+  
   const [avatar, setAvatar] = useState(user?.photoURL);
   const [tweets, setTweets] = useState<ITweet[]>([]);
   const [displayname, setDisplayname] = useState(user?.displayName ?? "");
@@ -206,7 +204,6 @@ export default function Profile() {
   const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(avatar)
   const onEditChange = async () => {
     if (!id) return;
     if (!editDisplayname) {
@@ -239,30 +236,7 @@ export default function Profile() {
     }
   };
   
-  const myTweets = async () => {
-   
-    const tweetQuery = query(
-      collection(db, "tweets"),
-      where("userId", "==", user?.uid),
-      orderBy("createdAt", "desc"),
-      limit(25)
-    );
-    const snapshot = await getDocs(tweetQuery);
-    const tweets = snapshot.docs.map((doc) => {
-      const { tweet, createdAt, userProfile, userId, username, photo } = doc.data();
-      return {
-        tweet,
-        createdAt,
-        userId,
-        username,
-        photo,
-        id: doc.id,
-        userProfile,
-      };
-    });
-    setTweets(tweets);
 
-  };
   
   const userTweets = async () => {
 
@@ -287,47 +261,27 @@ export default function Profile() {
     });
     setTweets(tweets);
   };
-
-  
+  console.log(id)
+  console.log(user?.uid)
   useEffect(() => {
-    if (typeof id === "undefined") {
-      console.log("mypage");
-      myTweets()
-      const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
-        const usersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setUsers(usersData);
-        return () => unsubscribe();
-      });
-    } else {
-      console.log("userpage");
-      userTweets();
-      const fetchUser = async () => {
-        if (!id) return;
-        const userDoc = await getDoc(doc(db, 'users', id));
-        if (userDoc.exists()) {
-          setUserInfo(userDoc.data() as UserProfile);
-        }
-        setLoading(false);
-      };
-  
-      fetchUser();
-      const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
-        const usersData = snapshot.docs.map(doc => ({ id:  doc.id, ...doc.data() }));
-        setUsers(usersData);
-        return () => unsubscribe();
-      });
-    }
+    console.log("userpage");
+    userTweets();
+    const fetchUser = async () => {
+      if (!id) return;
+      const userDoc = await getDoc(doc(db, 'users', id));
+      if (userDoc.exists()) {
+        setUserInfo(userDoc.data() as UserProfile);
+      }
+      setLoading(false);
+    };
+
+    fetchUser();
+    const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
+      const usersData = snapshot.docs.map(doc => ({ id:  doc.id, ...doc.data() }));
+      setUsers(usersData);
+      return () => unsubscribe();
+    });
   }, [id]);
-
-  useEffect(() => {
-    if (userInfo) {
-      console.log(userInfo.UserInfo);
-    }
-    if (userInfo) {
-      console.log(userInfo.UserInfo.userprofile);
-    }
-  }, [userInfo]);
-  
 
   const followerCount = users.reduce((count, u) => {
     if (user && user.uid && u.following && u.following[user.uid]) {
