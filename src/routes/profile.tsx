@@ -287,7 +287,6 @@ export default function Profile() {
     });
     setTweets(tweets);
   };
-  console.log(id)
 
   
   useEffect(() => {
@@ -324,9 +323,12 @@ export default function Profile() {
     if (userInfo) {
       console.log(userInfo.UserInfo);
     }
+    if (userInfo) {
+      console.log(userInfo.UserInfo.userprofile);
+    }
   }, [userInfo]);
   
-  console.log(userInfo)
+
   const followerCount = users.reduce((count, u) => {
     if (user && user.uid && u.following && u.following[user.uid]) {
       return count + 1;
@@ -347,24 +349,28 @@ export default function Profile() {
   const toggleFollowersModal = () => {
     setIsFollowersModalOpen(!isFollowersModalOpen);
   };
-  if(id == user.uid){
-    console.log(true)
-  }else{
-    console.log(false)
-  }
-  console.log(user?.photoURL)
+
   return (
     <div>
       <ProfileBg>
-     
         <ProfileImg htmlFor="avatar">
-          { id == user.uid && user?.photoURL === "null" ? ( 
+        {userInfo && userInfo.UserInfo ? (
+  userInfo.UserInfo.userprofile ? (
+    <AvatarImg src={userInfo.UserInfo.userprofile} />
+  ) : (
+    <PiUserCircleDuotone />
+  )
+) : (
+  <AvatarImg src={user.uid} />
+)}
+
+          {/* { userInfo.UserInfo.userprofile && id == user.uid && user?.photoURL === "null" ? ( 
             <AvatarImg src={avatar} />
           ) : (
             user?.photoURL ? (<AvatarImg src={avatar} />) :
           <PiUserCircleDuotone />)}
-{/*           
-          {typeof id === user.uid && user.uid !== "null" ? (
+{/*            */}
+          {/* {typeof id === user.uid && user.uid !== "null" ? (
             <AvatarImg src={user.uid} />
           ) : (
             userInfo === null ||  user.uid !== "null" ? (
