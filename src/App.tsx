@@ -13,6 +13,7 @@ import { auth, db } from "./firebase";
 import { doc, setDoc } from "firebase/firestore";
 import ProtectedRoute from "./routes/protected-route";
 import Modal from "./routes/modal";
+import { LuBookMarked } from "react-icons/lu";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/profile/:id",
         element: <Profile />,
+      },
+      {
+        path: "bookmarked",
+        element: <BookMarked />,
       }
     ]
   },
