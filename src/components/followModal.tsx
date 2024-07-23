@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { auth } from "../firebase";
+import { PiUserCircleDuotone } from "react-icons/pi";
 
 // Styled components
 const NoDataMessage = styled.p`
@@ -68,6 +69,15 @@ const UserList = styled.div`
   width: 100%;
   height: auto;
   padding: .75rem;
+  svg{
+    background: white;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 6.25rem;
+    margin-right: 1.25rem;
+    object-fit: cover;
+}
+  
 `;
 
 const UserProfile = styled.img`
@@ -137,7 +147,8 @@ const FollowingModal: React.FC<ModalProps> = ({ isOpen, onClose, list }) => {
             <li key={user.id}>
               {user.following && Object.values(user.following).map(following => (
                 <UserList key={following.userId}>
-                  <UserProfile src={following.userprofile} alt={following.username} />
+                  {following && following.userprofile ? ( <UserProfile src={following.userprofile} alt={following.username} />) : (<PiUserCircleDuotone />)}
+                 
                   <Name>{following.username}</Name>
                   <ID>{following.userId.substring(0, 8)}</ID>
                 </UserList>
@@ -173,7 +184,8 @@ const FollowersModal: React.FC<ModalProps> = ({ isOpen, onClose, list }) => {
             <li key={user.id}>
               {user.followers && Object.values(user.followers).map(follower => (
                 <UserList key={follower.userId}>
-                  <UserProfile src={follower.userprofile} alt={follower.username} />
+                  {follower && follower.userprofile ? (<UserProfile src={follower.userprofile} alt={follower.username} />) : (<PiUserCircleDuotone />)}
+                  
                   <Name>{follower.username}</Name>
                   <ID>{follower.userId.substring(0, 8)}</ID>
                 </UserList>

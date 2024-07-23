@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { PiUserCircleDuotone } from "react-icons/pi";
 
 interface UserInfo {
   userProfile: string;
@@ -66,6 +67,14 @@ const UserBox = styled.div`
     flex-flow: row;
     justify-content: center;
     align-items: center;
+    svg{
+      background: white;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 6.25rem;
+    margin-right: 1.25rem;
+    object-fit: cover;
+}
 `;
 
 interface FollowBoxProps {
@@ -73,13 +82,16 @@ interface FollowBoxProps {
 }
 
 const FollowBox: React.FC<FollowBoxProps> = ({ userInfo }) => {
+    console.log(userInfo)
   return (
     <Contents>
       <Title>팔로우 추천</Title>
       <LayoutBox>
         {userInfo.map((user, index) => (
           <UserBox key={index}>
-            <img src={user.userProfile} alt="image" className="profileImg" />
+            {console.log(user)}
+            {user && user.userProfile ? (<img src={user.userProfile} alt="image" className="profileImg" />) : ( <PiUserCircleDuotone />)}
+           
             <span className="nickname">{user.username}</span>
             <span className="id">@{user.id.substring(0, 8)}</span>
           </UserBox>

@@ -261,8 +261,7 @@ export default function Profile() {
     });
     setTweets(tweets);
   };
-  console.log(id)
-  console.log(user?.uid)
+
   useEffect(() => {
     console.log("userpage");
     userTweets();
@@ -309,42 +308,26 @@ export default function Profile() {
       <ProfileBg>
         <ProfileImg htmlFor="avatar">
         {userInfo && userInfo.UserInfo ? (
-  userInfo.UserInfo.userprofile ? (
-    <AvatarImg src={userInfo.UserInfo.userprofile} />
-  ) : (
-    <PiUserCircleDuotone />
-  )
-) : (
-  <AvatarImg src={user.uid} />
-)}
-
-          {/* { userInfo.UserInfo.userprofile && id == user.uid && user?.photoURL === "null" ? ( 
-            <AvatarImg src={avatar} />
+          userInfo.UserInfo.userprofile ? (
+            <AvatarImg src={userInfo.UserInfo.userprofile} />
           ) : (
-            user?.photoURL ? (<AvatarImg src={avatar} />) :
-          <PiUserCircleDuotone />)}
-{/*            */}
-          {/* {typeof id === user.uid && user.uid !== "null" ? (
-            <AvatarImg src={user.uid} />
-          ) : (
-            userInfo === null ||  user.uid !== "null" ? (
-              <PiUserCircleDuotone />
+            <PiUserCircleDuotone />
+          )
+        ) : (
+          <AvatarImg src={user.uid} />
+        )}
 
-            ) : (
-              
-              <AvatarImg src={userInfo?.UserInfo.userprofile} />
-            )
-          )} */}
         </ProfileImg>
         {typeof id === "undefined" || id === user.uid ? (<ProfileBtn>프로필수정</ProfileBtn>) : (<></>)}
         
       </ProfileBg>
-      <AvatarInput
+      {id !== user?.uid ? (  <></>    ) : (<AvatarInput
         onChange={onAvatarChange}
         id="avatar"
         type="file"
         accept="image/*"
-      />
+      />)}
+
       <ProfileInfo>
         <div>
           <Name>
