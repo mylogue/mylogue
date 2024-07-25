@@ -3,7 +3,7 @@ import { ITweet} from "./timeline";
 import { auth, db, storage } from "../firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CommentContent from "../components/comment";
 import FollowBtn from "./follow-btn";
 import { Link } from "react-router-dom";
@@ -216,7 +216,22 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
     setHeartClicked(!heartClicked);
   };
 
+  useEffect(() => {
+    const bookmarkedTweets = JSON.parse(localStorage.getItem("bookmarkedTweets") || "[]");
+    if (bookmarkedTweets.includes(id)) {
+      setBookmarkClicked(true);
+    }
+  }, [id]);
+
   const bookmark = () => {
+    const bookmarkedTweets = JSON.parse(localStorage.getItem("bookmarkedTweets") || "[]");
+    if (bookmarkClicked) {
+      const updatedBookmarks = bookmarkedTweets.filter((tweetId: string) => tweetId !== id);
+      localStorage.setItem("bookmarkedTweets", JSON.stringify(updatedBookmarks));
+    } else {
+      bookmarkedTweets.push(id);
+      localStorage.setItem("bookmarkedTweets", JSON.stringify(bookmarkedTweets));
+    }
     setBookmarkClicked(!bookmarkClicked);
   };
 
