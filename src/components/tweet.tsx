@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { ITweet} from "./timeline";
 import { auth, db, storage } from "../firebase";
-import { deleteDoc, doc } from "firebase/firestore";
+import { getDoc, setDoc, updateDoc, deleteField, doc } from "firebase/firestore"; // 필요한 함수 임포트
 import { deleteObject, ref } from "firebase/storage";
 import { useState, useEffect } from "react";
 import CommentContent from "../components/comment";
@@ -211,28 +211,57 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
   const [shareClicked, setShareClicked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const charsId = userId.substring(0,8);
+  const [getBookmark, setGetBookmark] = useState();
   
   const heart = () => {
     setHeartClicked(!heartClicked);
   };
-
-  useEffect(() => {
-    const bookmarkedTweets = JSON.parse(localStorage.getItem("bookmarkedTweets") || "[]");
-    if (bookmarkedTweets.includes(id)) {
-      setBookmarkClicked(true);
-    }
-  }, [id]);
-
-  const bookmark = () => {
-    const bookmarkedTweets = JSON.parse(localStorage.getItem("bookmarkedTweets") || "[]");
-    if (bookmarkClicked) {
-      const updatedBookmarks = bookmarkedTweets.filter((tweetId: string) => tweetId !== id);
-      localStorage.setItem("bookmarkedTweets", JSON.stringify(updatedBookmarks));
-    } else {
-      bookmarkedTweets.push(id);
-      localStorage.setItem("bookmarkedTweets", JSON.stringify(bookmarkedTweets));
-    }
+  const bookmark = async () => {
     setBookmarkClicked(!bookmarkClicked);
+
+    const safeComment = comment || ''; // undefined 필드를 빈 문자열로 대체
+    const safeUserProfile = userProfile || ''; // undefined 필드를 빈 문자열로 대체
+    const safePhoto = photo || ''; // undefined 필드를 빈 문자열로 대체
+
+    if (!bookmarkClicked) {
+      try {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        const bookmarkData = {
+          userId,
+          username,
+          comment: safeComment,
+          userProfile: safeUserProfile,
+          createdAt,
+          photo: safePhoto,
+          tweet,
+          tweetId: id,
+          bookmarkedAt: new Date().toISOString(),
+        };
+
+        // Firestore에 북마크 데이터 저장
+        await setDoc(userDocRef, {
+          bookmarked: {
+            [userId]: bookmarkData
+          }
+        }, { merge: true });
+        console.log("북마크 저장 완료");
+      } catch (error) {
+        console.error("북마크 저장 중 오류 발생:", error);
+      }
+    } else {
+      try {
+        const userDocRef = doc(db, "users", user.uid);
+
+        // 북마크 해제 시 Firestore에서 해당 필드 삭제
+        await updateDoc(userDocRef, {
+          [`bookmarked.${userId}`]: deleteField()
+        });
+        console.log("북마크 삭제 완료");
+      } catch (error) {
+        console.error("북마크 삭제 중 오류 발생:", error);
+      }
+    }
   };
 
   const comment1 = () => {
