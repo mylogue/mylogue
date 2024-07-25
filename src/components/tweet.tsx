@@ -1,7 +1,8 @@
 import { styled } from "styled-components";
 import { ITweet} from "./timeline";
 import { auth, db, storage } from "../firebase";
-import { deleteDoc, doc } from "firebase/firestore";
+import { getDoc, setDoc, updateDoc, deleteField, doc } from "firebase/firestore"; // 필요한 함수 임포트
+
 import { deleteObject, ref } from "firebase/storage";
 import { useState } from "react";
 import CommentContent from "../components/comment";
@@ -211,13 +212,58 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
   const [shareClicked, setShareClicked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const charsId = userId.substring(0,8);
+  const [getBookmark, setGetBookmark] = useState();
   
   const heart = () => {
     setHeartClicked(!heartClicked);
   };
 
-  const bookmark = () => {
+  const bookmark = async () => {
     setBookmarkClicked(!bookmarkClicked);
+    
+    const safeComment = comment || ''; // undefined 필드를 빈 문자열로 대체
+    const safeUserProfile = userProfile || ''; // undefined 필드를 빈 문자열로 대체
+    const safePhoto = photo || ''; // undefined 필드를 빈 문자열로 대체
+  
+    if (!bookmarkClicked) {
+      try {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        const bookmarkData = {
+          userId,
+          username,
+          comment: safeComment,
+          userProfile: safeUserProfile,
+          createdAt,
+          photo: safePhoto,
+          tweet,
+          tweetId: id,
+          bookmarkedAt: new Date().toISOString(),
+        };
+  
+        // Firestore에 북마크 데이터 저장
+        await setDoc(userDocRef, {
+          bookmarked: {
+            [userId]: bookmarkData
+          }
+        }, { merge: true });
+        console.log("북마크 저장 완료");
+      } catch (error) {
+        console.error("북마크 저장 중 오류 발생:", error);
+      }
+    } else {
+      try {
+        const userDocRef = doc(db, "users", user.uid);
+        
+        // 북마크 해제 시 Firestore에서 해당 필드 삭제
+        await updateDoc(userDocRef, {
+          [`bookmarked.${userId}`]: deleteField()
+        });
+        console.log("북마크 삭제 완료");
+      } catch (error) {
+        console.error("북마크 삭제 중 오류 발생:", error);
+      }
+    }
   };
 
   const comment1 = () => {
@@ -262,8 +308,6 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
   const date = new Date(createdAt);
   const formattedDate = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
   const formattedTime = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-  console.log(comment)
-
   return (
     <Wrapper>
       <Column>
@@ -291,7 +335,7 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
             </StyledSVG>
            
-
+            
             <Badge className="container">
               <span className={`${comment && comment.length > 0 ? "ping" : ""}`}>{comment && comment.length}</span>
               <StyledSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.5" 
@@ -311,10 +355,11 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
             onClick={share}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
             </StyledSVG>
+            <Link to={`/profile/${userId}`}></Link>
             <StyledSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.5"  className={`w-6 h-6 ${bookmarkClicked ? 'bookmarkClicked' : ''}`}
                   fill={bookmarkClicked ? "#0085FF" : "currentColor"}
                   stroke={bookmarkClicked ? "#0085FF" : "currentColor"}
-                  onClick={bookmark}>
+                  onClick={bookmark} >
             <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
             </StyledSVG>
             

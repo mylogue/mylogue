@@ -17,17 +17,13 @@ interface User {
     comment?: { [key: string]: any }[];
   }
   
-  interface ModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    list: User[];
+  interface Props {
+    
   }
   
   // BookMarked component
-  const BookMarked: React.FC<ModalProps> = ({ isOpen, onClose, list }) => {
-
+  const BookMarked: React.FC<Props> = ({  }) => {
     const user = auth.currentUser;
-    if (!isOpen) return null;
   }
 
 
