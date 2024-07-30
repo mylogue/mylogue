@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import styled from "styled-components";
-import Tweet, { ITweet } from "../components/tweet";  // Assuming ITweet is the type for a tweet
+import Tweet from "../components/tweet";  // Assuming ITweet is the type for a tweet
+import { ITweet } from "../components/timeline";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  margin-top: 1.875rem;
 `;
 
 const Bookmarked: React.FC = () => {
