@@ -10,7 +10,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  margin-top: 1.875rem;
+  margin: 1.5625rem 1.25rem 0 2.5rem;
 `;
 
 const Bookmarked: React.FC = () => {
