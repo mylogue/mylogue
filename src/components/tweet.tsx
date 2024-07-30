@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { ITweet} from "./timeline";
 import { auth, db, storage } from "../firebase";
-import { getDoc, setDoc, updateDoc, deleteField, doc } from "firebase/firestore"; // 필요한 함수 임포트
+import { getDoc, setDoc, updateDoc, deleteField, doc, deleteDoc } from "firebase/firestore"; // 필요한 함수 임포트
 import { deleteObject, ref } from "firebase/storage";
 import { useState, useEffect } from "react";
 import CommentContent from "../components/comment";

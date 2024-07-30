@@ -23,27 +23,30 @@ const SideMenu = styled.div.withConfig({ shouldForwardProp })<SideMenuProps>`
 
 `;
 const Container = styled.div`
-display: flex;
-flex-flow: column;
-.writeBtn{
-    width: 210px;
-    
-}
-@media (max-width: 768px) {
-    flex-flow: row;
+    display: flex;
+    flex-flow: column wrap;
     .writeBtn{
-        position: fixed;
-        right: 20px;
-        bottom: 20px;
+        width: 210px;
+        
     }
-    .modal{
-        position: absolute;
-        right: 20px;
-        bottom: 0;
-        div{
-            width:auto;
+    @media (min-width: 767px) {
+        
+    }
+    @media (max-width: 768px) {
+        flex-flow: row;
+        .writeBtn{
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
         }
-    }
+        .modal{
+            position: absolute;
+            right: 20px;
+            bottom: 0;
+            div{
+                width:auto;
+            }
+        }
     }
 `;
 const Menu = styled.div`
@@ -54,16 +57,15 @@ const Menu = styled.div`
     /* width: 100%; */
     padding: 3.75rem 1.875rem 0 5.875rem; 
     background: white;
-    
+    @media (min-width: 1024px) {
+        
+    }
     @media (max-width: 768px) {
     flex-flow: row;
     padding: 0;
-    width: 100%;
+    width: 100%; 
     }
 
-  @media (min-width: 992px) {
-    
-  }
     `;
 
 const MenuItem = styled.div`
@@ -107,7 +109,6 @@ const ItemName = styled.div`
     display: none;
     }
 `;
-
 const Timeline = styled.div`
     height: 100%;
     /* width: 100%; */

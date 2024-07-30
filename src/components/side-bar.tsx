@@ -33,6 +33,9 @@ const Wrapper = styled.div`
   padding: 1.5625rem 1.25rem 0 2.5rem;
   width: 100%;
   flex: 1;
+  @media (max-width: 1023px) {
+    display: none;
+  }
 `;
 
 let SearchBox = styled(CommonBox)``;
