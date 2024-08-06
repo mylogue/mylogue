@@ -248,7 +248,7 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
       }
     } else {
       try {
-        const userDocRef = doc(db, "users", user.uid);
+        const userDocRef = doc(db, "bookmarks", `${user.uid}_${id}`);
 
         // 북마크 해제 시 Firestore에서 해당 필드 삭제
         await updateDoc(userDocRef, {
