@@ -89,7 +89,7 @@ const FollowBox: React.FC<FollowBoxProps> = ({ userInfo }) => {
       <LayoutBox>
         {userInfo.map((user, index) => (
           <UserBox key={index}>
-            {console.log(user)}
+            
             {user && user.userProfile ? (<img src={user.userProfile} alt="image" className="profileImg" />) : ( <PiUserCircleDuotone />)}
            
             <span className="nickname">{user.username}</span>

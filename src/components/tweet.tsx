@@ -240,15 +240,18 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
         };
 
         // Firestore에 북마크 데이터 저장
-        const bookmarkDocRef = doc(db, "bookmarks", `${user.uid}_${id}`);
-      await setDoc(bookmarkDocRef, bookmarkData);
+        await setDoc(userDocRef, {
+          bookmarked: {
+            [userId]: bookmarkData
+          }
+        }, { merge: true });
         console.log("북마크 저장 완료");
       } catch (error) {
         console.error("북마크 저장 중 오류 발생:", error);
       }
     } else {
       try {
-        const userDocRef = doc(db, "bookmarks", `${user.uid}_${id}`);
+        const userDocRef = doc(db, "users", user.uid);
 
         // 북마크 해제 시 Firestore에서 해당 필드 삭제
         await updateDoc(userDocRef, {

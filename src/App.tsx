@@ -70,12 +70,10 @@ const GlobalStyles = createGlobalStyle`
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        setUser(user);
         // 업데이트할 프로필 정보
         const profileData = {
           username: user.displayName, // 기본 사용자 이름 설정
@@ -86,8 +84,6 @@ function App() {
         await setDoc(userDocRef, {
           UserInfo: profileData
         }, { merge: true });
-      } else {
-        setUser(null);
       }
       setIsLoading(false);
     });
@@ -98,9 +94,8 @@ function App() {
 
   return (
     <>
-        <GlobalStyles />
-        {isLoading ? <LoadingScreen /> :  <RouterProvider router={router} />}
-        
+      <GlobalStyles />
+      {isLoading ? <LoadingScreen /> :  <RouterProvider router={router} />}
     </>
   )
 }
