@@ -9,10 +9,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin: 1.5625rem 1.25rem 0 2.5rem;
-  gap: 1rem
+  gap: 1rem;
 `;
-
-
 
 const Bookmarked: React.FC = () => {
   const [bookmarkedTweets, setBookmarkedTweets] = useState<ITweet[]>([]);
