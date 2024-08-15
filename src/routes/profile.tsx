@@ -3,11 +3,12 @@ import { auth, db, storage } from "../firebase";
 import { useEffect, useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
-import { collection, doc, getDoc, getDocs, limit, onSnapshot, orderBy, query, setDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import Tweet from "../components/tweet";
 import {FollowingModal, FollowersModal } from "../components/followModal"
 import { useParams } from "react-router";
 import { PiUserCircleDuotone } from "react-icons/pi";
+import LoadingScreen from "../components/loading-screen";
 
 export interface ITweet {
   id: string;
@@ -193,8 +194,11 @@ const EditImg = styled.div`
 export default function Profile() {
   const { id } = useParams<{ id: string }>();
   const user = auth.currentUser;
-  
-  const [avatar, setAvatar] = useState(user?.photoURL);
+  let userID: string | null = null;
+  if (user) {
+      userID = user.uid;
+  }
+  // const [avatar, setAvatar] = useState(user?.photoURL);
   const [tweets, setTweets] = useState<ITweet[]>([]);
   const [displayname, setDisplayname] = useState(user?.displayName ?? "");
   const [editDisplayname, setEditDisplayname] = useState(false);
@@ -205,7 +209,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
 
   const onEditChange = async () => {
-    if (!id) return;
+    if (!id || !user) return; // Ensure user is not null
     if (!editDisplayname) {
       setEditDisplayname(true);
     } else {
@@ -215,7 +219,6 @@ export default function Profile() {
       setEditDisplayname(false);
     }
   };
-
   const onDisplaynameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDisplayname(e.target.value);
   };
@@ -228,8 +231,8 @@ export default function Profile() {
       const locationRef = ref(storage, `avatars/${user?.uid}`);
       const result = await uploadBytes(locationRef, file);
       const avatarUrl = await getDownloadURL(result.ref);
-      setAvatar(avatarUrl);
-      console.log(avatarUrl);
+      // setAvatar(avatarUrl);
+      // console.log(avatarUrl);
       await updateProfile(user, {
         photoURL: avatarUrl,
       });
@@ -305,7 +308,8 @@ export default function Profile() {
 
   return (
     <div>
-      <ProfileBg>
+      {loading ? <LoadingScreen /> : <>
+        <ProfileBg>
         <ProfileImg htmlFor="avatar">
         {userInfo && userInfo.UserInfo ? (
           userInfo.UserInfo.userprofile ? (
@@ -314,19 +318,28 @@ export default function Profile() {
             <PiUserCircleDuotone />
           )
         ) : (
-          <AvatarImg src={user.uid} />
+          user ? (
+            <AvatarImg src={user.uid} /> // Only access user.uid if user is not null
+          ) : (
+            <PiUserCircleDuotone /> // Render a fallback icon if user is null
+          )
         )}
 
         </ProfileImg>
-        {typeof id === "undefined" || id === user.uid ? (<ProfileBtn>프로필수정</ProfileBtn>) : (<></>)}
-        
+        {typeof id === "undefined" || (user && id === user.uid) ? (
+            <ProfileBtn>프로필수정</ProfileBtn>
+        ) : null}
+                  
       </ProfileBg>
-      {id !== user?.uid ? (  <></>    ) : (<AvatarInput
-        onChange={onAvatarChange}
-        id="avatar"
-        type="file"
-        accept="image/*"
-      />)}
+      {typeof id === "undefined" || id === user?.uid ? (
+  <AvatarInput
+    onChange={onAvatarChange}
+    id="avatar"
+    type="file"
+    accept="image/*"
+  />
+) : null}
+
 
       <ProfileInfo>
         <div>
@@ -347,7 +360,7 @@ export default function Profile() {
             ) : (
               typeof id === "undefined" ? user?.displayName ?? "Anonymous" : userInfo?.UserInfo.username ?? "Anonymous"
             )}
-            {typeof id === "undefined" || id === user.uid ? (            
+            {typeof id === "undefined" || id === userID ? (            
               <EditImg onClick={onEditChange}>
               {editDisplayname ? (
                 <svg
@@ -404,6 +417,8 @@ export default function Profile() {
           <Tweet key={tweet.id} {...tweet} />
         ))}
       </CommonBox>
+      </> }
+    
     </div>
   );
 }
