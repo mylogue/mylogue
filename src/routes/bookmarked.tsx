@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
-import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import styled from "styled-components";
-import Tweet from "../components/tweet";  // Assuming ITweet is the type for a tweet
-import { ITweet } from "../components/timeline";
+import Tweet from "../components/tweet";  // 경로에 맞게 조정
+import { ITweet } from "../components/timeline";  // 경로에 맞게 조정
 
 const Container = styled.div`
   display: flex;
@@ -13,63 +13,43 @@ const Container = styled.div`
 `;
 
 const Bookmarked: React.FC = () => {
-  const [bookmarkedTweets, setBookmarkedTweets] = useState<ITweet[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const user = auth.currentUser;
+  const [bookmarks, setBookmarks] = useState<ITweet[]>([]);
 
   useEffect(() => {
-    const fetchBookmarkedTweets = async () => {
-      if (user) {
-        try {
-          // Fetch bookmarked tweet IDs
-          const bookmarksQuery = query(
-            collection(db, "bookmarks"),
-            where("userId", "==", user.uid)
-          );
-          const bookmarksSnapshot = await getDocs(bookmarksQuery);
-          const tweetIds = bookmarksSnapshot.docs.map(doc => doc.data().tweetId);
-          
-          // Fetch tweet details
-          const tweetPromises = tweetIds.map(tweetId => getDoc(doc(db, "tweets", tweetId)));
-          const tweetSnapshots = await Promise.all(tweetPromises);
-          const tweets = tweetSnapshots.map(snapshot => ({ id: snapshot.id, ...snapshot.data() } as ITweet));
+    const user = auth.currentUser;
 
-          setBookmarkedTweets(tweets);
-        } catch (error) {
-          console.error("Error fetching bookmarks: ", error);
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);  // 사용자 UID를 통해 정확한 문서 참조 설정
+      // Firestore 스냅샷 리스너를 설정하여 실시간 업데이트를 수신
+      const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          // 'bookmarks'는 사용자 문서 내에 ITweet 배열 형태로 있는 필드라고 가정
+          console.log(userData)
+          if (userData && userData.bookmarks) {
+            setBookmarks(userData.bookmarks);
+          } else {
+            // 북마크가 없는 경우 처리
+            setBookmarks([]);
+          }
+        } else {
+          console.log("No user document found!");
+          setBookmarks([]);
         }
-      } else {
-        console.warn("No authenticated user found");
-      }
-      setIsLoading(false);
-    };
+      });
 
-    fetchBookmarkedTweets();
-  }, [user]);
+      // 컴포넌트 언마운트 시 리스너 정리
+      return () => unsubscribe();
+    }
+  }, []);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
+  console.log(bookmarks);  // 북마크 상태 로그 출력
+  
   return (
     <Container>
-      {bookmarkedTweets.length > 0 ? (
-        bookmarkedTweets.map((tweet) => (
-          <Tweet
-            key={tweet.id}
-            userId={tweet.userId}
-            username={tweet.username}
-            comment={tweet.comment}
-            userProfile={tweet.userProfile}
-            createdAt={tweet.createdAt}
-            photo={tweet.photo}
-            tweet={tweet.tweet}
-            id={tweet.id}
-          />
-        ))
-      ) : (
-        <p>No bookmarks found.</p>
-      )}
+      {bookmarks.map((bookmark, index) => (
+        <Tweet key={bookmark.tweetId} {...bookmark} />
+      ))}
     </Container>
   );
 };

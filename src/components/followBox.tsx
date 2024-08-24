@@ -82,7 +82,7 @@ interface FollowBoxProps {
 }
 
 const FollowBox: React.FC<FollowBoxProps> = ({ userInfo }) => {
-    console.log(userInfo)
+    // console.log(userInfo)
   return (
     <Contents>
       <Title>팔로우 추천</Title>
