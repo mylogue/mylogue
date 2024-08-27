@@ -20,6 +20,12 @@ interface SideMenuProps {
 const SideMenu = styled.div.withConfig({ shouldForwardProp })<SideMenuProps>`
   color: ${({ isOpen }) => (isOpen ? '#0085FF' : '#777')};
   transition: color 0.3s ease;
+  @media (max-width: 768px) {
+    svg{width:20px;}
+    &:first-child{display:none;}
+    &:last-child{display:none;}
+  }
+  
 `;
 
 const Container = styled.div`
@@ -31,14 +37,20 @@ const Container = styled.div`
   
   @media (max-width: 768px) {
     flex-flow: row;
+    width: 100%;
+    justify-content: space-evenly;
+    &{padding:0 30px;}
+    svg{
+      width: 1.25rem;
+    }
     .writeBtn {
       position: fixed;
-      right: 20px;
-      bottom: 20px;
+      right: 1.25rem;
+      bottom: 1.25rem;
     }
     .modal {
       position: absolute;
-      right: 20px;
+      right: 1.25rem;
       bottom: 0;
       div {
         width: auto;
@@ -57,6 +69,7 @@ const Menu = styled.div`
     flex-flow: row;
     padding: 0;
     width: 100%; 
+
   }
 `;
 
@@ -84,6 +97,7 @@ const MenuItem = styled.div`
     color: white;
     background: #0085FF;
     border-radius: 40px;
+    z-index: 10;
   }
 
   &.active {
@@ -92,6 +106,10 @@ const MenuItem = styled.div`
 
   &:not(.writeBtn):hover {
     color: #0085FF;
+  }
+  @media (max-width: 768px) {
+    &.log-out{display:none}
+    svg{width:1.25rem;}
   }
 `;
 

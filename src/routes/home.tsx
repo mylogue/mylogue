@@ -11,10 +11,13 @@ const Wrapper = styled.div`
     background: #F0F4F8;
   }
   @media (max-width: 1080px) {
-    width:calc(100vw - 354px)
+    /* width:calc(100vw - 354px) */
   }
   @media (max-width: 767px) {
-    width:100vw;
+    width:100%;
+    overflow-y: visible;
+    padding: 20px 0 0 0;
+    /* padding: 1rem; */
   }
 `;
 
