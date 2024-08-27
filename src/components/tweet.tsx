@@ -242,7 +242,7 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
         // Firestore에 북마크 데이터 저장
         await setDoc(userDocRef, {
           bookmarked: {
-            [userId]: bookmarkData
+            [id]: bookmarkData
           }
         }, { merge: true });
         console.log("북마크 저장 완료");
@@ -255,7 +255,7 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
 
         // 북마크 해제 시 Firestore에서 해당 필드 삭제
         await updateDoc(userDocRef, {
-          [`bookmarked.${userId}`]: deleteField()
+          ['bookmarked.${id}']: deleteField()
         });
         console.log("북마크 삭제 완료");
       } catch (error) {
