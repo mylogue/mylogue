@@ -52,12 +52,17 @@ const Bookmarked: React.FC = () => {
       return () => unsubscribe();
     }
   }, []);
+
+  const handleRemoveBookmark = (tweetId: string) => {
+    // Filter out the tweet that was unbookmarked
+    setBookmarkedTweets(prevTweets => prevTweets.filter(tweet => tweet.id !== tweetId));
+  };
   
   return (
     <Container>
         {bookmarkedTweets.length > 0 ? (
         bookmarkedTweets.map((tweet) => (
-          <Tweet key={tweet.id} {...tweet} />
+          <Tweet key={tweet.id} {...tweet} onRemoveBookmark={handleRemoveBookmark} />
         ))
       ) : (
         <p>No bookmarks found.</p>

@@ -203,6 +203,9 @@ const FormattedDate = styled.div`
   margin-left: 12px;
 `;
 
+interface TweetProps extends ITweet {
+  onRemoveBookmark?: (tweetId: string) => void;
+}
 
 export default function Tweet({ userId, username, comment, userProfile, createdAt, photo, tweet, id }: ITweet) {
   const [heartClicked, setHeartClicked] = useState(false);
