@@ -216,6 +216,30 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
   const heart = () => {
     setHeartClicked(!heartClicked);
   };
+
+  const user = auth.currentUser;
+
+  // Fetch the bookmark status when the component mounts
+  useEffect(() => {
+    const fetchBookmarkStatus = async () => {
+      if (user) {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        
+        if (userDocSnap.exists()) {
+          const bookmarks = userDocSnap.data()?.bookmarked || {};
+          // Check if the current tweet is bookmarked
+          if (bookmarks[id]) {
+            setBookmarkClicked(true); // Set the bookmark state to true if bookmarked
+          }
+        }
+      }
+    };
+
+    fetchBookmarkStatus();
+  }, [user, id]); // Fetch bookmark status whenever the component mounts or `user`/`id` changes
+
+
   const bookmark = async () => {
     setBookmarkClicked(!bookmarkClicked);
 
@@ -287,8 +311,6 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
     setModalOpen(false);
     setCommentClicked(false);
   };
-
-  const user = auth.currentUser;
 
   const onDelete = async () => {
     const ok = confirm("Are you sure you want to delete this tweet?");

@@ -10,6 +10,9 @@ const Container = styled.div`
   flex-direction: column;
   margin: 1.5625rem 1.25rem 0 2.5rem;
   gap: 1rem;
+   @media (max-width: 768px) {
+    margin: 20px 0 0 0;
+  }
 `;
 
 const Bookmarked: React.FC = () => {
