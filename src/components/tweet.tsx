@@ -253,7 +253,6 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
     if (!bookmarkClicked) {
       try {
         const userDocRef = doc(db, "users", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
         const bookmarkData = {
           userId,
           username,
