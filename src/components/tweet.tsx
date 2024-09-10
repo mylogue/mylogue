@@ -281,7 +281,7 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
 
         // 북마크 해제 시 Firestore에서 해당 필드 삭제
         await updateDoc(userDocRef, {
-          ['bookmarked.${id}']: deleteField()
+          [`bookmarked.${id}`]: deleteField()
         });
         console.log("북마크 삭제 완료");
       } catch (error) {
