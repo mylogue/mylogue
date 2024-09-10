@@ -45,7 +45,7 @@ const UserPic = styled.div`
 const AvatarImg = styled.img`
 
     display: inline-flex;
-    min-width: 3.75rem;
+    width: 3.75rem;
     height: 3.75rem;
     border-radius: 100px;
     position: absolute;
@@ -81,7 +81,7 @@ const Payload = styled.div`
   padding-bottom: 1.875rem;
 `;
 const Profile = styled.img`
-    min-width: 3.75rem;
+    width: 3.75rem;
     width: 3.75rem;
     height: 3.75rem;
     border-radius: 100px;
