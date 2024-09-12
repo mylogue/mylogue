@@ -42,7 +42,7 @@ const AvatarImg = styled.img`
 const TextArea = styled.textarea`
   width: 100%;
   height: 65%;
-  padding: 0.9375rem 0 0 4.375rem;
+  padding: 0.9375rem 4rem 0 4.375rem;
   margin-bottom: 2.5rem;
   border: none;
   resize: none;
@@ -61,6 +61,21 @@ const TextArea = styled.textarea`
   &:focus {
     outline: none;
     border-color: #1d9bf0;
+  }
+`;
+
+const ImagePreview = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1.75rem;
+  width: 4rem;
+  height: 4rem;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
   }
 `;
 
@@ -104,6 +119,7 @@ export default function PostForm() {
   const [file, setFile] = useState<File | null>(null);
   const user = auth.currentUser;
   const [userProfile] = useState(user?.photoURL);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const navigate = useNavigate(); // Initialize navigate function
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -113,7 +129,15 @@ export default function PostForm() {
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (files && files.length === 1) {
-      setFile(files[0]);
+      const selectedFile = files[0];
+      setFile(selectedFile);
+
+      // Create a preview URL using FileReader
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string); // Set the preview URL to the state
+      };
+      reader.readAsDataURL(selectedFile); // Read the file as a data URL
     }
   };
 
@@ -140,6 +164,7 @@ export default function PostForm() {
       }
       setTweet("");
       setFile(null);
+      setPreviewUrl(null); // Clear the preview URL after upload
     } catch (e) {
       console.log(e);
     } finally {
@@ -171,10 +196,14 @@ export default function PostForm() {
           value={tweet}
           placeholder="무슨 말을 하고 싶나요?"
         />
+        {previewUrl && (
+          <ImagePreview>
+            <img src={previewUrl} alt="Preview" />
+          </ImagePreview>
+        )}
         <TextBottom>
           <IconBtn>
             <label htmlFor="file">
-              {file ? "Photo added":""}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
