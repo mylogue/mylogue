@@ -69,7 +69,7 @@ const Photo = styled.img`
   height: 6.25rem;
   border-radius: 15px;
   cursor: pointer;
-  
+  float: right;
 `;
 
 const Username = styled.span`
