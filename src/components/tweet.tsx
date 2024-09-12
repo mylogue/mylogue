@@ -202,10 +202,15 @@ const FormattedDate = styled.div`
   color: #5f5f5f;
   margin-left: 12px;
 `;
+/* The above code is defining an interface `TweetProps` that extends another interface `ITweet`. The
+`TweetProps` interface includes a optional property `onRemoveBookmark` which is a function that
+takes a `tweetId` parameter of type string and returns void. This interface is likely used to define
+the props that can be passed to a React component that represents a tweet, with the option to
+include a function for removing a bookmark on that tweet. */
 
-interface TweetProps extends ITweet {
-  onRemoveBookmark?: (tweetId: string) => void;
-}
+// interface TweetProps extends ITweet {
+//   onRemoveBookmark?: (tweetId: string) => void;
+// }
 
 export default function Tweet({ userId, username, comment, userProfile, createdAt, photo, tweet, id }: ITweet) {
   const [heartClicked, setHeartClicked] = useState(false);
@@ -214,7 +219,6 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
   const [shareClicked, setShareClicked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const charsId = userId.substring(0,8);
-  const [getBookmark, setGetBookmark] = useState();
   
   const heart = () => {
     setHeartClicked(!heartClicked);
@@ -244,12 +248,13 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
 
 
   const bookmark = async () => {
+    if (!user) return;
     setBookmarkClicked(!bookmarkClicked);
 
     const safeComment = comment || ''; // undefined 필드를 빈 문자열로 대체
     const safeUserProfile = userProfile || ''; // undefined 필드를 빈 문자열로 대체
     const safePhoto = photo || ''; // undefined 필드를 빈 문자열로 대체
-
+    // const user = auth.currentUser || null;
     if (!bookmarkClicked) {
       try {
         const userDocRef = doc(db, "users", user.uid);

@@ -19,6 +19,7 @@ export interface ITweet {
   username: string;
   createdAt: number;
   comment?: { [key: string]: any }[];
+  onRemoveBookmark?: (tweetId: string) => void;
 }
 
 const Wrapper = styled.div`
