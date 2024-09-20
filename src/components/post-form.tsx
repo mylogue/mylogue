@@ -181,6 +181,11 @@ export default function PostForm() {
     }
   };
 
+  const removePreview = () => {
+    setFile(null);
+    setPreviewUrl(null); // Clear the preview URL when clicking the remove icon
+  };
+
   function closeModal() {
     setTimeout(() => {
       navigate("/");
@@ -208,7 +213,7 @@ export default function PostForm() {
         {previewUrl && (
           <ImagePreview>
             <img src={previewUrl} alt="Preview" />
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path></svg>
+            <svg onClick={removePreview} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path></svg>
           </ImagePreview>
         )}
         <TextBottom>
