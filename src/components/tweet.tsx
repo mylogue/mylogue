@@ -202,6 +202,26 @@ const FormattedDate = styled.div`
   color: #5f5f5f;
   margin-left: 12px;
 `;
+
+const LightboxModal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+`;
+
+const LightboxImage = styled.img`
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 8px;
+`;
+
 /* The above code is defining an interface `TweetProps` that extends another interface `ITweet`. The
 `TweetProps` interface includes a optional property `onRemoveBookmark` which is a function that
 takes a `tweetId` parameter of type string and returns void. This interface is likely used to define
@@ -219,6 +239,7 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
   const [shareClicked, setShareClicked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const charsId = userId.substring(0,8);
+  const [isLightboxOpen, setLightboxOpen] = useState(false);
   
   const heart = () => {
     setHeartClicked(!heartClicked);
@@ -336,10 +357,17 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
   const formattedDate = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
   const formattedTime = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 
+  const openLightbox = () => {
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+  };
+
   return (
     <Wrapper>
       <Column>
-        
         <UserPic>
           <Link to={`/profile/${userId}`}>
             {userProfile === null ? (<PiUserCircleDuotone />) : (userProfile && <AvatarImg src={userProfile}></AvatarImg>)}
@@ -349,7 +377,7 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
         <UserId>@{charsId}...</UserId>
         <FollowBtn  userprofile={userProfile || ''} username={username} userId={userId}/>
        
-        <Payload>{tweet} {photo ? <Photo src={photo} /> : null} </Payload>
+        <Payload>{tweet} {photo ? <Photo src={photo} onClick={openLightbox}/> : null} </Payload>
         <TextBottom>
           <LeftIcon>
               <FormattedDate>{formattedDate} {formattedTime}</FormattedDate>
@@ -414,6 +442,12 @@ export default function Tweet({ userId, username, comment, userProfile, createdA
               <CommentContent  comment={comment} username={username} tweet={tweet} userId={userId} id={id} userProfile={userProfile}/>
             </Comment>
           )}
+          {/* Lightbox Modal */}
+        {isLightboxOpen && (
+          <LightboxModal onClick={closeLightbox}>
+            <LightboxImage src={photo} alt="Zoomed Preview" />
+          </LightboxModal>
+        )}
     </Wrapper>
   );
 }
