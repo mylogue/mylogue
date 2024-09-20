@@ -77,6 +77,15 @@ const ImagePreview = styled.div`
     object-fit: cover;
     border-radius: 8px;
   }
+    svg {
+    position: absolute;
+    top: 0.85rem;
+    right: 1.7rem;
+    width: 1rem;
+    color: #606E7B;
+    margin: -.4rem -1.5rem 0 0; 
+    cursor: pointer;
+  }
 `;
 
 const TextBottom = styled.div`
@@ -199,6 +208,7 @@ export default function PostForm() {
         {previewUrl && (
           <ImagePreview>
             <img src={previewUrl} alt="Preview" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path></svg>
           </ImagePreview>
         )}
         <TextBottom>
