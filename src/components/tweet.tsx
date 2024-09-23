@@ -70,7 +70,6 @@ const Photo = styled.img`
   border-radius: 15px;
   cursor: pointer;
   float: right;
-  margin-right: -0.45rem;
 `;
 
 const Username = styled.span`
@@ -101,7 +100,7 @@ const Payload = styled.p`
   width: 100%;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
-  padding: 12px 12px;
+  padding: 12px 0 12px;
 `;
 
 const TextBottom = styled.div`
